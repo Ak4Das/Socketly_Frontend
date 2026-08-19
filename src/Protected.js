@@ -1,0 +1,62 @@
+import React, { useEffect, useState } from "react"
+import { Navigate, Outlet, useLocation } from "react-router-dom"
+import userStore from "./store/useUserStore"
+import { checkUserAuth } from "./services/user.service"
+import Loader from "./utils/Loader"
+
+export const ProtectedRoute = () => {
+  const location = useLocation()
+  const [isChecking, setIsChecking] = useState(true) // Show or hide loader while checking auth status
+
+  const isAuthenticated = userStore((state) => state.isAuthenticated)
+  const setUser = userStore((state) => state.setUser)
+  const clearUser = userStore((state) => state.clearUser)
+
+  useEffect(() => {
+    const verifyAuth = async () => {
+      try {
+        // check if the user is authenticated
+        const result = await checkUserAuth()
+
+        if (result?.isAuthenticated) {
+          setUser(result?.user) // update store with user info
+        } else {
+          clearUser() // clear user state
+        }
+      } catch (error) {
+        console.error("Error checking authentication:", error)
+        clearUser() // On error, assume unauthenticated
+      } finally {
+        setIsChecking(false) // hide loader
+      }
+    }
+
+    verifyAuth()
+  }, [])
+
+  if (isChecking) {
+    return <Loader />
+  }
+
+  if (!isAuthenticated) {
+    // If user not authenticated then redirect to login page
+    // if state={{ from: "/profile" } means user coming from "/profile" page, we can access it by console.log(useLocation().state?.from)
+    // replace attribute prevent user to back to previous page by clicking browsers back button
+    return <Navigate to="/user-login" state={{ from: location }} replace />
+  }
+
+  // If current route is allowed then render component of the route here
+  return <Outlet />
+}
+
+export const PublicRoute = () => {
+  const isAuthenticated = userStore((state) => state.isAuthenticated)
+
+  if (isAuthenticated) {
+    // If user is already logged in redirect to home page
+    return <Navigate to="/" replace />
+  }
+
+  // User not logged in allow access to public routes
+  return <Outlet />
+}
