@@ -12,7 +12,6 @@ import useThemeStore from "../../store/themeStore"
 import Layout from "../../components/Layout"
 import { Link } from "react-router-dom"
 import userStore from "../../store/useUserStore"
-import { logoutUser } from "../../services/user.service"
 import { toast } from "react-toastify"
 
 export default function Setting() {
@@ -27,7 +26,7 @@ export default function Setting() {
 
   const handleLogout = async () => {
     try {
-      await logoutUser()
+      localStorage.removeItem("auth_token")
       clearUser()
       toast.success("user logged out")
     } catch (error) {

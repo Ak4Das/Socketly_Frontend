@@ -23,7 +23,17 @@
 2. Inside deleteMessage function we make api call to delete the message from db only if sender delete his/her own message and emit message_deleted event to notify the receiver and set the updated messages in messages state
 3. message_deleted event handler set updated messages and since messages state is update and ChatWindow component subscribed messages state so ChatWindow component will re-render and show the updated messages on chat window
 
-### Message Status Update
+## Message Status Update
 1. When user open a contact then that conversation related all messages are fetched from database inside fetchMessages function we call markMessagesAsRead function or sender send message and receiver is also on the same conversation then receiveMessage function will call inside receive_message event handler and form the receiveMessage request body we call markMessagesAsRead function
 2. Inside markMessagesAsRead function we make a api call to mark unread messages as read in database and Notify original sender by emit message_read event, and update messages state
 3. Sender client side socket catch the message_read event and update messages in messages state
+
+## Reaction on Messages Update
+1. By selecting a emoji on message handleReaction function in ChatWindow page will call and inside handleReaction function addReaction will call
+2. Inside addReaction function add_reaction event will emit and server side add_reaction event handler will call
+3. Inside handler save message reaction in the DB and after that emit reaction_update event for both sender and receiver
+4. Inside reaction_update event handler i add reaction into message object and update messages state 
+
+## Full flow in to out
+1. When user successfully login user will arrive to home page with sidebar and chatList when user select any contact from chatList then setSelectedContact action will call and it update state inside layoutStore and whatever component subscribe selectedContact state will re-render so layout component will rerender and chatWindow will open for the selected contact after that conversation will fetch which is associated with that particular contact and all messages are fetch which are associated with that particular conversation
+2. 

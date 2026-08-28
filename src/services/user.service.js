@@ -53,15 +53,6 @@ export const checkUserAuth = async () => {
   }
 }
 
-export const logoutUser = async () => {
-  try {
-    const response = await axiosInstance.get("/users/logout")
-    return response.data
-  } catch (error) {
-    throw error.response ? error.response.data : error.message
-  }
-}
-
 export const getAllUsers = async () => {
   try {
     const response = await axiosInstance.get("/users/other-users-list")

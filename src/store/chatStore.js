@@ -19,11 +19,13 @@ export const useChatStore = create((set, get) => ({
 
     // Remove existing listeners to prevent duplicate handlers
     socket.off("receive_message")
+    socket.off("message_send")
+    socket.off("message_read")
+    socket.off("reaction_update")
+    socket.off("message_deleted")
+    socket.off("message_error")
     socket.off("user_typing")
     socket.off("user_status")
-    socket.off("message_send")
-    socket.off("message_error")
-    socket.off("message_deleted")
 
     // Listen for incoming messages
     socket.on("receive_message", (message) => {
@@ -103,13 +105,14 @@ export const useChatStore = create((set, get) => ({
     // Emit status (online or offline) check for all users in the conversation list
     const { conversations } = get()
     if (conversations?.data?.length > 0) {
-      conversations.data.forEach((conv) => {
-        const otherUser = conv.participants.find(
+      conversations.data.forEach((conversation) => {
+        const otherUser = conversation.participants.find(
           (p) => p._id !== get().currentUser?._id,
         )
         if (otherUser?._id) {
           socket.emit("get_user_status", otherUser._id, (status) => {
-            // Socket.IO sends response from backend to frontend through callback mechanism and callback function execute in the frontend side.
+            /* Socket.IO sends status obj from backend to frontend inside this callback function argument through callback mechanism and this callback function execute in the frontend side.
+             With this way only i can get any value from event handler of the get_user_status event listener */
             set((state) => {
               const newOnlineUsers = new Map(state.onlineUsers)
               newOnlineUsers.set(status.userId, {
