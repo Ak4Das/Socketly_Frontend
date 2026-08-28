@@ -20,6 +20,7 @@ import useOutsideClick from "../../hooks/useOutsideClick"
 import { useChatStore } from "../../store/chatStore"
 import whatsappImage from "../../images/whatsapp_image.png"
 import { Link } from "react-router-dom"
+import styles from "../../style/ChatSection_modules/ChatWindow.module.css"
 
 export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const [message, setMessage] = useState("")
@@ -47,6 +48,8 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const typingUsers = useChatStore((state) => state.typingUsers)
   const currentConversation = useChatStore((state) => state.currentConversation)
   const onlineUsers = useChatStore((state) => state.onlineUsers)
+
+  const isDark = theme === "dark"
 
   const isUserTyping = (userId) => {
     if (
@@ -103,7 +106,6 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
     if (message && selectedContact) {
       startTyping(selectedContact._id)
     }
-
   }, [message, selectedContact])
 
   useOutsideClick(emojiPickerRef, () => {
@@ -127,7 +129,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
     try {
       if (!message.trim() && !selectedFile) return
 
-      const formData = new FormData() // form data is a special javascript object which used to store form data in key value pairs and send to the server
+      const formData = new FormData()
 
       formData.append("senderId", user._id)
       formData.append("receiverId", selectedContact._id)
@@ -138,14 +140,12 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
       if (message.trim()) {
         formData.append("content", message.trim())
       }
-      // If there's a file, include that too
       if (selectedFile) {
         formData.append("media", selectedFile)
       }
 
       await sendMessage(formData)
 
-      // Clear inputs after sending
       setMessage("")
       setSelectedFile(null)
       setFilePreview(null)
@@ -175,12 +175,10 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
     }
 
     return (
-      <div className="flex justify-center my-4">
+      <div className={styles.dateSeparatorWrapper}>
         <span
-          className={`px-4 py-2 rounded-full text-sm ${
-            theme === "dark"
-              ? "bg-gray-700 text-gray-300"
-              : "bg-gray-200 text-gray-600"
+          className={`${styles.dateSeparatorBadge} ${
+            isDark ? styles.dark : ""
           }`}
         >
           {dateString}
@@ -214,33 +212,27 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
 
   if (!selectedContact) {
     return (
-      <div className="flex-1  flex flex-col items-center justify-center mx-auto h-screen text-center">
-        <div className="max-w-md">
+      <div className={styles.emptyStateContainer}>
+        <div className={styles.emptyStateContent}>
           <img
             src={whatsappImage}
             alt="Chat Application"
-            className="w-full h-auto"
+            className={styles.emptyStateImage}
           />
           <h2
-            className={`text-3xl font-semibold mb-4 ${
-              theme === "dark" ? "text-white" : "text-black"
-            }`}
+            className={`${styles.emptyStateTitle} ${isDark ? styles.dark : ""}`}
           >
             Select a conversation to start chatting
           </h2>
           <p
-            className={`${
-              theme === "dark" ? "text-gray-400" : "text-gray-600"
-            } mb-6`}
+            className={`${styles.emptyStateText} ${isDark ? styles.dark : ""}`}
           >
             Choose a contact from the list on the left to begin messaging.
           </p>
           <p
-            className={`${
-              theme === "dark" ? "text-gray-400" : "text-gray-600"
-            } text-sm mt-8 flex items-center justify-center gap-2`}
+            className={`${styles.encryptedNotice} ${isDark ? styles.dark : ""}`}
           >
-            <FaLock className="h-4 w-4" />
+            <FaLock className={styles.lockIcon} />
             Your personal messages are end-to-end encrypted
           </p>
         </div>
@@ -249,19 +241,13 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   }
 
   return (
-    <div className="flex-1 h-screen w-full flex flex-col">
-      <div
-        className={`p-4 ${
-          theme === "dark"
-            ? "bg-[#303430] text-white"
-            : "bg-[rgb(239,242,245)] text-gray-600"
-        } flex items-center`}
-      >
+    <div className={styles.chatContainer}>
+      <div className={`${styles.header} ${isDark ? styles.dark : ""}`}>
         <button
-          className="mr-2 focus:outline-none"
+          className={styles.backButton}
           onClick={() => setSelectedContact(null)}
         >
-          <FaArrowLeft className="h-6 w-6" />
+          <FaArrowLeft className={styles.backIcon} />
         </button>
         <img
           src={
@@ -269,21 +255,15 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
             "/placeholder.svg?height=40&width=40"
           }
           alt={selectedContact?.username}
-          className="w-10 h-10 rounded-full"
+          className={styles.avatar}
         />
-        <div className="ml-3 flex-grow">
-          <h2 className="font-semibold text-start">
-            {selectedContact?.username}
-          </h2>
+        <div className={styles.headerInfo}>
+          <h2 className={styles.username}>{selectedContact?.username}</h2>
 
           {isTyping ? (
             <div>Typing...</div>
           ) : (
-            <p
-              className={`text-sm ${
-                theme === "dark" ? "text-gray-400" : "text-gray-500"
-              }`}
-            >
+            <p className={`${styles.statusText} ${isDark ? styles.dark : ""}`}>
               {online
                 ? "Online"
                 : lastSeen
@@ -293,19 +273,18 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
           )}
         </div>
 
-        <div className="flex items-center space-x-4">
-          <button className="focus:outline-none">
-            <FaVideo className="h-5 w-5" />
+        <div className={styles.headerActions}>
+          <button className={styles.iconButton}>
+            <FaVideo className={styles.headerIcon} />
           </button>
-          <button className="focus:outline-none">
-            <FaEllipsisV className="h-5 w-5" />
+          <button className={styles.iconButton}>
+            <FaEllipsisV className={styles.headerIcon} />
           </button>
         </div>
       </div>
+
       <div
-        className={`flex-1 p-4 overflow-y-auto ${
-          theme === "dark" ? "bg-[#191a1a]" : "bg-[rgb(241,236,229)]"
-        }`}
+        className={`${styles.messagesContainer} ${isDark ? styles.dark : ""}`}
       >
         {Object.entries(groupedMessages).map(([date, msgs]) => (
           <div key={date}>
@@ -329,41 +308,38 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
         ))}
         <div ref={messagesEndRef} />
       </div>
+
       {filePreview && (
-        <div className="relative p-2">
+        <div className={styles.filePreviewContainer}>
           <img
             src={filePreview}
             alt="File preview"
-            className="w-80 object-cover rounded shadow-lg mx-auto"
+            className={styles.filePreviewImage}
           />
           <button
             onClick={() => {
               setSelectedFile(null)
               setFilePreview(null)
             }}
-            className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1"
+            className={styles.removeFileButton}
           >
-            <FaTimes className="h-4 w-4" />
+            <FaTimes className={styles.closeIcon} />
           </button>
         </div>
       )}
-      <div
-        className={`p-4 ${
-          theme === "dark" ? "bg-[#303430]" : "bg-white"
-        } flex items-center space-x-2`}
-      >
+
+      <div className={`${styles.footer} ${isDark ? styles.dark : ""}`}>
         <button
-          className="focus:outline-none"
+          className={styles.iconButton}
           onClick={() => setShowEmojiPicker(!showEmojiPicker)}
         >
           <FaSmile
-            className={`h-6 w-6 ${
-              theme === "dark" ? "text-gray-400" : "text-gray-500"
-            }`}
+            className={`${styles.footerIcon} ${isDark ? styles.dark : ""}`}
           />
         </button>
+
         {showEmojiPicker && (
-          <div ref={emojiPickerRef} className="absolute left-0 bottom-16 z-50">
+          <div ref={emojiPickerRef} className={styles.emojiPickerContainer}>
             <EmojiPicker
               onEmojiClick={(emojiObject) => {
                 setMessage((prev) => prev + emojiObject.emoji)
@@ -373,54 +349,46 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
             />
           </div>
         )}
-        <div className="relative">
+
+        <div className={styles.attachmentWrapper}>
           <button
-            className="focus:outline-none"
+            className={styles.iconButton}
             onClick={() => setShowFileMenu(!showFileMenu)}
           >
             <FaPaperclip
-              className={`h-6 w-6 ${
-                theme === "dark" ? "text-gray-400" : "text-gray-500"
-              }`}
+              className={`${styles.footerIcon} ${isDark ? styles.dark : ""}`}
             />
           </button>
 
           {showFileMenu && (
-            <div
-              className={`absolute bottom-full left-0 mb-2 ${
-                theme === "dark" ? "bg-gray-700" : "bg-white"
-              } rounded-lg shadow-lg`}
-            >
+            <div className={`${styles.fileMenu} ${isDark ? styles.dark : ""}`}>
               <input
                 type="file"
                 ref={fileInputRef}
                 onChange={handleFileChange}
-                className="hidden"
+                className={styles.hiddenInput}
                 accept="image/*,video/*,audio/*,application/*"
               />
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className={`
-    flex items-center px-4 py-2 w-full transition-colors
-    hover:bg-gray-100
-    ${theme === "dark" ? "hover:bg-gray-500" : "hover:bg-gray-100"}
-  `}
+                className={`${styles.fileMenuItem} ${
+                  isDark ? styles.dark : ""
+                }`}
               >
-                <FaImage className="mr-2" /> Image/Video
+                <FaImage className={styles.menuIcon} /> Image/Video
               </button>
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className={`
-    flex items-center px-4 py-2 w-full transition-colors
-    hover:bg-gray-100
-    ${theme === "dark" ? "hover:bg-gray-500" : "hover:bg-gray-100"}
-  `}
+                className={`${styles.fileMenuItem} ${
+                  isDark ? styles.dark : ""
+                }`}
               >
-                <FaFile className="mr-2" /> Document
+                <FaFile className={styles.menuIcon} /> Document
               </button>
             </div>
           )}
         </div>
+
         <input
           type="text"
           value={message}
@@ -431,14 +399,11 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
             }
           }}
           placeholder="Type a message"
-          className={`flex-grow px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 ${
-            theme === "dark"
-              ? "bg-gray-700 text-white border-gray-600"
-              : "bg-white text-black border-gray-300"
-          }`}
+          className={`${styles.messageInput} ${isDark ? styles.dark : ""}`}
         />
-        <button className="focus:outline-none" onClick={handleSendMessage}>
-          <FaPaperPlane className="h-6 w-6 text-green-500" />
+
+        <button className={styles.sendButton} onClick={handleSendMessage}>
+          <FaPaperPlane className={styles.sendIcon} />
         </button>
       </div>
     </div>

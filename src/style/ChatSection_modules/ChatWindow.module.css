@@ -1,0 +1,360 @@
+/* Empty State Styling */
+.emptyStateContainer {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100vh;
+  text-align: center;
+}
+
+.emptyStateContent {
+  max-width: 28rem;
+}
+
+.emptyStateImage {
+  width: 100%;
+  height: auto;
+}
+
+.emptyStateTitle {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #000000;
+}
+
+.emptyStateTitle.dark {
+  color: #ffffff;
+}
+
+.emptyStateText {
+  color: #4b5563;
+  margin-bottom: 1.5rem;
+}
+
+.emptyStateText.dark {
+  color: #9ca3af;
+}
+
+.encryptedNotice {
+  color: #4b5563;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.encryptedNotice.dark {
+  color: #9ca3af;
+}
+
+.lockIcon {
+  height: 1rem;
+  width: 1rem;
+}
+
+/* Chat Main Container */
+.chatContainer {
+  flex: 1 1 0%;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Section */
+.header {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  background-color: rgb(239, 242, 245);
+  color: #4b5563;
+}
+
+.header.dark {
+  background-color: #303430;
+  color: #ffffff;
+}
+
+.backButton {
+  margin-right: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.backButton:focus {
+  outline: none;
+}
+
+.backIcon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.headerInfo {
+  margin-left: 0.75rem;
+  flex-grow: 1;
+}
+
+.username {
+  font-weight: 600;
+  text-align: start;
+  margin: 0;
+}
+
+.statusText {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.statusText.dark {
+  color: #9ca3af;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.iconButton:focus {
+  outline: none;
+}
+
+.headerIcon {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+/* Messages Scrollable Area */
+.messagesContainer {
+  flex: 1 1 0%;
+  padding: 1rem;
+  overflow-y: auto;
+  background-color: rgb(241, 236, 229);
+}
+
+.messagesContainer.dark {
+  background-color: #191a1a;
+}
+
+/* Date Separator */
+.dateSeparatorWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dateSeparatorBadge {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  background-color: #e5e7eb;
+  color: #4b5563;
+}
+
+.dateSeparatorBadge.dark {
+  background-color: #374151;
+  color: #d1d5db;
+}
+
+/* File Preview Container */
+.filePreviewContainer {
+  position: relative;
+  padding: 0.5rem;
+}
+
+.filePreviewImage {
+  width: 20rem;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.removeFileButton {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background-color: #ef4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeFileButton:hover {
+  background-color: #dc2626;
+}
+
+.closeIcon {
+  height: 1rem;
+  width: 1rem;
+}
+
+/* Footer / Input Bar */
+.footer {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #ffffff;
+}
+
+.footer.dark {
+  background-color: #303430;
+}
+
+.footerIcon {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: #6b7280;
+}
+
+.footerIcon.dark {
+  color: #9ca3af;
+}
+
+.emojiPickerContainer {
+  position: absolute;
+  left: 0;
+  bottom: 4rem;
+  z-index: 50;
+}
+
+.attachmentWrapper {
+  position: relative;
+}
+
+.fileMenu {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  overflow: hidden;
+  min-width: 10rem;
+}
+
+.fileMenu.dark {
+  background-color: #374151;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.fileMenuItem {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  transition: background-color 0.15s ease-in-out;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+}
+
+.fileMenuItem:hover {
+  background-color: #f3f4f6;
+}
+
+.fileMenuItem.dark:hover {
+  background-color: #6b7280;
+}
+
+.menuIcon {
+  margin-right: 0.5rem;
+}
+
+.messageInput {
+  flex-grow: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  outline: none;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #000000;
+  box-sizing: border-box;
+}
+
+.messageInput.dark {
+  background-color: #374151;
+  color: #ffffff;
+  border-color: #4b5563;
+}
+
+.messageInput:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.5);
+}
+
+.sendButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.sendButton:focus {
+  outline: none;
+}
+
+.sendIcon {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: #22c55e;
+}
