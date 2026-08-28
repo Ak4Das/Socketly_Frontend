@@ -1,0 +1,198 @@
+/* Main Sidebar Container */
+.container {
+  width: 100%;
+  height: 100vh;
+  border-right: 1px solid #e5e7eb;
+  background-color: #ffffff;
+}
+
+.container.dark {
+  background-color: rgb(17, 27, 33);
+  border-right-color: #4b5563;
+}
+
+/* Header Section */
+.header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #1f2937;
+}
+
+.header.dark {
+  color: #ffffff;
+}
+
+.headerTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.addButton {
+  padding: 0.5rem;
+  background-color: #22c55e;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addButton:hover {
+  background-color: #16a34a;
+}
+
+/* Search Area */
+.searchWrapper {
+  padding: 0.5rem;
+}
+
+.searchContainer {
+  position: relative;
+  width: 100%;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 2.5rem;
+  padding-right: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background-color: #f3f4f6;
+  color: #000000;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.searchInput::placeholder {
+  color: #9ca3af;
+}
+
+.searchInput:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.5);
+}
+
+.searchInput.dark {
+  background-color: #1f2937;
+  color: #ffffff;
+  border-color: #374151;
+}
+
+.searchInput.dark::placeholder {
+  color: #6b7280;
+}
+
+/* Contacts List Container */
+.contactsList {
+  overflow-y: auto;
+  height: calc(100vh - 120px);
+}
+
+/* Contact Item */
+.contactItem {
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: transparent;
+  transition: background-color 0.15s ease;
+}
+
+.contactItem:hover {
+  background-color: #f3f4f6;
+}
+
+.contactItem.selected {
+  background-color: #e5e7eb;
+}
+
+.contactItem.dark:hover {
+  background-color: #1f2937;
+}
+
+.contactItem.dark.selected {
+  background-color: #374151;
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.contactDetails {
+  margin-left: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.contactHeader,
+.contactBody {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.username {
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.username.dark {
+  color: #ffffff;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.lastMessage {
+  font-size: 0.875rem;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.lastMessage.dark {
+  color: #9ca3af;
+}
+
+.unreadBadge {
+  font-size: 0.875rem;
+  font-weight: 600;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eab308;
+  color: #6b7280;
+  border-radius: 9999px;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.unreadBadge.dark {
+  color: #1f2937;
+}

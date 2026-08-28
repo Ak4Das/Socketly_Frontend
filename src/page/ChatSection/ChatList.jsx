@@ -4,6 +4,7 @@ import useStore from "../../store/layoutStore"
 import useThemeStore from "../../store/themeStore"
 import formatTimestamp from "../../utils/formatTime"
 import userStore from "../../store/useUserStore"
+import styles from "../../style/ChatSection_modules/ChatList.module.css"
 
 const ChatList = ({ contacts }) => {
   const setSelectedContact = useStore((state) => state.setSelectedContact) // if user select any contact then setSelectedContact will call
@@ -17,109 +18,89 @@ const ChatList = ({ contacts }) => {
     contact?.username?.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
+  const isDark = theme === "dark"
+
   return (
-    <div
-      className={`w-full border-r h-screen ${
-        theme === "dark"
-          ? "bg-[rgb(17,27,33)] border-gray-600"
-          : "bg-white border-gray-200"
-      }`}
-    >
-      <div
-        className={`p-4 flex justify-between ${
-          theme === "dark" ? "text-white" : "text-gray-800"
-        }`}
-      >
-        <h2 className="text-xl font-semibold">Chats</h2>
-        <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors">
+    <div className={`${styles.container} ${isDark ? styles.dark : ""}`}>
+      <div className={`${styles.header} ${isDark ? styles.dark : ""}`}>
+        <h2 className={styles.headerTitle}>Chats</h2>
+        <button className={styles.addButton}>
           <FaPlus />
         </button>
       </div>
-      <div className="p-2">
-        <div className="relative">
-          <FaSearch
-            className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${
-              theme === "dark" ? "text-gray-400" : "text-gray-400"
-            }`}
-          />
+
+      <div className={styles.searchWrapper}>
+        <div className={styles.searchContainer}>
+          <FaSearch className={styles.searchIcon} />
           <input
             type="text"
             placeholder="Search or start new chat"
-            className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 ${
-              theme === "dark"
-                ? "bg-gray-800 text-white border-gray-700 placeholder-gray-500"
-                : "bg-gray-100 text-black border-gray-200 placeholder-gray-400"
-            }`}
+            className={`${styles.searchInput} ${isDark ? styles.dark : ""}`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       </div>
-      <div className="overflow-y-auto h-[calc(100vh-120px)]">
-        {filteredContacts.map((contact) => (
-          <div
-            key={contact._id}
-            onClick={() => setSelectedContact(contact)}
-            className={`p-3  flex items-center cursor-pointer ${
-              theme === "dark"
-                ? selectedContact?._id === contact._id
-                  ? "bg-gray-700"
-                  : "hover:bg-gray-800"
-                : selectedContact?._id === contact._id
-                  ? "bg-gray-200"
-                  : "hover:bg-gray-100"
-            }`}
-          >
-            <img
-              src={contact?.profilePicture}
-              alt={contact?.username}
-              className="w-12 h-12 rounded-full"
-            />
-            <div className="ml-3 flex-1">
-              <div className="flex justify-between items-baseline">
-                <h2
-                  className={`font-semibold ${
-                    theme === "dark" ? "text-white" : "text-black"
-                  }`}
-                >
-                  {contact.username}
-                </h2>
-                {contact?.conversation && (
-                  <span
-                    className={`text-xs ${
-                      theme === "dark" ? "text-gray-500" : "text-gray-500"
+
+      <div className={styles.contactsList}>
+        {filteredContacts?.map((contact) => {
+          const isSelected = selectedContact?._id === contact._id
+
+          return (
+            <div
+              key={contact._id}
+              onClick={() => setSelectedContact(contact)}
+              className={`${styles.contactItem} ${isDark ? styles.dark : ""} ${
+                isSelected ? styles.selected : ""
+              }`}
+            >
+              <img
+                src={contact?.profilePicture}
+                alt={contact?.username}
+                className={styles.avatar}
+              />
+              <div className={styles.contactDetails}>
+                <div className={styles.contactHeader}>
+                  <h2
+                    className={`${styles.username} ${
+                      isDark ? styles.dark : ""
                     }`}
                   >
-                    {formatTimestamp(
-                      contact?.conversation?.lastMessage?.createdAt,
-                    )}
-                  </span>
-                )}
-              </div>
-              <div className="flex justify-between items-baseline">
-                <p
-                  className={`text-sm ${
-                    theme === "dark" ? "text-gray-400" : "text-gray-500"
-                  } truncate`}
-                >
-                  {contact?.conversation?.lastMessage?.content}
-                </p>
-                {contact?.conversation &&
-                  contact?.conversation?.unreadCount > 0 &&
-                  contact?.conversation?.lastMessage?.receiver ===
-                    user?._id && (
-                    <p
-                      className={`text-sm font-semibold w-6 h-6 flex items-center justify-center bg-yellow-500 ${
-                        theme === "dark" ? "text-gray-800" : "text-gray-500"
-                      } rounded-full`}
-                    >
-                      {contact?.conversation?.unreadCount}
-                    </p>
+                    {contact.username}
+                  </h2>
+                  {contact?.conversation && (
+                    <span className={styles.timestamp}>
+                      {formatTimestamp(
+                        contact?.conversation?.lastMessage?.createdAt,
+                      )}
+                    </span>
                   )}
+                </div>
+                <div className={styles.contactBody}>
+                  <p
+                    className={`${styles.lastMessage} ${
+                      isDark ? styles.dark : ""
+                    }`}
+                  >
+                    {contact?.conversation?.lastMessage?.content}
+                  </p>
+                  {contact?.conversation &&
+                    contact?.conversation?.unreadCount > 0 &&
+                    contact?.conversation?.lastMessage?.receiver ===
+                      user?._id && (
+                      <p
+                        className={`${styles.unreadBadge} ${
+                          isDark ? styles.dark : ""
+                        }`}
+                      >
+                        {contact?.conversation?.unreadCount}
+                      </p>
+                    )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )
