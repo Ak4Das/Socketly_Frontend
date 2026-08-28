@@ -28,7 +28,6 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const [filePreview, setFilePreview] = useState(null)
   const [selectedFile, setSelectedFile] = useState(null)
 
-  const typingTimeoutRef = useRef(null)
   const messagesEndRef = useRef(null) // Scroll to end of the chat
   const emojiPickerRef = useRef(null)
   const fileInputRef = useRef(null) // file picker input (type="file") ref
@@ -36,21 +35,39 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const theme = useThemeStore((state) => state.theme)
   const user = useUserStore((state) => state.user)
 
-  const {
-    messages,
-    loading,
-    sendMessage,
-    startTyping,
-    stopTyping,
-    isUserTyping,
-    isUserOnline,
-    getUserLastSeen,
-    fetchMessages,
-    fetchConversations,
-    conversations,
-    addReaction,
-    deleteMessage,
-  } = useChatStore()
+  const messages = useChatStore((state) => state.messages)
+  const loading = useChatStore((state) => state.loading)
+  const sendMessage = useChatStore((state) => state.sendMessage)
+  const startTyping = useChatStore((state) => state.startTyping)
+  const fetchMessages = useChatStore((state) => state.fetchMessages)
+  const fetchConversations = useChatStore((state) => state.fetchConversations)
+  const conversations = useChatStore((state) => state.conversations)
+  const addReaction = useChatStore((state) => state.addReaction)
+  const deleteMessage = useChatStore((state) => state.deleteMessage)
+  const typingUsers = useChatStore((state) => state.typingUsers)
+  const currentConversation = useChatStore((state) => state.currentConversation)
+  const onlineUsers = useChatStore((state) => state.onlineUsers)
+
+  const isUserTyping = (userId) => {
+    if (
+      !currentConversation ||
+      !typingUsers.has(currentConversation) ||
+      !userId
+    ) {
+      return false
+    }
+    return typingUsers.get(currentConversation).has(userId)
+  }
+
+  const isUserOnline = (userId) => {
+    if (!userId) return false
+    return onlineUsers.get(userId)?.isOnline || false
+  }
+
+  const getUserLastSeen = (userId) => {
+    if (!userId) return null
+    return onlineUsers.get(userId)?.lastSeen || null
+  }
 
   // Get online status and last seen
   const online = isUserOnline(selectedContact?._id)
@@ -85,17 +102,8 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   useEffect(() => {
     if (message && selectedContact) {
       startTyping(selectedContact._id)
-
-      typingTimeoutRef.current = setTimeout(() => {
-        stopTyping(selectedContact._id)
-      }, 2000)
     }
 
-    return () => {
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current)
-      }
-    }
   }, [message, selectedContact])
 
   useOutsideClick(emojiPickerRef, () => {
@@ -132,7 +140,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
       }
       // If there's a file, include that too
       if (selectedFile) {
-        formData.append("media", selectedFile, selectedFile.name)
+        formData.append("media", selectedFile)
       }
 
       await sendMessage(formData)

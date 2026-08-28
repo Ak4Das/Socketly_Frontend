@@ -39,11 +39,11 @@ export const useChatStore = create((set, get) => ({
       }))
     })
 
-    // Update message read/delivered status
-    socket.on("message_status_update", ({ messageId, messageStatus }) => {
+    // Mark message as read
+    socket.on("message_read", (message) => {
       set((state) => ({
         messages: state.messages.map((msg) =>
-          msg._id === messageId ? { ...msg, messageStatus } : msg,
+          msg._id === message._id ? { ...msg, messageStatus: "read" } : msg,
         ),
       }))
     })
@@ -108,7 +108,8 @@ export const useChatStore = create((set, get) => ({
           (p) => p._id !== get().currentUser?._id,
         )
         if (otherUser?._id) {
-          socket.emit("get_user_status", otherUser._id, (status) => { // Socket.IO sends response from backend to frontend through callback mechanism and callback function execute in the frontend side.
+          socket.emit("get_user_status", otherUser._id, (status) => {
+            // Socket.IO sends response from backend to frontend through callback mechanism and callback function execute in the frontend side.
             set((state) => {
               const newOnlineUsers = new Map(state.onlineUsers)
               newOnlineUsers.set(status.userId, {
@@ -165,7 +166,8 @@ export const useChatStore = create((set, get) => ({
 
       // Mark unread messages as read
       const { markMessagesAsRead } = get()
-      markMessagesAsRead()
+
+      await markMessagesAsRead()
 
       return messageArray
     } catch (error) {
@@ -186,17 +188,15 @@ export const useChatStore = create((set, get) => ({
     const content = formData.get("content")
     const messageStatus = formData.get("messageStatus")
 
-    const socket = getSocket()
-
     // Find existing conversation between sender & receiver
     const { conversations } = get()
     let conversationId = null
 
     if (conversations?.data?.length > 0) {
       const conversation = conversations.data.find(
-        (conv) =>
-          conv.participants.some((p) => p._id === senderId) &&
-          conv.participants.some((p) => p._id === receiverId),
+        (conversation) =>
+          conversation.participants.some((p) => p._id === senderId) &&
+          conversation.participants.some((p) => p._id === receiverId),
       )
 
       if (conversation) {
@@ -235,7 +235,7 @@ export const useChatStore = create((set, get) => ({
         formData,
         { headers: { "Content-Type": "multipart/form-data" } },
       )
-      const messageData = data.data || data
+      const messageData = data.data || {}
 
       // Replace optimistic message with real one
       set((state) => ({
@@ -243,6 +243,8 @@ export const useChatStore = create((set, get) => ({
           msg._id === tempId ? messageData : msg,
         ),
       }))
+
+      const socket = getSocket()
 
       // Notify other user via socket
       if (socket) {
@@ -285,19 +287,21 @@ export const useChatStore = create((set, get) => ({
 
     // Update conversation preview and unread count
     set((state) => {
-      const updatedConversations = state.conversations?.data?.map((conv) => {
-        if (conv._id === message.conversation) {
-          return {
-            ...conv,
-            lastMessage: message,
-            unreadCount:
-              message.receiver?._id === currentUser?._id
-                ? (conv.unreadCount || 0) + 1
-                : conv.unreadCount || 0,
+      const updatedConversations = state.conversations?.data?.map(
+        (conversation) => {
+          if (conversation._id === message.conversation) {
+            return {
+              ...conversation,
+              lastMessage: message,
+              unreadCount:
+                message.receiver?._id === currentUser?._id
+                  ? (conversation.unreadCount || 0) + 1
+                  : conversation.unreadCount || 0,
+            }
           }
-        }
-        return conv
-      })
+          return conversation
+        },
+      )
 
       return {
         conversations: {
@@ -334,22 +338,13 @@ export const useChatStore = create((set, get) => ({
           unreadIds.includes(msg._id) ? { ...msg, messageStatus: "read" } : msg,
         ),
       }))
-
-      // Emit update to sender
-      const socket = getSocket()
-      if (socket) {
-        socket.emit("message_read", {
-          messageIds: unreadIds,
-          senderId: messages[0]?.sender?._id,
-        })
-      }
     } catch (error) {
       console.error("Failed to mark messages as read:", error)
     }
   },
 
   // Delete a message by ID
-  deleteMessage: async (messageId) => {
+  deleteMessage: async (messageId, currentUser) => {
     try {
       // Make API call to delete the message
       await axiosInstance.delete(`/chats/messages/${messageId}`)
@@ -393,45 +388,6 @@ export const useChatStore = create((set, get) => ({
         receiverId,
       })
     }
-  },
-
-  // Typing stop Event 
-  stopTyping: (receiverId) => {
-    const { currentConversation } = get()
-    const socket = getSocket()
-
-    if (socket && currentConversation && receiverId) {
-      console.log("Emitting typing stop:", currentConversation, receiverId)
-      socket.emit("typing_stop", {
-        conversationId: currentConversation,
-        receiverId,
-      })
-    }
-  },
-
-  // Utility Getters
-  isUserTyping: (userId) => {
-    const { typingUsers, currentConversation } = get()
-    if (
-      !currentConversation ||
-      !typingUsers.has(currentConversation) ||
-      !userId
-    ) {
-      return false
-    }
-    return typingUsers.get(currentConversation).has(userId)
-  },
-
-  isUserOnline: (userId) => {
-    if (!userId) return false
-    const { onlineUsers } = get()
-    return onlineUsers.get(userId)?.isOnline || false
-  },
-
-  getUserLastSeen: (userId) => {
-    if (!userId) return null
-    const { onlineUsers } = get()
-    return onlineUsers.get(userId)?.lastSeen || null
   },
 
   // Cleanup Store
