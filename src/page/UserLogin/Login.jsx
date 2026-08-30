@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import {
@@ -156,6 +154,7 @@ const Login = () => {
     onSubmit: async (values, action) => {
       const { username, about, agreed } = values
       try {
+        // Multer will parse the formData and put text fields to req.body and uploaded files to req.file / req.files
         const formData = new FormData()
         formData.append("username", username)
         formData.append("about", about)
@@ -205,7 +204,7 @@ const Login = () => {
         return
       }
       setProfilePictureFile(file)
-      setProfilePicture(URL.createObjectURL(file))
+      setProfilePicture(URL.createObjectURL(file)) // To access locally selected file browser create temporary blob:URL.
       setSelectedAvatar("")
     }
   }
@@ -246,10 +245,10 @@ const Login = () => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{
-            delay: 0.2,
+            delay: 0.2, // animation will start after 0.2 seconds
             type: "spring",
-            stiffness: 260,
-            damping: 20,
+            stiffness: 300, // controls how strong/stiff the spring is (higher stiffness → faster spring, lower stiffness → slower spring)
+            damping: 20, // controls spring's bouncing (lower number means higher bouncing)
           }}
           className={styles.logoCircle}
         >
@@ -537,7 +536,7 @@ const Login = () => {
                 <input
                   type="file"
                   id="profile-picture"
-                  accept="image/*"
+                  accept="image/*" // you're requesting image files only. file picker will filter out / not show files other than image files as an accepted selectable option.
                   onChange={handleFileChange}
                   className={styles.hidden}
                 />

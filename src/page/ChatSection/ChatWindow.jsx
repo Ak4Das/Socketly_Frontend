@@ -129,7 +129,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
     try {
       if (!message.trim() && !selectedFile) return
 
-      const formData = new FormData()
+      const formData = new FormData() // form data is a special javascript object which used to store form data in key value pairs and send to the server
 
       formData.append("senderId", user._id)
       formData.append("receiverId", selectedContact._id)
@@ -140,12 +140,15 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
       if (message.trim()) {
         formData.append("content", message.trim())
       }
+
+      // If there's a file, include that too
       if (selectedFile) {
         formData.append("media", selectedFile)
       }
 
       await sendMessage(formData)
 
+      // Clear inputs after sending
       setMessage("")
       setSelectedFile(null)
       setFilePreview(null)
