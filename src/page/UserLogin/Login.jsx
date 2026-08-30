@@ -33,6 +33,9 @@ import { loginValidationSchema } from "../../schemas/loginValidation.js"
 import { otpValidationSchema } from "../../schemas/otpValidation.js"
 import { profileValidationSchema } from "../../schemas/profileValidation.js"
 
+// CSS Modules
+import styles from "../../style/UserLogin_modules/Login.module.css"
+
 const avatars = [
   "https://ik.imagekit.io/wp5fmlbnf/Socketly_Avatar_1.webp",
   "https://ik.imagekit.io/wp5fmlbnf/Socketly_Avatar_2.webp",
@@ -153,7 +156,6 @@ const Login = () => {
     onSubmit: async (values, action) => {
       const { username, about, agreed } = values
       try {
-        // Multer will parse the formData and put text fields to req.body and uploaded files to req.file / req.files
         const formData = new FormData()
         formData.append("username", username)
         formData.append("about", about)
@@ -203,17 +205,19 @@ const Login = () => {
         return
       }
       setProfilePictureFile(file)
-      setProfilePicture(URL.createObjectURL(file)) // To access locally selected file browser create temporary blob:URL.
+      setProfilePicture(URL.createObjectURL(file))
       setSelectedAvatar("")
     }
   }
 
   const ProgressBar = () => (
     <div
-      className={`w-full ${theme === "dark" ? "bg-gray-700" : "bg-gray-200"} rounded-full h-2.5 mb-6`}
+      className={`${styles.progressTrack} ${
+        theme === "dark" ? styles.progressTrackDark : ""
+      }`}
     >
       <div
-        className="bg-green-500 h-2.5 rounded-full transition-all duration-500 ease-in-out"
+        className={styles.progressBarFill}
         style={{ width: `${(step / 3) * 100}%` }}
       ></div>
     </div>
@@ -228,13 +232,15 @@ const Login = () => {
 
   return (
     <div
-      className={`min-h-screen ${theme === "dark" ? "bg-gray-900" : "bg-gradient-to-br from-green-400 to-blue-500"} flex items-center justify-center p-4 overflow-hidden`}
+      className={`${styles.container} ${
+        theme === "dark" ? styles.containerDark : ""
+      }`}
     >
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`${theme === "dark" ? "bg-gray-800 text-white" : "bg-white"} p-6 md:p-8 rounded-lg shadow-2xl w-full max-w-md relative z-10`}
+        className={`${styles.card} ${theme === "dark" ? styles.cardDark : ""}`}
       >
         <motion.div
           initial={{ scale: 0 }}
@@ -242,64 +248,82 @@ const Login = () => {
           transition={{
             delay: 0.2,
             type: "spring",
-            stiffness: 260, // controls how strong/stiff the spring is
-            damping: 20, // controls spring's bouncing
+            stiffness: 260,
+            damping: 20,
           }}
-          className="w-24 h-24 bg-green-500 rounded-full mx-auto mb-6 flex items-center justify-center"
+          className={styles.logoCircle}
         >
-          <FaWhatsapp className="w-16 h-16 text-white" />
+          <FaWhatsapp className={styles.logoIcon} />
         </motion.div>
         <h1
-          className={`text-3xl font-bold text-center mb-6 ${theme === "dark" ? "text-white" : "text-gray-800"}`}
+          className={`${styles.title} ${
+            theme === "dark" ? styles.titleDark : ""
+          }`}
         >
           WhatsApp Login
         </h1>
 
         <ProgressBar />
 
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        {error && <p className={styles.errorMessage}>{error}</p>}
 
         {step === 1 && (
-          <form onSubmit={handleLogin.handleSubmit} className="space-y-4">
+          <form onSubmit={handleLogin.handleSubmit} className={styles.form}>
             <p
-              className={`text-center ${theme === "dark" ? "text-gray-300" : "text-gray-600"} mb-4`}
+              className={`${styles.subtitle} ${
+                theme === "dark" ? styles.subtitleDark : ""
+              }`}
             >
               Enter your phone number to receive an OTP
             </p>
-            <div className="relative">
-              <div className="flex">
-                <div className="relative w-1/3">
+            <div className={styles.relativeInputWrapper}>
+              <div className={styles.phoneInputGroup}>
+                <div className={styles.countryWrapper}>
                   <button
                     type="button"
-                    className={`flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center ${theme === "dark" ? "text-white bg-gray-700 border-gray-600" : "text-gray-900 bg-gray-100 border-gray-300"} border rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100`}
+                    className={`${styles.countryButton} ${
+                      theme === "dark" ? styles.countryButtonDark : ""
+                    }`}
                     onClick={() => setShowDropdown(!showDropdown)}
                   >
                     <span>
                       {selectedCountry.flag} {selectedCountry.dialCode}
                     </span>
-                    <FaChevronDown className="ml-2" />
+                    <FaChevronDown style={{ marginLeft: "0.5rem" }} />
                   </button>
                   {showDropdown && (
                     <div
                       ref={dropdownRef}
-                      className={`absolute z-10 w-full mt-1 ${theme === "dark" ? "bg-gray-700 border-gray-600" : "bg-white border-gray-300"} border rounded-md shadow-lg max-h-60 overflow-auto`}
+                      className={`${styles.dropdownMenu} ${
+                        theme === "dark" ? styles.dropdownMenuDark : ""
+                      }`}
                     >
                       <div
-                        className={`sticky top-0 ${theme === "dark" ? "bg-gray-700" : "bg-white"} p-2`}
+                        className={`${styles.dropdownSearchSticky} ${
+                          theme === "dark"
+                            ? styles.dropdownSearchStickyDark
+                            : ""
+                        }`}
                       >
                         <input
                           type="text"
                           placeholder="Search countries..."
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
-                          className={`w-full px-2 py-1 border ${theme === "dark" ? "bg-gray-600 border-gray-500 text-white" : "bg-white border-gray-300"} rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500`}
+                          className={`${styles.dropdownSearchInput} ${
+                            theme === "dark"
+                              ? styles.dropdownSearchInputDark
+                              : ""
+                          }`}
                         />
                       </div>
                       {filteredCountries.map((country) => (
                         <button
                           key={country.alpha2}
                           type="button"
-                          className={`w-full text-left px-3 py-2 ${theme === "dark" ? "hover:bg-gray-600" : "hover:bg-gray-100"} focus:outline-none focus:bg-gray-100`}
+                          className={`${styles.dropdownItem} ${
+                            theme === "dark" ? styles.dropdownItemDark : ""
+                          }`}
                           onClick={() => {
                             setSelectedCountry(country)
                             setShowDropdown(false)
@@ -320,37 +344,50 @@ const Login = () => {
                     setPhoneNumber(e.target.value)
                   }}
                   onBlur={handleLogin.handleBlur}
-                  className={`w-2/3 px-4 py-2 border ${theme === "dark" ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"} rounded-md focus:outline-none ${
-                    handleLogin.errors.phoneNumber ? "border-red-500" : ""
-                  }`}
+                  className={`${styles.phoneNumberInput} ${
+                    theme === "dark" ? styles.phoneNumberInputDark : ""
+                  } ${handleLogin.errors.phoneNumber ? styles.inputError : ""}`}
                   placeholder="Phone Number"
                 />
               </div>
               {handleLogin.errors.phoneNumber &&
               handleLogin.touched.phoneNumber ? (
-                <p className="text-red-500 text-sm">
+                <p className={styles.fieldError}>
                   {handleLogin.errors.phoneNumber}
                 </p>
               ) : null}
             </div>
+
             {/* Divider with OR */}
-            <div className="flex items-center my-4">
-              <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600" />
-              <span className="mx-3 text-gray-500 text-sm font-medium">or</span>
-              <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600" />
+            <div className={styles.divider}>
+              <div
+                className={`${styles.dividerLine} ${
+                  theme === "dark" ? styles.dividerLineDark : ""
+                }`}
+              />
+              <span className={styles.dividerText}>or</span>
+              <div
+                className={`${styles.dividerLine} ${
+                  theme === "dark" ? styles.dividerLineDark : ""
+                }`}
+              />
             </div>
 
             {/* Email Input Box with icon */}
             <div>
               <div
-                className={`flex items-center border rounded-md px-3 py-2 ${theme === "dark" ? "bg-gray-700 border-gray-600" : "bg-white border-gray-300"} ${
+                className={`${styles.iconInputContainer} ${
+                  theme === "dark" ? styles.iconInputContainerDark : ""
+                } ${
                   handleLogin.errors.email && handleLogin.touched.email
-                    ? "border-red-500"
+                    ? styles.inputError
                     : ""
                 }`}
               >
                 <FaUser
-                  className={`mr-2 text-gray-400 ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+                  className={`${styles.inputIcon} ${
+                    theme === "dark" ? styles.inputIconDark : ""
+                  }`}
                 />
                 <input
                   type="email"
@@ -358,26 +395,32 @@ const Login = () => {
                   value={handleLogin.values.email}
                   onChange={handleLogin.handleChange}
                   onBlur={handleLogin.handleBlur}
-                  className={`w-full bg-transparent focus:outline-none ${theme === "dark" ? "text-white" : "text-black"}`}
+                  className={`${styles.inputField} ${
+                    theme === "dark" ? styles.inputFieldDark : ""
+                  }`}
                   placeholder="Email (optional)"
                 />
               </div>
               {handleLogin.errors.email && handleLogin.touched.email ? (
-                <p className="text-red-500 text-sm">
-                  {handleLogin.errors.email}
-                </p>
+                <p className={styles.fieldError}>{handleLogin.errors.email}</p>
               ) : null}
             </div>
+
+            {/* Password Input Box */}
             <div>
               <div
-                className={`flex items-center border rounded-md px-3 py-2 ${theme === "dark" ? "bg-gray-700 border-gray-600" : "bg-white border-gray-300"} ${
+                className={`${styles.iconInputContainer} ${
+                  theme === "dark" ? styles.iconInputContainerDark : ""
+                } ${
                   handleLogin.errors.password && handleLogin.touched.password
-                    ? "border-red-500"
+                    ? styles.inputError
                     : ""
                 }`}
               >
                 <FaKey
-                  className={`mr-2 text-gray-400 ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+                  className={`${styles.inputIcon} ${
+                    theme === "dark" ? styles.inputIconDark : ""
+                  }`}
                 />
                 <input
                   type={showPassword ? "text" : "password"}
@@ -385,48 +428,53 @@ const Login = () => {
                   value={handleLogin.values.password}
                   onChange={handleLogin.handleChange}
                   onBlur={handleLogin.handleBlur}
-                  className={`w-full bg-transparent focus:outline-none ${theme === "dark" ? "text-white" : "text-black"}`}
+                  className={`${styles.inputField} ${
+                    theme === "dark" ? styles.inputFieldDark : ""
+                  }`}
                   placeholder="Password"
                 />
                 {showPassword ? (
                   <RxEyeOpen
-                    className={`mr-2 text-gray-400 cursor-pointer ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+                    className={`${styles.eyeIcon} ${
+                      theme === "dark" ? styles.eyeIconDark : ""
+                    }`}
                     onClick={() => setShowPassword(false)}
                   />
                 ) : (
                   <PiEyeClosedDuotone
-                    className={`mr-2 text-gray-400 cursor-pointer ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+                    className={`${styles.eyeIcon} ${
+                      theme === "dark" ? styles.eyeIconDark : ""
+                    }`}
                     onClick={() => setShowPassword(true)}
                   />
                 )}
               </div>
               {handleLogin.errors.password && handleLogin.touched.password ? (
-                <p className="text-red-500 text-sm">
+                <p className={styles.fieldError}>
                   {handleLogin.errors.password}
                 </p>
               ) : null}
             </div>
 
-            <button
-              type="submit"
-              className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition"
-            >
+            <button type="submit" className={styles.submitBtn}>
               {handleLogin.isSubmitting ? <Spinner /> : "Send OTP"}
             </button>
           </form>
         )}
 
         {step === 2 && (
-          <form onSubmit={handleOtp.handleSubmit} className="space-y-4">
+          <form onSubmit={handleOtp.handleSubmit} className={styles.form}>
             <p
-              className={`text-center ${theme === "dark" ? "text-gray-300" : "text-gray-600"} mb-4`}
+              className={`${styles.subtitle} ${
+                theme === "dark" ? styles.subtitleDark : ""
+              }`}
             >
               Please enter the 6-digit OTP send to{" "}
               {userPhoneData.email
                 ? userPhoneData.email
                 : userPhoneData?.phoneSuffix.concat(userPhoneData?.phoneNumber)}
             </p>
-            <div className="flex justify-between">
+            <div className={styles.otpGroup}>
               {handleOtp.values.otp.map((digit, index) => (
                 <input
                   key={index}
@@ -444,68 +492,72 @@ const Login = () => {
                     }
                   }}
                   onBlur={() => handleOtp.setFieldTouched("otp", true)}
-                  className={`w-12 h-12 text-center border ${theme === "dark" ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"} rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 ${
-                    handleOtp.errors.otp && handleOtp.touched.otp ? "border-red-500" : ""
+                  className={`${styles.otpBox} ${
+                    theme === "dark" ? styles.otpBoxDark : ""
+                  } ${
+                    handleOtp.errors.otp && handleOtp.touched.otp
+                      ? styles.inputError
+                      : ""
                   }`}
                 />
               ))}
             </div>
             {handleOtp.errors.otp && handleOtp.touched.otp ? (
-              <p className="text-red-500 text-sm">{handleOtp.errors.otp}</p>
+              <p className={styles.fieldError}>{handleOtp.errors.otp}</p>
             ) : null}
-            <button
-              type="submit"
-              className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition"
-            >
+            <button type="submit" className={styles.submitBtn}>
               {handleOtp.isSubmitting ? <Spinner /> : "Verify OTP"}
             </button>
 
             <button
               type="button"
               onClick={handleGoBack}
-              className={`w-full mt-2 ${theme === "dark" ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-700"} py-2 rounded-md hover:bg-gray-300 transition flex items-center justify-center`}
+              className={`${styles.backBtn} ${
+                theme === "dark" ? styles.backBtnDark : ""
+              }`}
             >
-              <FaArrowLeft className="mr-2" />
+              <FaArrowLeft style={{ marginRight: "0.5rem" }} />
               Go back
             </button>
           </form>
         )}
 
         {step === 3 && (
-          <form onSubmit={handleProfile.handleSubmit} className="space-y-4">
-            <div className="flex flex-col items-center mb-4">
-              <div className="relative w-24 h-24 mb-2">
+          <form onSubmit={handleProfile.handleSubmit} className={styles.form}>
+            <div className={styles.profileHeader}>
+              <div className={styles.profilePicWrapper}>
                 <img
                   src={profilePicture || selectedAvatar}
                   alt="Profile"
-                  className="w-full h-full rounded-full object-cover"
+                  className={styles.profileImg}
                 />
-                <label
-                  htmlFor="profile-picture"
-                  className="absolute bottom-0 right-0 bg-green-500 text-white p-2 rounded-full cursor-pointer hover:bg-green-600 transition duration-300"
-                >
-                  <FaPlus className="w-4 h-4" />
+                <label htmlFor="profile-picture" className={styles.uploadLabel}>
+                  <FaPlus style={{ width: "1rem", height: "1rem" }} />
                 </label>
                 <input
                   type="file"
                   id="profile-picture"
-                  accept="image/*" // you're requesting image files only. file picker will filter out / not show files other than image files as an accepted selectable option.
+                  accept="image/*"
                   onChange={handleFileChange}
-                  className="hidden"
+                  className={styles.hidden}
                 />
               </div>
               <p
-                className={`text-sm ${theme === "dark" ? "text-gray-300" : "text-gray-500"} mb-2`}
+                className={`${styles.avatarInstruction} ${
+                  theme === "dark" ? styles.avatarInstructionDark : ""
+                }`}
               >
                 Choose an avatar:
               </p>
-              <div className="flex flex-wrap justify-center gap-2">
+              <div className={styles.avatarGrid}>
                 {avatars.map((avatar, index) => (
                   <img
                     key={index}
                     src={avatar}
                     alt={`Avatar ${index + 1}`}
-                    className={`w-12 h-12 rounded-full cursor-pointer transition duration-300 ease-in-out transform hover:scale-110 ${selectedAvatar === avatar ? "ring-2 ring-green-500" : ""}`}
+                    className={`${styles.avatarThumb} ${
+                      selectedAvatar === avatar ? styles.avatarSelected : ""
+                    }`}
                     onClick={() => {
                       setSelectedAvatar(avatar)
                       setProfilePictureFile(null)
@@ -515,10 +567,8 @@ const Login = () => {
                 ))}
               </div>
             </div>
-            <div className="relative">
-              <FaUser
-                className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${theme === "dark" ? "text-gray-400" : "text-gray-400"}`}
-              />
+            <div className={styles.relativeInputWrapper}>
+              <FaUser className={styles.absoluteIcon} />
               <input
                 type="text"
                 name="username"
@@ -526,19 +576,19 @@ const Login = () => {
                 onChange={handleProfile.handleChange}
                 onBlur={handleProfile.handleBlur}
                 placeholder="Username"
-                className={`w-full pl-10 pr-3 py-2 border ${theme === "dark" ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"} rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-lg`}
+                className={`${styles.paddedInput} ${
+                  theme === "dark" ? styles.paddedInputDark : ""
+                }`}
               />
               {handleProfile.errors.username &&
               handleProfile.touched.username ? (
-                <p className="text-red-500 text-sm mt-1">
+                <p className={styles.fieldError}>
                   {handleProfile.errors.username}
                 </p>
               ) : null}
             </div>
-            <div className="relative">
-              <BiSolidPencil
-                className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${theme === "dark" ? "text-gray-400" : "text-gray-400"}`}
-              />
+            <div className={styles.relativeInputWrapper}>
+              <BiSolidPencil className={styles.absoluteIcon} />
               <input
                 type="text"
                 name="about"
@@ -546,10 +596,12 @@ const Login = () => {
                 onChange={handleProfile.handleChange}
                 onBlur={handleProfile.handleBlur}
                 placeholder="About"
-                className={`w-full pl-10 pr-3 py-2 border ${theme === "dark" ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"} rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-lg`}
+                className={`${styles.paddedInput} ${
+                  theme === "dark" ? styles.paddedInputDark : ""
+                }`}
               />
             </div>
-            <div className="flex items-center space-x-2">
+            <div className={styles.termsWrapper}>
               <input
                 type="checkbox"
                 name="agreed"
@@ -557,32 +609,34 @@ const Login = () => {
                 onChange={handleProfile.handleChange}
                 onBlur={handleProfile.handleBlur}
                 id="terms"
-                className={`rounded ${theme === "dark" ? "text-green-500 bg-gray-700" : "text-green-500"} focus:ring-green-500`}
+                className={styles.checkbox}
               />
               <label
                 htmlFor="terms"
-                className={`text-sm ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}
+                className={`${styles.termsLabel} ${
+                  theme === "dark" ? styles.termsLabelDark : ""
+                }`}
               >
                 I agree to the{" "}
-                <a href="#" className="text-green-500 hover:underline">
+                <a href="#" className={styles.termsLink}>
                   Terms and Conditions
                 </a>
               </label>
             </div>
             {handleProfile.errors.agreed && handleProfile.touched.agreed ? (
-              <p className="text-red-500 text-sm">
-                {handleProfile.errors.agreed}
-              </p>
+              <p className={styles.fieldError}>{handleProfile.errors.agreed}</p>
             ) : null}
             <button
               type="submit"
               disabled={handleProfile.isSubmitting}
-              className={`w-full bg-green-500 text-white font-bold py-3 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center text-lg ${handleProfile.isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`${styles.profileSubmitBtn} ${
+                handleProfile.isSubmitting ? styles.btnDisabled : ""
+              }`}
             >
               {handleProfile.isSubmitting ? (
-                <span className="animate-spin mr-2">&#9696;</span>
+                <span className={styles.spinnerIcon}>&#9696;</span>
               ) : (
-                <FaCheck className="mr-2" />
+                <FaCheck style={{ marginRight: "0.5rem" }} />
               )}
               {handleProfile.isSubmitting ? <Spinner /> : "Create Profile"}
             </button>

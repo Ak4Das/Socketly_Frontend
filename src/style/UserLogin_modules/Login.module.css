@@ -1,0 +1,566 @@
+/* Container Layout */
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: hidden;
+  background: linear-gradient(to bottom right, #4ade80, #3b82f6);
+}
+
+.containerDark {
+  background-color: #111827;
+}
+
+/* Card Outer Wrapper */
+.card {
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 28rem;
+  position: relative;
+  z-index: 10;
+  background-color: #ffffff;
+  color: #111827;
+}
+
+.cardDark {
+  background-color: #1f2937;
+  color: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 2rem;
+  }
+}
+
+/* Logo Circle */
+.logoCircle {
+  width: 6rem;
+  height: 6rem;
+  background-color: #22c55e;
+  border-radius: 9999px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoIcon {
+  width: 4rem;
+  height: 4rem;
+  color: #ffffff;
+}
+
+/* Heading */
+.title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.titleDark {
+  color: #ffffff;
+}
+
+/* Progress Bar */
+.progressTrack {
+  width: 100%;
+  border-radius: 9999px;
+  height: 0.625rem;
+  margin-bottom: 1.5rem;
+  background-color: #e5e7eb;
+}
+
+.progressTrackDark {
+  background-color: #374151;
+}
+
+.progressBarFill {
+  background-color: #22c55e;
+  height: 0.625rem;
+  border-radius: 9999px;
+  transition: all 0.5s ease-in-out;
+}
+
+/* Subtitle & Helper Text */
+.subtitle {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+.subtitleDark {
+  color: #d1d5db;
+}
+
+.errorMessage {
+  color: #ef4444;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.fieldError {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Form Layout */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Phone & Country Select */
+.phoneInputGroup {
+  display: flex;
+}
+
+.countryWrapper {
+  position: relative;
+  width: 33.333333%;
+}
+
+.countryButton {
+  flex-shrink: 0;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  background-color: #f3f4f6;
+  color: #111827;
+  cursor: pointer;
+}
+
+.countryButton:hover {
+  background-color: #e5e7eb;
+}
+
+.countryButtonDark {
+  color: #ffffff;
+  background-color: #374151;
+  border-color: #4b5563;
+}
+
+.dropdownMenu {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  margin-top: 0.25rem;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  max-height: 15rem;
+  overflow-y: auto;
+}
+
+.dropdownMenuDark {
+  background-color: #374151;
+  border-color: #4b5563;
+}
+
+.dropdownSearchSticky {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  padding: 0.5rem;
+}
+
+.dropdownSearchStickyDark {
+  background-color: #374151;
+}
+
+.dropdownSearchInput {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.dropdownSearchInput:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+.dropdownSearchInputDark {
+  background-color: #4b5563;
+  border-color: #6b7280;
+  color: #ffffff;
+}
+
+.dropdownItem {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background-color: #f3f4f6;
+}
+
+.dropdownItemDark:hover {
+  background-color: #4b5563;
+}
+
+.phoneNumberInput {
+  width: 66.666667%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  border-radius: 0.375rem;
+  outline: none;
+}
+
+.phoneNumberInputDark {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #ffffff;
+}
+
+.inputError {
+  border-color: #ef4444 !important;
+}
+
+/* Divider OR */
+.divider {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dividerLine {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #d1d5db;
+}
+
+.dividerLineDark {
+  background-color: #4b5563;
+}
+
+.dividerText {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Icon Text Inputs */
+.iconInputContainer {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #ffffff;
+}
+
+.iconInputContainerDark {
+  background-color: #374151;
+  border-color: #4b5563;
+}
+
+.inputIcon {
+  margin-right: 0.5rem;
+  color: #6b7280;
+}
+
+.inputIconDark {
+  color: #9ca3af;
+}
+
+.inputField {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #000000;
+}
+
+.inputFieldDark {
+  color: #ffffff;
+}
+
+.eyeIcon {
+  margin-right: 0.5rem;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.eyeIconDark {
+  color: #9ca3af;
+}
+
+/* Buttons */
+.submitBtn {
+  width: 100%;
+  background-color: #22c55e;
+  color: #ffffff;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.375rem;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submitBtn:hover {
+  background-color: #16a34a;
+}
+
+.profileSubmitBtn {
+  width: 100%;
+  background-color: #22c55e;
+  color: #ffffff;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  cursor: pointer;
+}
+
+.profileSubmitBtn:hover {
+  transform: scale(1.05);
+}
+
+.btnDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.backBtn {
+  width: 100%;
+  margin-top: 0.5rem;
+  background-color: #e5e7eb;
+  color: #374151;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.375rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.backBtn:hover {
+  background-color: #d1d5db;
+}
+
+.backBtnDark {
+  background-color: #374151;
+  color: #d1d5db;
+}
+
+/* OTP Step */
+.otpGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.otpBox {
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  border-radius: 0.375rem;
+  outline: none;
+}
+
+.otpBox:focus {
+  box-shadow: 0 0 0 2px #22c55e;
+}
+
+.otpBoxDark {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #ffffff;
+}
+
+/* Step 3 Profile Setup */
+.profileHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.profilePicWrapper {
+  position: relative;
+  width: 6rem;
+  height: 6rem;
+  margin-bottom: 0.5rem;
+}
+
+.profileImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.uploadLabel {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #22c55e;
+  color: #ffffff;
+  padding: 0.5rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.uploadLabel:hover {
+  background-color: #16a34a;
+}
+
+.avatarInstruction {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.avatarInstructionDark {
+  color: #d1d5db;
+}
+
+.avatarGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.avatarThumb {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.avatarThumb:hover {
+  transform: scale(1.1);
+}
+
+.avatarSelected {
+  box-shadow: 0 0 0 2px #22c55e;
+}
+
+.relativeInputWrapper {
+  position: relative;
+}
+
+.absoluteIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+.paddedInput {
+  width: 100%;
+  padding-left: 2.5rem;
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  border-radius: 0.375rem;
+  font-size: 1.125rem;
+  outline: none;
+}
+
+.paddedInput:focus {
+  box-shadow: 0 0 0 2px #22c55e;
+}
+
+.paddedInputDark {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #ffffff;
+}
+
+/* Terms Checkbox */
+.termsWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox {
+  border-radius: 0.25rem;
+  color: #22c55e;
+}
+
+.termsLabel {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.termsLabelDark {
+  color: #d1d5db;
+}
+
+.termsLink {
+  color: #22c55e;
+  text-decoration: none;
+}
+
+.termsLink:hover {
+  text-decoration: underline;
+}
+
+/* Utility / Icons */
+.spinnerIcon {
+  animation: spin 1s linear infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden {
+  display: none;
+}
