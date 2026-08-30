@@ -1,0 +1,214 @@
+/* Container & Layout */
+.settingContainer {
+  display: flex;
+  height: 100vh;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.settingContainer.dark {
+  background-color: rgb(17, 27, 33);
+  color: #ffffff;
+}
+
+.sidebar {
+  width: 400px;
+  border-right: 1px solid #e5e7eb;
+}
+
+.sidebar.dark {
+  border-right-color: #4b5563;
+}
+
+.contentWrapper {
+  padding: 1rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Search Input */
+.searchContainer {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.625rem;
+  height: 1rem;
+  width: 1rem;
+  color: #9ca3af;
+}
+
+.searchInput {
+  width: 100%;
+  background-color: #f3f4f6;
+  color: #000000;
+  border: none;
+  padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+}
+
+.searchInput::placeholder {
+  color: #9ca3af;
+}
+
+.searchInput.dark {
+  background-color: #202c33;
+  color: #ffffff;
+}
+
+/* Profile Section */
+.profileCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.profileCard:hover {
+  background-color: #f3f4f6;
+}
+
+.profileCard.dark:hover {
+  background-color: #202c33;
+}
+
+.profileAvatar {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.profileUsername {
+  font-weight: 600;
+  margin: 0;
+}
+
+.profileAbout {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* Menu Items */
+.scrollableMenu {
+  height: calc(100vh - 280px);
+  overflow-y: auto;
+}
+
+.menuList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.navLink,
+.themeButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #000000;
+  font-size: inherit;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.navLink:hover,
+.themeButton:hover {
+  background-color: #f3f4f6;
+}
+
+.navLink.dark,
+.themeButton.dark {
+  color: #ffffff;
+}
+
+.navLink.dark:hover,
+.themeButton.dark:hover {
+  background-color: #202c33;
+}
+
+.menuIcon {
+  height: 1.25rem;
+  width: 1.25rem;
+  flex-shrink: 0;
+}
+
+.itemLabelBorder {
+  border-bottom: 1px solid #e5e7eb;
+  width: 100%;
+  padding: 1rem;
+  text-align: left;
+}
+
+.itemLabelBorder.dark {
+  border-bottom-color: #374151;
+}
+
+.themeContent {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  border-bottom: 1px solid #e5e7eb;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.themeContent.dark {
+  border-bottom-color: #374151;
+}
+
+.themeValue {
+  margin-left: auto;
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+/* Logout Button */
+.logoutButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  color: #ef4444;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-top: 2.5rem;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.logoutButton:hover {
+  background-color: #f3f4f6;
+}
+
+.logoutButton.dark:hover {
+  background-color: #202c33;
+}
+
+@media (min-width: 768px) {
+  .logoutButton {
+    margin-top: 9rem;
+  }
+}

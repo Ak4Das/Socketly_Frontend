@@ -13,12 +13,15 @@ import Layout from "../../components/Layout"
 import { Link } from "react-router-dom"
 import userStore from "../../store/useUserStore"
 import { toast } from "react-toastify"
+import styles from "../../style/SettingSection_modules/Settings.module.css"
 
 export default function Setting() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isThemeDialogOpen, setIsThemeDialogOpen] = useState(false)
   const { theme } = useThemeStore()
   const { user, clearUser } = userStore()
+
+  const isDark = theme === "dark"
 
   const toggleThemeDialog = () => {
     setIsThemeDialogOpen(!isThemeDialogOpen)
@@ -40,20 +43,18 @@ export default function Setting() {
       toggleThemeDialog={toggleThemeDialog}
     >
       <div
-        className={`flex h-screen ${theme === "dark" ? "bg-[rgb(17,27,33)] text-white" : "bg-white text-black"}`}
+        className={`${styles.settingContainer} ${isDark ? styles.dark : ""}`}
       >
-        <div
-          className={`w-[400px] border-r ${theme === "dark" ? "border-gray-600" : "border-gray-200"}`}
-        >
-          <div className="p-4">
-            <h1 className="text-xl font-semibold mb-4">Settings</h1>
+        <div className={`${styles.sidebar} ${isDark ? styles.dark : ""}`}>
+          <div className={styles.contentWrapper}>
+            <h1 className={styles.title}>Settings</h1>
 
             {/* Search Bar */}
-            <div className="relative mb-4">
-              <FaSearch className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+            <div className={styles.searchContainer}>
+              <FaSearch className={styles.searchIcon} />
               <input
                 placeholder="Search settings"
-                className={`w-full ${theme === "dark" ? "bg-[#202c33] text-white" : "bg-gray-100 text-black"} border-none pl-10 placeholder-gray-400 rounded p-2`}
+                className={`${styles.searchInput} ${isDark ? styles.dark : ""}`}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -61,22 +62,22 @@ export default function Setting() {
 
             {/* Profile Section */}
             <div
-              className={`flex items-center gap-4 p-3 ${theme === "dark" ? "hover:bg-[#202c33]" : "hover:bg-gray-100"} rounded-lg cursor-pointer mb-4`}
+              className={`${styles.profileCard} ${isDark ? styles.dark : ""}`}
             >
               <img
                 src={user?.profilePicture}
                 alt="Profile"
-                className="w-14 h-14 rounded-full"
+                className={styles.profileAvatar}
               />
               <div>
-                <h2 className="font-semibold">{user?.username}</h2>
-                <p className="text-sm text-gray-400">{user?.about}</p>
+                <h2 className={styles.profileUsername}>{user?.username}</h2>
+                <p className={styles.profileAbout}>{user?.about}</p>
               </div>
             </div>
 
             {/* Menu Items */}
-            <div className="h-[calc(100vh-280px)] overflow-y-auto">
-              <div className="space-y-1">
+            <div className={styles.scrollableMenu}>
+              <div className={styles.menuList}>
                 {[
                   { icon: FaUser, label: "Account", href: "/user-details" },
                   { icon: FaComment, label: "Chats", href: "/" },
@@ -85,11 +86,13 @@ export default function Setting() {
                   <Link
                     to={item.href}
                     key={item.label}
-                    className={`w-full flex items-center gap-3 p-2 rounded ${theme === "dark" ? "text-white hover:bg-[#202c33]" : "text-black hover:bg-gray-100"}`}
+                    className={`${styles.navLink} ${isDark ? styles.dark : ""}`}
                   >
-                    <item.icon className="h-5 w-5" />
+                    <item.icon className={styles.menuIcon} />
                     <div
-                      className={`border-b ${theme === "dark" ? "border-gray-700" : "border-gray-200"}  w-full p-4`}
+                      className={`${styles.itemLabelBorder} ${
+                        isDark ? styles.dark : ""
+                      }`}
                     >
                       {item.label}
                     </div>
@@ -99,29 +102,36 @@ export default function Setting() {
                 {/* Theme Button */}
                 <button
                   onClick={toggleThemeDialog}
-                  className={`w-full flex items-center  gap-3 p-2 rounded ${theme === "dark" ? "text-white hover:bg-[#202c33]" : "text-black hover:bg-gray-100"}`}
+                  className={`${styles.themeButton} ${
+                    isDark ? styles.dark : ""
+                  }`}
                 >
-                  {theme === "dark" ? (
-                    <FaMoon className="h-5 w-5" />
+                  {isDark ? (
+                    <FaMoon className={styles.menuIcon} />
                   ) : (
-                    <FaSun className="h-5 w-5" />
+                    <FaSun className={styles.menuIcon} />
                   )}
                   <div
-                    className={`flex flex-col text-start border-b ${theme === "dark" ? "border-gray-700" : "border-gray-200"}  w-full p-2`}
+                    className={`${styles.themeContent} ${
+                      isDark ? styles.dark : ""
+                    }`}
                   >
                     Theme
-                    <span className="ml-auto text-sm text-gray-400">
+                    <span className={styles.themeValue}>
                       {theme.charAt(0).toUpperCase() + theme.slice(1)}
                     </span>
                   </div>
                 </button>
               </div>
+
               {/* Logout Button */}
               <button
                 onClick={handleLogout}
-                className={` w-full flex items-center gap-3 p-2 rounded text-red-500 ${theme === "dark" ? "hover:bg-[#202c33]" : "hover:bg-gray-100"} mt-10 md:mt-36`}
+                className={`${styles.logoutButton} ${
+                  isDark ? styles.dark : ""
+                }`}
               >
-                <FaSignOutAlt className="h-5 w-5" />
+                <FaSignOutAlt className={styles.menuIcon} />
                 Log out
               </button>
             </div>
