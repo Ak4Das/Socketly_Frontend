@@ -1,0 +1,237 @@
+/* Container & Theme Styles */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  border-right-width: 1px;
+  border-right-style: solid;
+}
+
+.darkTheme {
+  background-color: rgb(17, 27, 33);
+  border-color: #4b5563;
+  color: #ffffff;
+}
+
+.lightTheme {
+  background-color: #f3f4f6;
+  border-color: #e5e7eb;
+  color: #000000;
+}
+
+.contentWrapper {
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+.spaceY {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Profile Image Section */
+.profileImageSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatarWrapper {
+  position: relative;
+}
+
+.profileImage {
+  width: 13rem;
+  height: 13rem;
+  border-radius: 9999px;
+  margin-bottom: 0.5rem;
+  object-fit: cover;
+}
+
+.overlayLabel {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.avatarWrapper:hover .overlayLabel {
+  opacity: 1;
+}
+
+.overlayContent {
+  color: #ffffff;
+  text-align: center;
+}
+
+.cameraIcon {
+  height: 2rem;
+  width: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0.5rem;
+}
+
+.changeText {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btnSave {
+  background-color: #16a34a;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btnSave:hover {
+  background-color: #15803d;
+}
+
+.btnDiscard {
+  background-color: #9ca3af;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btnDiscard:hover {
+  background-color: #6b7280;
+}
+
+/* Card Field Styles */
+.card {
+  position: relative;
+  padding: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+}
+
+.cardDark {
+  background-color: #1f2937;
+}
+
+.cardLight {
+  background-color: #ffffff;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: #6b7280;
+  text-align: left;
+}
+
+.fieldRow {
+  display: flex;
+  align-items: center;
+}
+
+.textInput {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 0.375rem;
+  outline: none;
+}
+
+.textInput:focus {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 2px #22c55e;
+}
+
+.inputDark {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #ffffff;
+}
+
+.inputLight {
+  background-color: #ffffff;
+  border-color: #d1d5db;
+  color: #000000;
+}
+
+.textDisplay {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+}
+
+.iconBtn {
+  margin-left: 0.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.iconCheck {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #22c55e;
+}
+
+.iconSmile {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #eab308;
+}
+
+.iconCancel,
+.iconPencil {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #6b7280;
+}
+
+/* Emoji Picker Containers */
+.emojiPickerName {
+  position: absolute;
+  z-index: 10;
+  top: -20rem;
+}
+
+.emojiPickerAbout {
+  position: absolute;
+  z-index: 10;
+  margin-top: 0.5rem;
+  top: -24rem;
+}
