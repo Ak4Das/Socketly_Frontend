@@ -5,6 +5,7 @@ import { MdRadioButtonChecked } from "react-icons/md"
 import useStore from "../store/layoutStore"
 import userStore from "../store/useUserStore"
 import useThemeStore from "../store/themeStore"
+import styles from "../style/components_modules/Sidebar.module.css"
 
 const Sidebar = () => {
   const location = useLocation()
@@ -40,87 +41,55 @@ const Sidebar = () => {
     return null
   }
 
+  const getIconClass = (tabName) => {
+    if (activeTab === tabName) {
+      return theme === "dark" ? styles.iconActiveDark : styles.icon
+    }
+    return theme === "dark" ? styles.iconDark : styles.icon
+  }
+
   return (
     <div
-      className={`
-                ${isMobile ? "fixed bottom-0 left-0 right-0 h-16" : "w-16 h-screen border-r-2"}
-                ${theme === "dark" ? "bg-gray-800 border-gray-600" : "bg-[rgb(239,242,245)] border-gray-300"} 
-                bg-opacity-90 flex items-center py-4 shadow-lg
-                ${isMobile ? "flex-row justify-around" : "flex-col justify-between"}
-            `}
+      className={`${styles.sidebar} ${
+        isMobile ? styles.sidebarMobile : ""
+      } ${theme === "dark" ? styles.sidebarDark : ""}`}
     >
       <Link
         to="/"
-        className={`${isMobile ? "" : "mb-8"} ${activeTab === "chats" && "bg-gray-300 shadow-sm p-2 rounded-full"} focus:outline-none`}
+        className={`${styles.navLink} ${
+          !isMobile ? styles.navLinkDesktop : ""
+        } ${activeTab === "chats" ? styles.activeTab : ""}`}
       >
-        <FaWhatsapp
-          className={`h-6 w-6 ${
-            activeTab === "chats"
-              ? theme === "dark"
-                ? "text-gray-800 "
-                : ""
-              : theme === "dark"
-                ? "text-gray-300"
-                : "text-gray-800"
-          }`}
-        />
+        <FaWhatsapp className={getIconClass("chats")} />
       </Link>
       <Link
         to="/status"
-        className={`${isMobile ? "" : "mb-8"} ${activeTab === "status" && "bg-gray-300 shadow-sm p-2 rounded-full"}  focus:outline-none`}
+        className={`${styles.navLink} ${
+          !isMobile ? styles.navLinkDesktop : ""
+        } ${activeTab === "status" ? styles.activeTab : ""}`}
       >
-        <MdRadioButtonChecked
-          className={`h-6 w-6 ${
-            activeTab === "status"
-              ? theme === "dark"
-                ? "text-gray-800 "
-                : ""
-              : theme === "dark"
-                ? "text-gray-300"
-                : "text-gray-800"
-          }`}
-        />
+        <MdRadioButtonChecked className={getIconClass("status")} />
       </Link>
-      {!isMobile && <div className="flex-grow" />}
+      {!isMobile && <div className={styles.spacer} />}
       <Link
         to="/user-details"
-        className={`${isMobile ? "" : "mb-8"} ${activeTab === "user" && "bg-gray-300 shadow-sm p-2 rounded-full"}  focus:outline-none`}
+        className={`${styles.navLink} ${
+          !isMobile ? styles.navLinkDesktop : ""
+        } ${activeTab === "user" ? styles.activeTab : ""}`}
       >
         {user?.profilePicture ? (
-          <img
-            src={user.profilePicture}
-            alt="User"
-            className="h-6 w-6 rounded-full "
-          />
+          <img src={user.profilePicture} alt="User" className={styles.avatar} />
         ) : (
-          <FaUserCircle
-            className={`h-6 w-6 ${
-              activeTab === "status"
-                ? theme === "dark"
-                  ? "text-gray-800 "
-                  : ""
-                : theme === "dark"
-                  ? "text-gray-300"
-                  : "text-gray-800"
-            }`}
-          />
+          <FaUserCircle className={getIconClass("status")} />
         )}
       </Link>
       <Link
         to="/setting"
-        className={`${isMobile ? "" : "mb-8"} ${activeTab === "setting" && "bg-gray-300 shadow-sm p-2 rounded-full"}  focus:outline-none`}
+        className={`${styles.navLink} ${
+          !isMobile ? styles.navLinkDesktop : ""
+        } ${activeTab === "setting" ? styles.activeTab : ""}`}
       >
-        <FaCog
-          className={`h-6 w-6 ${
-            activeTab === "setting"
-              ? theme === "dark"
-                ? "text-gray-800 "
-                : ""
-              : theme === "dark"
-                ? "text-gray-300"
-                : "text-gray-800"
-          }`}
-        />
+        <FaCog className={getIconClass("setting")} />
       </Link>
     </div>
   )
