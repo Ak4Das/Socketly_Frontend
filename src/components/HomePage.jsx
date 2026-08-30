@@ -4,6 +4,7 @@ import ChatList from "../page/ChatSection/ChatList"
 import useStore from "../store/layoutStore"
 import { getAllUsers } from "../services/user.service"
 import { useChatStore } from "../store/chatStore"
+import styles from "../style/components_modules/HomePage.module.css"
 
 export default function HomeScreen() {
   const messages = useChatStore((state) => state.messages) // if messages state will change then refetch all the users
@@ -26,7 +27,7 @@ export default function HomeScreen() {
 
   return (
     <Layout>
-      <div className="h-full">
+      <div className={styles.children}>
         <ChatList contacts={allUsers} />
       </div>
     </Layout>
