@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.spinnerWrapper {
+  display: inline-flex;
+}
+
+.text {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Size Variants */
+.sizeSmall {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.sizeMedium {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.sizeLarge {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+/* Color Variants */
+.colorLight {
+  color: #ffffff;
+}
+
+.colorDark {
+  color: #1f2937;
+}
