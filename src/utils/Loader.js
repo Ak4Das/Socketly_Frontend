@@ -1,9 +1,21 @@
-import React from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import Socketly_icon from "../assets/favicon.svg"
 import styles from "../style/utils_modules/Loader.module.css"
 
 export default function Loader({ progress = 0 }) {
+  const [progressDone, setProgressDone] = useState(progress)
+  const motionDiv = useRef()
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      const done = Number(motionDiv.current?.style.width.replace("%", ""))
+      setProgressDone(Math.floor(done))
+    }, 100)
+
+    return () => {
+      clearInterval(timerId)
+    }
+  }, [])
   return (
     <div className={styles.container}>
       <motion.div
@@ -25,9 +37,10 @@ export default function Loader({ progress = 0 }) {
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ delay: 1, duration: 1.5 }}
+          ref={motionDiv}
         />
       </div>
-      <p className={styles.progressText}>Loading... {progress}%</p>
+      <p className={styles.progressText}>Loading... {progressDone}%</p>
     </div>
   )
 }
