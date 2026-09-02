@@ -8,10 +8,10 @@ import {
   FaSignOutAlt,
   FaComment,
 } from "react-icons/fa"
-import useThemeStore from "../../store/themeStore"
+import { useThemeStore } from "../../store/themeStore"
 import Layout from "../../components/Layout"
 import { Link } from "react-router-dom"
-import {useUserStore} from "../../store/userStore"
+import { useUserStore } from "../../store/userStore"
 import { toast } from "react-toastify"
 import styles from "../../style/SettingSection_modules/Settings.module.css"
 

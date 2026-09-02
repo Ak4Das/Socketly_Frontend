@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
 import Sidebar from "./Sidebar"
 import ChatWindow from "../page/ChatSection/ChatWindow"
-import useStore from "../store/layoutStore"
-import useThemeStore from "../store/themeStore"
+import {useLayoutStore} from "../store/layoutStore"
+import { useThemeStore } from "../store/themeStore"
 import { useLocation } from "react-router-dom"
 import styles from "../style/components_modules/Layout.module.css"
 
@@ -13,8 +13,8 @@ export default function Layout({
   isStatusPreviewOpen, // is status preview page open
   statusPreviewContent, // status Content
 }) {
-  const selectedContact = useStore((state) => state.selectedContact) // To maintain the layout and pass to the chat window component
-  const setSelectedContact = useStore((state) => state.setSelectedContact) // pass to the chat window component
+  const selectedContact = useLayoutStore((state) => state.selectedContact) // To maintain the layout and pass to the chat window component
+  const setSelectedContact = useLayoutStore((state) => state.setSelectedContact) // pass to the chat window component
   const location = useLocation() // Used to control userDetails page layout only
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768) // Used to control layout in different screen sizes
   const theme = useThemeStore((state) => state.theme) // Used to control styles only

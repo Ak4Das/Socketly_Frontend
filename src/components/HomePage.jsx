@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Layout from "./Layout"
 import ChatList from "../page/ChatSection/ChatList"
-import useStore from "../store/layoutStore"
 import { getAllUsers } from "../services/user.service"
 import { useChatStore } from "../store/chatStore"
 import styles from "../style/components_modules/HomePage.module.css"

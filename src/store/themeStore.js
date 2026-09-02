@@ -11,6 +11,4 @@ const persistOptions = {
   getStorage: () => localStorage, // use localstorage
 }
 
-const useThemeStore = create(persist(store, persistOptions))
-
-export default useThemeStore
+export const useThemeStore = create(persist(store, persistOptions))

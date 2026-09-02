@@ -2,7 +2,7 @@ import { create } from "zustand"
 import axiosInstance from "../services/url.service"
 import { getSocket } from "../services/chat.service"
 
-export const useChatStore = create((set, get) => ({
+const store = (set, get) => ({
   currentUser: null, // Current user is me
   conversations: {}, // List of all conversations
   currentConversation: null, // Currently selected conversation ID
@@ -404,4 +404,6 @@ export const useChatStore = create((set, get) => ({
       typingUsers: new Map(),
     })
   },
-}))
+})
+
+export const useChatStore = create(store)
