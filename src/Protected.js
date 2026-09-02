@@ -7,6 +7,7 @@ import Loader from "./utils/Loader"
 export const ProtectedRoute = () => {
   const location = useLocation()
   const [isChecking, setIsChecking] = useState(true) // Show or hide loader while checking auth status
+  const [progress, setProgress] = useState(0)
 
   const isAuthenticated = userStore((state) => state.isAuthenticated)
   const setUser = userStore((state) => state.setUser)
@@ -27,7 +28,10 @@ export const ProtectedRoute = () => {
         console.error("Error checking authentication:", error)
         clearUser() // On error, assume unauthenticated
       } finally {
-        setIsChecking(false) // hide loader
+        setProgress(100)
+        setTimeout(() => {
+          setIsChecking(false) // hide loader
+        }, 3000)
       }
     }
 
@@ -35,7 +39,7 @@ export const ProtectedRoute = () => {
   }, [])
 
   if (isChecking) {
-    return <Loader />
+    return <Loader progress={progress} />
   }
 
   if (!isAuthenticated) {

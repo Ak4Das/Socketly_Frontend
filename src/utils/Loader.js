@@ -1,32 +1,33 @@
 import React from "react"
 import { motion } from "framer-motion"
-import { FaWhatsapp } from "react-icons/fa"
+import Socketly_icon from "../assets/favicon.svg"
+import styles from "../style/utils_modules/Loader.module.css"
 
 export default function Loader({ progress = 0 }) {
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-green-400 to-blue-500 flex flex-col items-center justify-center z-50">
+    <div className={styles.container}>
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{
-          duration: 0.5,
+          duration: 0.5, // animation will stay 0.5 seconds long
           type: "spring",
-          stiffness: 260,
-          damping: 20,
+          stiffness: 300, // controls how strong/stiff the spring is (higher stiffness → faster spring, lower stiffness → slower spring)
+          damping: 20, // controls spring's bouncing (lower number means higher bouncing)
         }}
-        className="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-8"
+        className={styles.logoContainer}
       >
-        <FaWhatsapp className="w-16 h-16 text-green-500" />
+        <img src={Socketly_icon} alt="socketly_icon" />
       </motion.div>
-      <div className="w-64 bg-white bg-opacity-30 rounded-full h-2 mb-4">
+      <div className={styles.progressTrack}>
         <motion.div
-          className="bg-white h-full rounded-full"
+          className={styles.progressBar}
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.5 }}
+          transition={{ delay: 1, duration: 1.5 }}
         />
       </div>
-      <p className="text-white text-lg font-semibold">Loading... {progress}%</p>
+      <p className={styles.progressText}>Loading... {progress}%</p>
     </div>
   )
 }
