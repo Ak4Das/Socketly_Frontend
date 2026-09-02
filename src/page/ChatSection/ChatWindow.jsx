@@ -12,6 +12,10 @@ import {
   FaFile,
   FaTimes,
 } from "react-icons/fa"
+import { PiHandWavingBold } from "react-icons/pi"
+import { IoChatbubbles } from "react-icons/io5"
+import { BsStars } from "react-icons/bs"
+import { FaRegSmileBeam } from "react-icons/fa"
 import MessageBubble from "./MessageBubble"
 import EmojiPicker from "emoji-picker-react"
 import { useThemeStore } from "../../store/themeStore"
@@ -21,6 +25,7 @@ import { useChatStore } from "../../store/chatStore"
 import whatsappImage from "../../images/whatsapp_image.png"
 import { Link } from "react-router-dom"
 import styles from "../../style/ChatSection_modules/ChatWindow.module.css"
+import { Menu, Moon, Plus, Sun, Trash2 } from "lucide-react"
 
 export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const [message, setMessage] = useState("")
@@ -28,13 +33,20 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const [showFileMenu, setShowFileMenu] = useState(false)
   const [filePreview, setFilePreview] = useState(null)
   const [selectedFile, setSelectedFile] = useState(null)
+  // quick actions menu is open or not
+  const [isHeaderMenuOpen, setIsHeaderMenuOpen] = useState(false)
 
   const messagesEndRef = useRef(null) // Scroll to end of the chat
   const emojiPickerRef = useRef(null)
   const fileInputRef = useRef(null) // file picker input (type="file") ref
+  const headerMenuRef = useRef(null) // quick actions menu ref
+  const headerMenuButtonRef = useRef(null) // quick actions button ref
 
   const theme = useThemeStore((state) => state.theme)
+  const setTheme = useThemeStore((state) => state.setTheme)
+
   const user = useUserStore((state) => state.user)
+  const isIOnline = useUserStore((state) => state.isIOnline)
 
   const messages = useChatStore((state) => state.messages)
   const loading = useChatStore((state) => state.loading)
@@ -48,6 +60,8 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const typingUsers = useChatStore((state) => state.typingUsers)
   const currentConversation = useChatStore((state) => state.currentConversation)
   const onlineUsers = useChatStore((state) => state.onlineUsers)
+  const isChatListOpen = useChatStore((state) => state.isChatListOpen)
+  const setChatListOpen = useChatStore((state) => state.setChatListOpen)
 
   const isDark = theme === "dark"
 
@@ -111,6 +125,21 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   useOutsideClick(emojiPickerRef, () => {
     if (showEmojiPicker) setShowEmojiPicker(false)
   })
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        headerMenuRef.current &&
+        !headerMenuRef.current.contains(event.target) &&
+        headerMenuButtonRef.current &&
+        !headerMenuButtonRef.current.contains(event.target)
+      ) {
+        setIsHeaderMenuOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
@@ -215,29 +244,136 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
 
   if (!selectedContact) {
     return (
-      <div className={styles.emptyStateContainer}>
-        <div className={styles.emptyStateContent}>
-          <img
-            src={whatsappImage}
-            alt="Chat Application"
-            className={styles.emptyStateImage}
-          />
-          <h2
-            className={`${styles.emptyStateTitle} ${isDark ? styles.dark : ""}`}
-          >
-            Select a conversation to start chatting
-          </h2>
-          <p
-            className={`${styles.emptyStateText} ${isDark ? styles.dark : ""}`}
-          >
-            Choose a contact from the list on the left to begin messaging.
-          </p>
-          <p
-            className={`${styles.encryptedNotice} ${isDark ? styles.dark : ""}`}
-          >
-            <FaLock className={styles.lockIcon} />
-            Your personal messages are end-to-end encrypted
-          </p>
+      <div className={styles.mainChatArea}>
+        <div className={styles.chatHeader}>
+          <div className={styles.headerLeft}>
+            <button
+              className={styles.menuToggleBtn}
+              onClick={() => setChatListOpen(true)}
+            >
+              <Menu size={20} />
+            </button>
+            <div className={styles.botAvatar}>
+              {user?.profilePicture ? (
+                <img
+                  src={user.profilePicture}
+                  alt="profile_picture"
+                  className={styles.userAvatar}
+                />
+              ) : (
+                user?.username?.[0]?.toUpperCase() || "U"
+              )}
+            </div>
+            <div>
+              <h2 className={styles.headerTitle}>{user?.username || "User"}</h2>
+              <div className={styles.statusGroup}>
+                <span
+                  className={
+                    isIOnline
+                      ? styles.statusIndicatorActiveHeader
+                      : styles.statusIndicator
+                  }
+                ></span>
+                <span className={styles.statusText}>
+                  {isIOnline ? "Online" : "Offline"}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.headerRight}>
+            <span className={styles.quickActionsLabel}>Quick actions</span>
+            <button
+              ref={headerMenuButtonRef}
+              onClick={() => setIsHeaderMenuOpen((prev) => !prev)}
+              className={`${styles.moreMenuBtn} ${isHeaderMenuOpen ? styles.moreMenuBtnActive : ""}`}
+              title="More"
+            >
+              <div className={styles.moreIconWrapper}>
+                <span className={styles.moreDots}>...</span>
+              </div>
+            </button>
+
+            {isHeaderMenuOpen && (
+              <div ref={headerMenuRef} className={styles.headerMenu}>
+                <button
+                  onClick={() => {
+                    setIsHeaderMenuOpen(false)
+                  }}
+                  className={styles.menuItem}
+                >
+                  <div className={styles.menuIconContainer}>
+                    <Plus size={14} />
+                  </div>
+                  Add New Friend
+                </button>
+
+                <button
+                  onClick={() => {
+                    setTheme(theme === "dark" ? "light" : "dark")
+                    setIsHeaderMenuOpen(false)
+                  }}
+                  className={styles.menuItem}
+                >
+                  <div className={styles.menuIconContainerSecondary}>
+                    {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+                  </div>
+                  {theme === "dark" ? "Light mode" : "Dark mode"}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+        <div
+          className={`${styles.messagesContainer} ${styles.customScrollbar}`}
+        >
+          <div className={styles.emptyChatContainer}>
+            <h2 className={styles.emptyHeading}>Start a Conversation</h2>
+            <p className={styles.emptySubtitle}>
+              Send your first message and start chatting in real time.
+            </p>
+
+            <div className={styles.actionGrid}>
+              {[
+                {
+                  icon: PiHandWavingBold,
+                  label: "Say Hello",
+                  sub: "Start with a simple hello",
+                  colorClass: styles.colorBrand,
+                },
+                {
+                  icon: IoChatbubbles,
+                  label: "Start a Chat",
+                  sub: "Ask something and get talking",
+                  colorClass: styles.colorBrand2,
+                },
+                {
+                  icon: BsStars,
+                  label: "Share an Idea",
+                  sub: "Tell them what's on your mind",
+                  colorClass: styles.colorBrand,
+                },
+                {
+                  icon: FaRegSmileBeam,
+                  label: "Send a Greeting",
+                  sub: "Make their day a little brighter",
+                  colorClass: styles.colorBrand2,
+                },
+              ].map((action, i) => (
+                <button key={i} className={styles.actionCard}>
+                  <div className={styles.actionCardTop}>
+                    <div className={styles.actionIconBox}>
+                      <action.icon size={20} className={action.colorClass} />
+                    </div>
+                    <span className={styles.actionCardTitle}>
+                      {action.label}
+                    </span>
+                  </div>
+                  <div className={styles.actionCardSub}>{action.sub}</div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     )

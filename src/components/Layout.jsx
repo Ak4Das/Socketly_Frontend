@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import Sidebar from "./Sidebar"
 import ChatWindow from "../page/ChatSection/ChatWindow"
-import {useLayoutStore} from "../store/layoutStore"
+import { useLayoutStore } from "../store/layoutStore"
 import { useThemeStore } from "../store/themeStore"
 import { useLocation } from "react-router-dom"
 import styles from "../style/components_modules/Layout.module.css"
@@ -50,14 +50,15 @@ export default function Layout({
             {children}
           </div>
         )}
-        {(selectedContact || !isMobile) && (
+        {selectedContact || !isMobile ? (
           <div className={styles.chatWindowPanel}>
             <ChatWindow
               selectedContact={selectedContact}
               setSelectedContact={setSelectedContact}
-              isMobile={isMobile}
             />
           </div>
+        ) : (
+          <ChatWindow />
         )}
       </div>
       {isMobile && <Sidebar />}

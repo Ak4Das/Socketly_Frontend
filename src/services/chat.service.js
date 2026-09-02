@@ -1,5 +1,5 @@
 import { io } from "socket.io-client"
-import {useUserStore} from "../store/userStore"
+import { useUserStore } from "../store/userStore"
 
 let socket = null
 const token = localStorage.getItem("auth_token")
@@ -7,7 +7,7 @@ const token = localStorage.getItem("auth_token")
 export const initializeSocket = () => {
   if (socket) return socket
 
-  const { user } = useUserStore.getState() // Here we subscribing to neither user nor the entire store here we simply reading the current state once
+  const { user, setIsIOnline } = useUserStore.getState() // Here we subscribing to neither user and setIsIOnline nor the entire store here we simply reading the current state once
 
   if (!user?._id) return null
 
@@ -25,6 +25,7 @@ export const initializeSocket = () => {
   //* Built in connection events
   // When client successfully connect to server then Socket.IO automatically fire connect event
   socket.on("connect", () => {
+    setIsIOnline(true)
     console.log("Socket connected:", socket.id)
     socket.emit("user_connected", user._id)
   })
@@ -36,6 +37,7 @@ export const initializeSocket = () => {
 
   // If connection break then Socket.IO automatically fire disconnect event
   socket.on("disconnect", (reason) => {
+    setIsIOnline(false)
     console.log("Socket disconnected:", reason)
   })
 

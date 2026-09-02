@@ -19,6 +19,7 @@
     "emoji-picker-react": "^4.12.0",
     "formik": "^2.4.9",
     "framer-motion": "^11.11.9",
+    "lucide-react": "^1.31.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",

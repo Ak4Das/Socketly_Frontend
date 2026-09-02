@@ -11,6 +11,7 @@ const store = (set, get) => ({
   error: null, // Error holder
   onlineUsers: new Map(), // userId -> { isOnline, lastSeen }
   typingUsers: new Map(), // conversationId -> Set of userIds who are typing
+  isChatListOpen: false, // controls the chatList open and close
 
   // Socket Event Listeners Setup
   initSocketListeners: () => {
@@ -129,6 +130,9 @@ const store = (set, get) => ({
 
   // Set Current User
   setCurrentUser: (user) => set({ currentUser: user }),
+
+  // Set chat list open or close
+  setChatListOpen: (value) => set({ isChatListOpen: value }),
 
   // Fetch Conversations from API
   fetchConversations: async () => {

@@ -631,11 +631,6 @@ const Login = () => {
                 handleProfile.isSubmitting ? styles.btnDisabled : ""
               }`}
             >
-              {handleProfile.isSubmitting ? (
-                <span className={styles.spinnerIcon}>&#9696;</span>
-              ) : (
-                <FaCheck style={{ marginRight: "0.5rem" }} />
-              )}
               {handleProfile.isSubmitting ? <Spinner /> : "Create Profile"}
             </button>
           </form>
