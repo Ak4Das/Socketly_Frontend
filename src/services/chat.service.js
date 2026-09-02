@@ -1,5 +1,5 @@
 import { io } from "socket.io-client"
-import userStore from "../store/useUserStore"
+import {useUserStore} from "../store/userStore"
 
 let socket = null
 const token = localStorage.getItem("auth_token")
@@ -7,7 +7,7 @@ const token = localStorage.getItem("auth_token")
 export const initializeSocket = () => {
   if (socket) return socket
 
-  const { user } = userStore.getState() // Here we subscribing to neither user nor the entire store here we simply reading the current state once
+  const { user } = useUserStore.getState() // Here we subscribing to neither user nor the entire store here we simply reading the current state once
 
   if (!user?._id) return null
 

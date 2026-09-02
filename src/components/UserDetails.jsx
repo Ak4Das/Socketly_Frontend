@@ -4,7 +4,7 @@ import { MdCancel } from "react-icons/md"
 import Layout from "./Layout"
 import EmojiPicker from "emoji-picker-react"
 import useThemeStore from "../store/themeStore"
-import userStore from "../store/useUserStore"
+import {useUserStore} from "../store/userStore"
 import { updateUserProfile } from "../services/user.service"
 import { toast } from "react-toastify"
 import styles from "../style/components_modules/UserDetails.module.css"
@@ -20,8 +20,8 @@ export default function UserDetails() {
   const [showNameEmoji, setShowNameEmoji] = useState(false)
   const [showAboutEmoji, setShowAboutEmoji] = useState(false)
 
-  const user = userStore((state) => state.user)
-  const setUser = userStore((state) => state.setUser)
+  const user = useUserStore((state) => state.user)
+  const setUser = useUserStore((state) => state.setUser)
   const theme = useThemeStore((state) => state.theme)
 
   useEffect(() => {

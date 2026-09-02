@@ -3,13 +3,13 @@ import { Link, useLocation } from "react-router-dom"
 import { FaWhatsapp, FaUser, FaCog, FaUserCircle } from "react-icons/fa"
 import { MdRadioButtonChecked } from "react-icons/md"
 import useStore from "../store/layoutStore"
-import userStore from "../store/useUserStore"
+import {useUserStore} from "../store/userStore"
 import useThemeStore from "../store/themeStore"
 import styles from "../style/components_modules/Sidebar.module.css"
 
 const Sidebar = () => {
   const location = useLocation()
-  const user = userStore((state) => state.user) // used for user's profile picture only
+  const user = useUserStore((state) => state.user) // used for user's profile picture only
   const activeTab = useStore((state) => state.activeTab) // used to control styles only
   const setActiveTab = useStore((state) => state.setActiveTab)
   const selectedContact = useStore((state) => state.selectedContact) // used to hide sidebar if user selected any contact

@@ -3,14 +3,14 @@ import { FaPlus, FaSearch } from "react-icons/fa"
 import useStore from "../../store/layoutStore"
 import useThemeStore from "../../store/themeStore"
 import formatTimestamp from "../../utils/formatTime"
-import userStore from "../../store/useUserStore"
+import {useUserStore} from "../../store/userStore"
 import styles from "../../style/ChatSection_modules/ChatList.module.css"
 
 const ChatList = ({ contacts }) => {
   const setSelectedContact = useStore((state) => state.setSelectedContact) // if user select any contact then setSelectedContact will call
   const selectedContact = useStore((state) => state.selectedContact) // used to control style
   const theme = useThemeStore((state) => state.theme) // used to control style
-  const user = userStore((state) => state.user) // used to verify that the last message receiver is me or not
+  const user = useUserStore((state) => state.user) // used to verify that the last message receiver is me or not
   const [searchTerm, setSearchTerm] = useState("") // Filter the contacts
 
   // Filter contacts based on the search term

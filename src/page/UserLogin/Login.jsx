@@ -18,9 +18,9 @@ import {
   verifyOtp,
 } from "../../services/user.service"
 import countries from "../../utils/countries"
-import useLoginStore from "../../store/useLoginStore"
+import { useLoginStore } from "../../store/loginStore"
 import { toast } from "react-toastify"
-import userStore from "../../store/useUserStore"
+import { useUserStore } from "../../store/userStore.js"
 import useThemeStore from "../../store/themeStore"
 import { useNavigate } from "react-router-dom"
 import Spinner from "../../utils/Spinner"
@@ -50,8 +50,8 @@ const Login = () => {
   const setUserPhoneData = useLoginStore((state) => state.setUserPhoneData)
   const resetLoginState = useLoginStore((state) => state.resetLoginState)
 
-  const setUser = userStore((state) => state.setUser)
-  const theme = userStore((state) => state.theme)
+  const setUser = useUserStore((state) => state.setUser)
+  const theme = useUserStore((state) => state.theme)
 
   const [phoneNumber, setPhoneNumber] = useState("")
   const [selectedCountry, setSelectedCountry] = useState(countries[0])

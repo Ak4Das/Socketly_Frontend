@@ -11,7 +11,7 @@ import {
 import useThemeStore from "../../store/themeStore"
 import Layout from "../../components/Layout"
 import { Link } from "react-router-dom"
-import userStore from "../../store/useUserStore"
+import {useUserStore} from "../../store/userStore"
 import { toast } from "react-toastify"
 import styles from "../../style/SettingSection_modules/Settings.module.css"
 
@@ -19,7 +19,7 @@ export default function Setting() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isThemeDialogOpen, setIsThemeDialogOpen] = useState(false)
   const { theme } = useThemeStore()
-  const { user, clearUser } = userStore()
+  const { user, clearUser } = useUserStore()
 
   const isDark = theme === "dark"
 

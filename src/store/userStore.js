@@ -13,6 +13,4 @@ const persistUserOptions = {
   getStorage: () => localStorage, // use localstorage
 }
 
-const userStore = create(persist(store, persistUserOptions))
-
-export default userStore
+export const useUserStore = create(persist(store, persistUserOptions))

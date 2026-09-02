@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Navigate, Outlet, useLocation } from "react-router-dom"
-import userStore from "./store/useUserStore"
+import {useUserStore} from "./store/userStore"
 import { checkUserAuth } from "./services/user.service"
 import Loader from "./utils/Loader"
 
@@ -9,9 +9,9 @@ export const ProtectedRoute = () => {
   const [isChecking, setIsChecking] = useState(true) // Show or hide loader while checking auth status
   const [progress, setProgress] = useState(0)
 
-  const isAuthenticated = userStore((state) => state.isAuthenticated)
-  const setUser = userStore((state) => state.setUser)
-  const clearUser = userStore((state) => state.clearUser)
+  const isAuthenticated = useUserStore((state) => state.isAuthenticated)
+  const setUser = useUserStore((state) => state.setUser)
+  const clearUser = useUserStore((state) => state.clearUser)
 
   useEffect(() => {
     const verifyAuth = async () => {
@@ -54,7 +54,7 @@ export const ProtectedRoute = () => {
 }
 
 export const PublicRoute = () => {
-  const isAuthenticated = userStore((state) => state.isAuthenticated)
+  const isAuthenticated = useUserStore((state) => state.isAuthenticated)
 
   if (isAuthenticated) {
     // If user is already logged in redirect to home page

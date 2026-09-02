@@ -9,14 +9,14 @@ import Login from "./page/UserLogin/Login"
 import { ProtectedRoute, PublicRoute } from "./Protected"
 import Setting from "./page/SettingSection/Settings"
 import { useChatStore } from "./store/chatStore"
-import userStore from "./store/useUserStore"
+import {useUserStore} from "./store/userStore"
 import { disconnectSocket, initializeSocket } from "./services/chat.service"
 
 function App() {
   const setCurrentUser = useChatStore((state) => state.setCurrentUser)
   const initSocketListeners = useChatStore((state) => state.initSocketListeners)
   const cleanup = useChatStore((state) => state.cleanup)
-  const user = userStore((state) => state.user)
+  const user = useUserStore((state) => state.user)
 
   useEffect(() => {
     // Initialize socket when user is logged in

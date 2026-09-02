@@ -15,7 +15,7 @@ import {
 import MessageBubble from "./MessageBubble"
 import EmojiPicker from "emoji-picker-react"
 import useThemeStore from "../../store/themeStore"
-import useUserStore from "../../store/useUserStore"
+import {useUserStore} from "../../store/userStore"
 import useOutsideClick from "../../hooks/useOutsideClick"
 import { useChatStore } from "../../store/chatStore"
 import whatsappImage from "../../images/whatsapp_image.png"
