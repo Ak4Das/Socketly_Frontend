@@ -13,7 +13,7 @@
   width: 6rem;
   height: 6rem;
   background-color: #ffffff;
-  border-radius: 9999px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,7 +30,7 @@
   width: 16rem;
   height: 0.5rem;
   background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 9999px;
+  border-radius: 20px;
   margin-bottom: 1rem;
   overflow: hidden;
 }
@@ -38,11 +38,11 @@
 .progressBar {
   background-color: #ffffff;
   height: 100%;
-  border-radius: 9999px;
+  border-radius: 20px;
 }
 
 .progressText {
   color: #ffffff;
-  font-size: 1.125rem;
+  font-size: 18px;
   font-weight: 600;
 }

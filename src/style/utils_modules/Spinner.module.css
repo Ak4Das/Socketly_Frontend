@@ -14,15 +14,14 @@
   font-weight: 500;
 }
 
-/* Size Variants */
 .sizeSmall {
-  font-size: 0.75rem;
+  font-size: 12px;
   line-height: 1rem;
 }
 
 .sizeMedium {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+  font-size: 18px;
+  line-height: 28px;
 }
 
 .sizeLarge {
@@ -30,7 +29,6 @@
   line-height: 2rem;
 }
 
-/* Color Variants */
 .colorLight {
   color: #ffffff;
 }
