@@ -8,6 +8,8 @@ import { useUserStore } from "../store/userStore"
 import { updateUserProfile } from "../services/user.service"
 import { toast } from "react-toastify"
 import styles from "../style/components_modules/UserDetails.module.css"
+import { X } from "lucide-react"
+import { useChatStore } from "../store/chatStore"
 
 export default function UserDetails() {
   const [name, setName] = useState("")
@@ -23,6 +25,9 @@ export default function UserDetails() {
   const user = useUserStore((state) => state.user)
   const setUser = useUserStore((state) => state.setUser)
   const theme = useThemeStore((state) => state.theme)
+
+  const isChatListOpen = useChatStore((state) => state.isChatListOpen)
+  const setChatListOpen = useChatStore((state) => state.setChatListOpen)
 
   useEffect(() => {
     if (user) {
@@ -78,13 +83,19 @@ export default function UserDetails() {
   return (
     <Layout>
       <div
-        className={`${styles.container} ${
+        className={`${styles.profilePage} ${
           theme === "dark" ? styles.darkTheme : styles.lightTheme
-        }`}
+        } ${isChatListOpen ? styles.profilePageOpen : ""}`}
       >
         <div className={styles.contentWrapper}>
           <div className={styles.header}>
             <h1 className={styles.title}>Profile</h1>
+            <button
+              className={styles.closeProfilePageBtn}
+              onClick={() => setChatListOpen(false)}
+            >
+              <X size={20} />
+            </button>
           </div>
           <div className={styles.spaceY}>
             <div className={styles.profileImageSection}>

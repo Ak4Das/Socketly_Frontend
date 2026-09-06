@@ -394,7 +394,7 @@
   color: #dc2626;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
   .chatList {
     position: relative;
     left: 0;

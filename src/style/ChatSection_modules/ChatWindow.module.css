@@ -649,7 +649,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
   .emptyHeading {
     font-size: 36px;
   }

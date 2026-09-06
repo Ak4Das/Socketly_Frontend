@@ -1,13 +1,23 @@
-.container {
-  width: 100%;
-  min-height: 100vh;
+.profilePage {
+  position: fixed;
+  top: 0;
+  left: 64px;
+  bottom: 0;
+  z-index: 4;
+  height: 100%;
   display: flex;
+  transform: translateX(-122%);
+  transition: transform 0.3s ease-in-out;
   border-right-width: 1px;
   border-right-style: solid;
 }
 
+.profilePageOpen {
+  transform: translateX(-22%);
+}
+
 .darkTheme {
-  background-color: rgb(17, 27, 33);
+  background-color: #18181b;
   border-color: #4b5563;
   color: #ffffff;
 }
@@ -27,6 +37,7 @@
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 1.5rem;
 }
 
@@ -34,6 +45,24 @@
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 700;
+}
+
+.closeChatListBtn {
+  display: block;
+  padding: 0.5rem;
+  color: rgba(156, 163, 175, 0.7);
+  border-radius: 0.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.closeChatListBtn:hover {
+  color: #f3f4f6;
+  background-color: #27272a;
 }
 
 .spaceY {
@@ -230,4 +259,15 @@
   z-index: 10;
   margin-top: 0.5rem;
   top: -24rem;
+}
+
+@media (min-width: 1200px) {
+  .profilePage {
+    position: relative;
+    left: 0;
+    transform: translateX(0);
+  }
+  .closeProfilePageBtn {
+    display: none;
+  }
 }
