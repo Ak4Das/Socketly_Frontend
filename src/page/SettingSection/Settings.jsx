@@ -14,12 +14,16 @@ import { Link } from "react-router-dom"
 import { useUserStore } from "../../store/userStore"
 import { toast } from "react-toastify"
 import styles from "../../style/SettingSection_modules/Settings.module.css"
+import { useChatStore } from "../../store/chatStore"
+import { X } from "lucide-react"
 
 export default function Setting() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isThemeDialogOpen, setIsThemeDialogOpen] = useState(false)
   const { theme } = useThemeStore()
   const { user, clearUser } = useUserStore()
+  const isChatListOpen = useChatStore((state) => state.isChatListOpen)
+  const setChatListOpen = useChatStore((state) => state.setChatListOpen)
 
   const isDark = theme === "dark"
 
@@ -43,11 +47,19 @@ export default function Setting() {
       toggleThemeDialog={toggleThemeDialog}
     >
       <div
-        className={`${styles.settingContainer} ${isDark ? styles.dark : ""}`}
+        className={`${styles.settingContainer} ${isDark ? styles.dark : ""} ${isChatListOpen ? styles.settingContainerOpen : ""}`}
       >
         <div className={`${styles.sidebar} ${isDark ? styles.dark : ""}`}>
           <div className={styles.contentWrapper}>
-            <h1 className={styles.title}>Settings</h1>
+            <div className={styles.header}>
+              <h1 className={styles.title}>Settings</h1>
+              <button
+                className={styles.closeSettingContainerBtn}
+                onClick={() => setChatListOpen(false)}
+              >
+                <X size={20} />
+              </button>
+            </div>
 
             {/* Search Bar */}
             <div className={styles.searchContainer}>
@@ -123,18 +135,15 @@ export default function Setting() {
                   </div>
                 </button>
               </div>
-
-              {/* Logout Button */}
-              <button
-                onClick={handleLogout}
-                className={`${styles.logoutButton} ${
-                  isDark ? styles.dark : ""
-                }`}
-              >
-                <FaSignOutAlt className={styles.menuIcon} />
-                Log out
-              </button>
             </div>
+            {/* Logout Button */}
+            <button
+              onClick={handleLogout}
+              className={`${styles.logoutButton} ${isDark ? styles.dark : ""}`}
+            >
+              <FaSignOutAlt className={styles.menuIcon} />
+              Log out
+            </button>
           </div>
         </div>
       </div>

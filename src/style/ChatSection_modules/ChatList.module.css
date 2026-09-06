@@ -5,16 +5,17 @@
   bottom: 0;
   z-index: 4;
   height: 100%;
+  min-width: 343px;
   background-color: #18181b;
   border-right: 1px solid #27272a;
-  transform: translateX(-122%);
+  transform: translateX(-120%);
   transition: transform 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
 }
 
 .chatListOpen {
-  transform: translateX(-22%);
+  transform: translateX(-20%);
 }
 
 .chatListHeader {
