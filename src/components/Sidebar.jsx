@@ -78,7 +78,7 @@ const Sidebar = () => {
           height="24"
           width="24"
           preserveAspectRatio="xMidYMid meet"
-          class=""
+          className=""
           fill="currentColor"
         >
           <title>wds-ic-status</title>
@@ -88,9 +88,9 @@ const Sidebar = () => {
           ></path>
           <path
             fill="currentColor"
-            fill-rule="evenodd"
+            fillRule="evenodd"
             d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z"
-            clip-rule="evenodd"
+            clipRule="evenodd"
           ></path>
         </svg>
       </Link>

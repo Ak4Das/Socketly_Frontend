@@ -22,7 +22,9 @@
 }
 
 .sidebar {
-  width: 343px;
+  width: 100%;
+  min-width: 343px;
+  max-width: 400px;
   border-right: 1px solid #e5e7eb;
 }
 
