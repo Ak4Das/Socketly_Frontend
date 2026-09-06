@@ -44,10 +44,14 @@
   margin-bottom: 2rem;
 }
 
+.socketly_icon {
+  width: 28px;
+}
+
 .activeTab {
   background-color: #d1d5db;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  padding: 0.5rem;
+  padding: 0.3rem;
   border-radius: 50%;
 }
 
@@ -70,6 +74,11 @@
   width: 1.5rem;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.setting_icon {
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .spacer {
