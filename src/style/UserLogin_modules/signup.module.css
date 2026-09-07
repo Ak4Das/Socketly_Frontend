@@ -131,6 +131,122 @@
   gap: 1.25rem;
 }
 
+.relativeInputWrapper {
+  position: relative;
+}
+
+.phoneInputGroup {
+  display: flex;
+  align-items: center;
+}
+
+.countryWrapper {
+  position: relative;
+  width: 33.3%;
+}
+
+.countryButton {
+  flex-shrink: 0;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  cursor: pointer;
+
+  padding: 0.875rem 1rem;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.countryButton:hover {
+  background-color: #e5e7eb;
+}
+
+.dropdownMenu {
+  position: absolute;
+  z-index: 10;
+  width: 250px;
+  margin-top: 4px;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  max-height: 15rem;
+  overflow-y: auto;
+}
+
+.dropdownSearchSticky {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  padding: 0.5rem;
+}
+
+.dropdownSearchInput {
+  width: 100%;
+  padding: 4px 0.5rem;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.dropdownSearchInput:focus {
+  border-color: #7d59ff;
+  box-shadow: 0 0 0 3px #7d59ff33;
+}
+
+.dropdownItem {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background-color: #f3f4f6;
+}
+
+.phoneNumberInput {
+  width: 66.6%;
+  padding: 0.875rem 1rem;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.phoneNumberInput:focus {
+  border-color: #7d59ff;
+  box-shadow: 0 0 0 3px #7d59ff33;
+}
+
+.inputError {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px #ef444433;
+}
+
+.fieldError {
+  color: #ef4444;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
 .inputGroup {
   display: flex;
   flex-direction: column;
@@ -183,7 +299,7 @@
 
 .input:focus {
   border-color: #7d59ff;
-  box-shadow: 0 0 0 3px rgba(125, 89, 255, 0.2);
+  box-shadow: 0 0 0 3px #7d59ff33;
 }
 
 .submitBtn {
@@ -274,6 +390,7 @@
 .switchAuthLink {
   color: #7d59ff;
   font-weight: 700;
+  margin-left: 6px;
   text-decoration: none;
   transition: all 0.2s ease;
 }

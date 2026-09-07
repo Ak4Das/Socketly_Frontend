@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { ArrowLeft, CheckCircle2, CheckCircle2Icon, User } from "lucide-react"
 import { FcGoogle } from "react-icons/fc"
 import styles from "../../style/UserLogin_modules/signup.module.css"
 import { useFormik } from "formik"
-import { loginValidationSchema } from "../../schemas/loginValidation"
 import { signupValidationSchema } from "../../schemas/signupValidation"
 import axios from "axios"
+import { FaChevronDown } from "react-icons/fa"
+import countries from "../../utils/countries"
+import { toast } from "react-toastify"
+import { sendOtp, verifyOtp } from "../../services/user.service"
 
-export default function Signup({ type }) {
-  const isLogin = type === "login" ? true : false
+export default function Signup() {
   const navigate = useNavigate()
 
   // Disable btns state
@@ -20,6 +22,22 @@ export default function Signup({ type }) {
   const [error, setIsError] = useState("")
   // Operation success state
   const [success, setSuccess] = useState("")
+  // Open or close countries dropdown
+  const [showDropdown, setShowDropdown] = useState(false)
+  // Selected country from the dropdown
+  const [selectedCountry, setSelectedCountry] = useState(countries[0])
+  // Searched country
+  const [searchTerm, setSearchTerm] = useState("")
+  // is user fill the signup form
+  const [isUserDetailsSubmitted, setIsUserDetailsSubmitted] = useState(false)
+  // sms otp
+  const [smsOtp, setSmsOtp] = useState("")
+  // email otp
+  const [emailOtp, setEmailOtp] = useState("")
+  // used in verifyOtpOfEmailAndSms function
+  const [userDetails, setUserDetails] = useState(null)
+
+  const dropdownRef = useRef(null)
 
   useEffect(() => {
     const timerId = setTimeout(() => setLoadState(true), 10)
@@ -27,64 +45,84 @@ export default function Signup({ type }) {
       clearTimeout(timerId)
       setLoadState(false)
     }
-  }, [type])
+  }, [])
 
-  const initialValuesForLogin = {
-    email: "",
-    password: "",
-  }
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
+  const filteredCountries = countries.filter(
+    (country) =>
+      country.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      country.dialCode.includes(searchTerm),
+  )
 
   const initialValuesForSignup = {
     name: "",
     email: "",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
   }
 
   const formik = useFormik({
-    initialValues: isLogin ? initialValuesForLogin : initialValuesForSignup,
-    validationSchema: isLogin ? loginValidationSchema : signupValidationSchema,
+    initialValues: initialValuesForSignup,
+    validationSchema: signupValidationSchema,
     enableReinitialize: true,
     onSubmit: async (values, action) => {
       try {
         setLoading(true)
 
-        const url = isLogin
-          ? "http://localhost:5001/auth/login"
-          : "http://localhost:5001/auth/register"
+        const body = {
+          phoneNumber: values.phoneNumber,
+          phoneSuffix: selectedCountry.dialCode,
+          username: values.name,
+          email: values.email,
+          password: values.confirmPassword,
+        }
 
-        const response = await axios.post(url, values)
+        const url = "http://localhost:8080/api/users/register"
 
-        localStorage.setItem("token", response.data.token)
+        const response = await axios.post(url, body)
+        setUserDetails(response.data.data)
 
         action.resetForm()
 
-        setSuccess(isLogin ? "Login Successful" : "Signup Successful")
-
-        setTimeout(() => {
-          navigate("/chat")
-        }, 1500)
+        if (values.email) {
+          const response = await sendOtp(
+            null,
+            null,
+            values.email,
+            values.confirmPassword,
+          )
+          if (response.status === "success") {
+            toast.success("OTP sent to email")
+            setTimeout(() => {
+              setIsUserDetailsSubmitted(true)
+            }, 1500)
+          }
+        }
+        // if (values.phoneNumber && selectedCountry.dialCode) {
+        //   const response = await sendOtp(
+        //     values.phoneNumber,
+        //     selectedCountry.dialCode,
+        //   )
+        //   console.log("OTP send:", response)
+        //   if (response.status === "success") {
+        //     toast.info("OTP send to phone successfully")
+        //   }
+        // }
       } catch (error) {
-        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-          console.dir(error)
-        }
-
-        if (error.response.data.message === "User already exists.") {
+        if (error.message === "User already exists.") {
           setIsError && setIsError("User already exists.")
-          return
-        }
-
-        if (error.response.data.message === "User not found.") {
-          setIsError && setIsError("User not found please signup to continue.")
-          setTimeout(() => {
-            setIsError("")
-            navigate("/signup")
-          }, 1500)
-          return
-        }
-
-        if (error.response.data.message === "Invalid Password.") {
-          setIsError && setIsError("Invalid Password.")
           return
         }
 
@@ -95,8 +133,51 @@ export default function Signup({ type }) {
     },
   })
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
-    formik
+  const verifyOtpOfEmailAndSms = async (e) => {
+    e.preventDefault()
+    try {
+      let response
+      let isBothOtpVerified = 0
+      if (emailOtp) {
+        response = await verifyOtp(null, null, emailOtp, userDetails.email)
+        if (response.status === "success") {
+          isBothOtpVerified += 1
+        } else {
+          isBothOtpVerified += 0
+        }
+      }
+      // if (smsOtp) {
+      //   response = await verifyOtp(
+      //     values.phoneNumber,
+      //     selectedCountry.dialCode,
+      //     smsOtp,
+      //   )
+      //   if (response.status === "success") {
+      //     isBothOtpVerified += 1
+      //   } else {
+      //     isBothOtpVerified += 0
+      //   }
+      // }
+      if (isBothOtpVerified === 1) {
+        setSuccess("Signup successful")
+        setTimeout(() => {
+          navigate("/user-login")
+        }, 1500)
+      }
+    } catch (error) {
+      setIsError(error.message)
+    }
+  }
+
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+  } = formik
 
   return (
     <div className={styles.container}>
@@ -110,18 +191,14 @@ export default function Signup({ type }) {
         </Link>
 
         <h1 className={styles.heading}>
-          {isLogin ? "Welcome back" : "Create your account"} <br />
+          Create your account <br />
           <p className={styles.gradientText}>
-            {isLogin
-              ? "Let's pick up where you left off."
-              : "Start conversations with Socketly today."}
+            Start conversations with Socketly today.
           </p>
         </h1>
 
         <p className={styles.subheading}>
-          {isLogin
-            ? "Sign in to continue conversations with Socketly."
-            : "Create an account to start conversations with Socketly."}
+          Create an account to start conversations with Socketly.
         </p>
       </div>
 
@@ -131,9 +208,7 @@ export default function Signup({ type }) {
         }`}
       >
         <div className={styles.card}>
-          <h2 className={styles.cardTitle}>
-            {isLogin ? "Sign in" : "Sign up"}
-          </h2>
+          <h2 className={styles.cardTitle}>Sign up</h2>
 
           {error && <div className={styles.errorAlertBanner}>{error}</div>}
 
@@ -144,8 +219,72 @@ export default function Signup({ type }) {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className={styles.form}>
-            {!isLogin && (
+          {!isUserDetailsSubmitted ? (
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Phone Number</label>
+                <div className={styles.relativeInputWrapper}>
+                  <div className={styles.phoneInputGroup}>
+                    <div className={styles.countryWrapper}>
+                      <button
+                        type="button"
+                        className={`${styles.countryButton}`}
+                        onClick={() => setShowDropdown(!showDropdown)}
+                      >
+                        <span>
+                          {selectedCountry.flag} {selectedCountry.dialCode}
+                        </span>
+                        <FaChevronDown style={{ marginLeft: "0.5rem" }} />
+                      </button>
+                      {showDropdown && (
+                        <div
+                          ref={dropdownRef}
+                          className={`${styles.dropdownMenu}`}
+                        >
+                          <div className={`${styles.dropdownSearchSticky}`}>
+                            <input
+                              type="text"
+                              placeholder="Search countries..."
+                              value={searchTerm}
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                              className={`${styles.dropdownSearchInput}`}
+                            />
+                          </div>
+                          {filteredCountries.map((country) => (
+                            <button
+                              key={country.alpha2}
+                              type="button"
+                              className={`${styles.dropdownItem}`}
+                              onClick={() => {
+                                setSelectedCountry(country)
+                                setShowDropdown(false)
+                              }}
+                            >
+                              {country.flag} ({country.dialCode}){" "}
+                              <span className="d-block">{country.name}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <input
+                      type="text"
+                      name="phoneNumber"
+                      value={values.phoneNumber}
+                      onChange={(e) => {
+                        setFieldValue("phoneNumber", e.target.value)
+                      }}
+                      onBlur={handleBlur}
+                      className={`${styles.phoneNumberInput} ${errors.phoneNumber && touched.phoneNumber ? styles.inputError : ""}`}
+                      placeholder="Phone Number"
+                    />
+                  </div>
+                  {errors.phoneNumber && touched.phoneNumber ? (
+                    <p className={styles.fieldError}>{errors.phoneNumber}</p>
+                  ) : null}
+                </div>
+              </div>
+
               <div className={styles.inputGroup}>
                 <label className={styles.label}>Full Name</label>
                 <div className={styles.inputWrapper}>
@@ -158,7 +297,7 @@ export default function Signup({ type }) {
                     value={values.name || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className={`${styles.input} ${styles.inputWithIcon}`}
+                    className={`${styles.input} ${styles.inputWithIcon} ${errors.name && touched.name ? styles.inputError : ""}`}
                     placeholder="John Doe"
                     required
                   />
@@ -169,51 +308,49 @@ export default function Signup({ type }) {
                   </p>
                 ) : null}
               </div>
-            )}
 
-            <div className={styles.inputGroup}>
-              <label className={styles.label}>Email</label>
-              <div className={styles.inputWrapper}>
-                <input
-                  type="email"
-                  name="email"
-                  value={values.email || ""}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={styles.input}
-                  placeholder="name@example.com"
-                  required
-                />
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Email</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="email"
+                    name="email"
+                    value={values.email || ""}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`${styles.input} ${errors.email && touched.email ? styles.inputError : ""}`}
+                    placeholder="name@example.com"
+                    required
+                  />
+                </div>
+                {errors.email && touched.email ? (
+                  <p className={`text-danger my-0 ${styles.errorMessage}`}>
+                    {errors.email}
+                  </p>
+                ) : null}
               </div>
-              {errors.email && touched.email ? (
-                <p className={`text-danger my-0 ${styles.errorMessage}`}>
-                  {errors.email}
-                </p>
-              ) : null}
-            </div>
 
-            <div className={styles.inputGroup}>
-              <label className={styles.label}>Password</label>
-              <div className={styles.inputWrapper}>
-                <input
-                  type="password"
-                  name="password"
-                  value={values.password || ""}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={styles.input}
-                  placeholder="••••••••"
-                  required
-                />
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Password</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="password"
+                    name="password"
+                    value={values.password || ""}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`${styles.input} ${errors.password && touched.password ? styles.inputError : ""}`}
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+                {errors.password && touched.password ? (
+                  <p className={`text-danger my-0 ${styles.errorMessage}`}>
+                    {errors.password}
+                  </p>
+                ) : null}
               </div>
-              {errors.password && touched.password ? (
-                <p className={`text-danger my-0 ${styles.errorMessage}`}>
-                  {errors.password}
-                </p>
-              ) : null}
-            </div>
 
-            {!isLogin && (
               <div className={styles.inputGroup}>
                 <label className={styles.label}>Confirm Password</label>
                 <div className={styles.inputWrapper}>
@@ -223,7 +360,7 @@ export default function Signup({ type }) {
                     value={values.confirmPassword || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className={styles.input}
+                    className={`${styles.input} ${errors.confirmPassword && touched.confirmPassword ? styles.inputError : ""}`}
                     placeholder="••••••••"
                     required
                   />
@@ -234,46 +371,80 @@ export default function Signup({ type }) {
                   </p>
                 ) : null}
               </div>
-            )}
 
-            <button
-              type="submit"
-              className={styles.submitBtn}
-              disabled={loading}
-            >
-              {isLogin ? "Sign In" : "Sign Up"}
-            </button>
+              <button
+                type="submit"
+                className={styles.submitBtn}
+                disabled={loading}
+              >
+                Submit
+              </button>
 
-            <div className={styles.divider}>
-              <div className={styles.dividerLine}>
-                <div className={styles.dividerBorder}></div>
+              <div className={styles.divider}>
+                <div className={styles.dividerLine}>
+                  <div className={styles.dividerBorder}></div>
+                </div>
+                <div className={styles.dividerTextWrapper}>
+                  <span className={styles.dividerText}>Or continue with</span>
+                </div>
               </div>
-              <div className={styles.dividerTextWrapper}>
-                <span className={styles.dividerText}>Or continue with</span>
-              </div>
-            </div>
 
-            <button
-              type="button"
-              onClick={() =>
-                (window.location.href = import.meta.env.PROD
-                  ? "/auth/google"
-                  : "http://localhost:3000/auth/google")
-              }
-              className={styles.googleBtn}
-            >
-              <FcGoogle className={styles.googleIcon} />
-              Continue with Google
-            </button>
-          </form>
+              <button
+                type="button"
+                onClick={() =>
+                  (window.location.href = import.meta.env.PROD
+                    ? "/auth/google"
+                    : "http://localhost:3000/auth/google")
+                }
+                className={styles.googleBtn}
+              >
+                <FcGoogle className={styles.googleIcon} />
+                Continue with Google
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={verifyOtpOfEmailAndSms}>
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Enter SMS OTP</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    value={smsOtp}
+                    onChange={(e) => setSmsOtp(e.target.value)}
+                    className={`${styles.input}`}
+                    placeholder="••••••"
+                  />
+                </div>
+              </div>
+              <br />
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Enter Email OTP</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    value={emailOtp}
+                    onChange={(e) => setEmailOtp(e.target.value)}
+                    className={`${styles.input}`}
+                    placeholder="••••••"
+                    required
+                  />
+                </div>
+              </div>
+              <br />
+              <button
+                type="submit"
+                className={styles.submitBtn}
+                disabled={!emailOtp}
+              >
+                Sign Up
+              </button>
+            </form>
+          )}
 
           <p className={styles.switchAuthText}>
-            {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <Link
-              to={isLogin ? "/signup" : "/login"}
-              className={styles.switchAuthLink}
-            >
-              {isLogin ? "Sign Up" : "Log In"}
+            Already have an account?
+            <Link to="/user-login" className={styles.switchAuthLink}>
+              Log In
             </Link>
           </p>
         </div>

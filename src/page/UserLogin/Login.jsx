@@ -21,7 +21,7 @@ import countries from "../../utils/countries"
 import { useLoginStore } from "../../store/loginStore"
 import { toast } from "react-toastify"
 import { useUserStore } from "../../store/userStore.js"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Spinner from "../../utils/Spinner"
 import { useFormik } from "formik"
 
@@ -34,6 +34,7 @@ import { profileValidationSchema } from "../../schemas/profileValidation.js"
 import styles from "../../style/UserLogin_modules/Login.module.css"
 
 import socketly_icon from "../../assets/favicon.svg"
+import { ArrowLeft } from "lucide-react"
 
 const avatars = [
   "https://ik.imagekit.io/wp5fmlbnf/Socketly_Avatar_1.webp",
@@ -65,6 +66,12 @@ const Login = () => {
   const [error, setError] = useState("")
   const dropdownRef = useRef(null)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    setTimeout(() => {
+      setError("")
+    }, 5000)
+  }, [error])
 
   const handleLogin = useFormik({
     initialValues: { phoneNumber: "", email: "", password: "" },
@@ -236,10 +243,84 @@ const Login = () => {
         theme === "dark" ? styles.containerDark : ""
       }`}
     >
+      {step === 1 && (
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className={`${styles.heroSection}`}
+        >
+          <Link to="/" className={styles.backButton}>
+            <ArrowLeft className={styles.backIcon} />
+          </Link>
+
+          <h1 className={styles.heading}>
+            Welcome back <br />
+            <p className={styles.gradientText}>
+              Let's pick up where you left off.
+            </p>
+          </h1>
+
+          <p className={styles.subheading}>
+            Sign in to continue conversations with Socketly.
+          </p>
+        </motion.div>
+      )}
+
+      {step === 2 && (
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className={`${styles.heroSection}`}
+        >
+          <Link to="/" className={styles.backButton}>
+            <ArrowLeft className={styles.backIcon} />
+          </Link>
+
+          <h1 className={styles.heading}>
+            Verify OTP <br />
+            <p className={styles.gradientText}>Enter the OTP sent to</p>
+            <p
+              className="fs-5"
+              style={{ color: "#A855F7" }}
+            >{`${userPhoneData.email || userPhoneData.phoneNumber}`}</p>
+          </h1>
+
+          <p className={styles.subheading}>
+            Verify OTP to complete the sign in process.
+          </p>
+        </motion.div>
+      )}
+
+      {step === 3 && (
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className={`${styles.heroSection}`}
+        >
+          <Link to="/" className={styles.backButton}>
+            <ArrowLeft className={styles.backIcon} />
+          </Link>
+
+          <h1 className={styles.heading}>
+            Welcome back <br />
+            <p className={styles.gradientText}>
+              Let's pick up where you left off.
+            </p>
+          </h1>
+
+          <p className={styles.subheading}>
+            Sign in to continue conversations with Socketly.
+          </p>
+        </motion.div>
+      )}
+
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
         className={`${styles.card} ${theme === "dark" ? styles.cardDark : ""}`}
       >
         <motion.div
@@ -470,6 +551,13 @@ const Login = () => {
             <button type="submit" className={styles.submitBtn}>
               {handleLogin.isSubmitting ? <Spinner /> : "Send OTP"}
             </button>
+
+            <p className={styles.switchAuthText}>
+              Have not account yet?
+              <Link to="/user-signup" className={styles.switchAuthLink}>
+                Sign up
+              </Link>
+            </p>
           </form>
         )}
 
@@ -578,22 +666,24 @@ const Login = () => {
                 ))}
               </div>
             </div>
-            <div className={styles.relativeInputWrapper}>
-              <FaUser className={styles.absoluteIcon} />
-              <input
-                type="text"
-                name="username"
-                value={handleProfile.values.username}
-                onChange={handleProfile.handleChange}
-                onBlur={handleProfile.handleBlur}
-                placeholder="Username"
-                className={`${styles.paddedInput} ${
-                  theme === "dark" ? styles.paddedInputDark : ""
-                }`}
-              />
+            <div>
+              <div className={styles.relativeInputWrapper}>
+                <FaUser className={styles.absoluteIcon} />
+                <input
+                  type="text"
+                  name="username"
+                  value={handleProfile.values.username}
+                  onChange={handleProfile.handleChange}
+                  onBlur={handleProfile.handleBlur}
+                  placeholder="Username"
+                  className={`${styles.paddedInput} ${
+                    theme === "dark" ? styles.paddedInputDark : ""
+                  }`}
+                />
+              </div>
               {handleProfile.errors.username &&
               handleProfile.touched.username ? (
-                <p className={styles.fieldError}>
+                <p className={`${styles.fieldError} mb-0`}>
                   {handleProfile.errors.username}
                 </p>
               ) : null}
@@ -612,31 +702,35 @@ const Login = () => {
                 }`}
               />
             </div>
-            <div className={styles.termsWrapper}>
-              <input
-                type="checkbox"
-                name="agreed"
-                checked={handleProfile.values.agreed}
-                onChange={handleProfile.handleChange}
-                onBlur={handleProfile.handleBlur}
-                id="terms"
-                className={styles.checkbox}
-              />
-              <label
-                htmlFor="terms"
-                className={`${styles.termsLabel} ${
-                  theme === "dark" ? styles.termsLabelDark : ""
-                }`}
-              >
-                I agree to the{" "}
-                <a href="#" className={styles.termsLink}>
-                  Terms and Conditions
-                </a>
-              </label>
+            <div>
+              <div className={styles.termsWrapper}>
+                <input
+                  type="checkbox"
+                  name="agreed"
+                  checked={handleProfile.values.agreed}
+                  onChange={handleProfile.handleChange}
+                  onBlur={handleProfile.handleBlur}
+                  id="terms"
+                  className={styles.checkbox}
+                />
+                <label
+                  htmlFor="terms"
+                  className={`${styles.termsLabel} ${
+                    theme === "dark" ? styles.termsLabelDark : ""
+                  }`}
+                >
+                  I agree to the{" "}
+                  <a href="#" className={styles.termsLink}>
+                    Terms and Conditions
+                  </a>
+                </label>
+              </div>
+              {handleProfile.errors.agreed && handleProfile.touched.agreed ? (
+                <p className={`${styles.fieldError} mb-0`}>
+                  {handleProfile.errors.agreed}
+                </p>
+              ) : null}
             </div>
-            {handleProfile.errors.agreed && handleProfile.touched.agreed ? (
-              <p className={styles.fieldError}>{handleProfile.errors.agreed}</p>
-            ) : null}
             <button
               type="submit"
               disabled={handleProfile.isSubmitting}

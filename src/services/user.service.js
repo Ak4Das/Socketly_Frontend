@@ -10,7 +10,7 @@ export const sendOtp = async (phoneNumber, phoneSuffix, email, password) => {
     })
     return response.data
   } catch (error) {
-    throw error.response ? error.response.data : error.message
+    throw error.response ? error.response.data : error
   }
 }
 
@@ -24,7 +24,7 @@ export const verifyOtp = async (phoneNumber, phoneSuffix, otp, email) => {
     })
     return response.data
   } catch (error) {
-    throw error.response ? error.response.data : error.message
+    throw error.response ? error.response.data : error
   }
 }
 
@@ -36,7 +36,7 @@ export const updateUserProfile = async (updateData) => {
     )
     return response.data
   } catch (error) {
-    throw error.response ? error.response.data : error.message
+    throw error.response ? error.response.data : error
   }
 }
 
@@ -49,7 +49,7 @@ export const checkUserAuth = async () => {
       return { isAuthenticated: false }
     }
   } catch (error) {
-    throw error.response ? error.response.data : error.message
+    throw error.response ? error.response.data : error
   }
 }
 
@@ -58,6 +58,6 @@ export const getAllUsers = async () => {
     const response = await axiosInstance.get("/users/other-users-list")
     return response.data
   } catch (error) {
-    throw error.response ? error.response.data : error.message
+    throw error.response ? error.response.data : error
   }
 }

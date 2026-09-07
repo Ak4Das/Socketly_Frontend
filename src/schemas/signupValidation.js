@@ -1,6 +1,17 @@
 import * as yup from "yup"
 
 export const signupValidationSchema = yup.object({
+  phoneNumber: yup
+    .string()
+    .nullable()
+    .required("Phone number is required")
+    .matches(/^\d+$/, "Phone number must be digits")
+    // originalValue is the exact value that was originally provided by the user/application
+    // value is the value after Yup has performed its initial casting, but before your current .transform() finishes.
+    .transform((value, originalValue) =>
+      originalValue.trim() === "" ? null : value,
+    ),
+
   name: yup
     .string()
     .trim()

@@ -5,7 +5,87 @@
   justify-content: center;
   padding: 1rem;
   overflow: hidden;
-  background: linear-gradient(90deg, #7d59ff, #a855f7);
+  /* background: linear-gradient(90deg, #7d59ff, #a855f7); */
+  background-color: #f8fafc;
+}
+
+.heroSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 0.25rem;
+  text-align: center;
+  transition:
+    transform 1s ease 0.2s,
+    opacity 1s ease 0.2s;
+}
+
+.heroLoaded {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.heroUnloaded {
+  transform: translateY(2.5rem);
+  opacity: 0;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  transition: all 0.2s ease;
+  margin-bottom: 3rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.backButton:hover {
+  color: #0f172a;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.backIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+.backButton:hover .backIcon {
+  transform: translateX(-0.25rem);
+}
+
+.heading {
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.gradientText {
+  background: linear-gradient(to right, #7d59ff, #a855f7);
+  -webkit-background-clip: text; /* Only show the background where the text exists. */
+  -webkit-text-fill-color: transparent; /* Make the text transparent so the clipped background is visible. */
+}
+
+.subheading {
+  font-size: 1.125rem;
+  color: #64748b;
+  margin-bottom: 2rem;
+  max-width: 28rem;
+  margin-inline: auto;
+  line-height: 1.625;
 }
 
 .containerDark {
@@ -27,12 +107,6 @@
 .cardDark {
   background-color: #1f2937;
   color: #ffffff;
-}
-
-@media (min-width: 768px) {
-  .card {
-    padding: 2rem;
-  }
 }
 
 .logoCircle {
@@ -532,4 +606,62 @@
 
 .hidden {
   display: none;
+}
+
+.switchAuthText {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.switchAuthLink {
+  color: #7d59ff;
+  font-weight: 700;
+  margin-left: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.switchAuthLink:hover {
+  color: #a855f7;
+  text-decoration: underline;
+}
+
+@media (min-width: 640px) {
+  .heading {
+    font-size: 2.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 2rem;
+  }
+  .heading {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1250px) {
+  .heading {
+    font-size: 3.75rem;
+    max-width: 1000px;
+  }
+  .subheading {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .heroSection {
+    width: 50%;
+    padding: 0 5rem;
+    margin-bottom: 0;
+    text-align: left;
+  }
+}
+
+@media (max-width: 1249px) {
+  .heroSection {
+    max-width: 900px;
+  }
 }
