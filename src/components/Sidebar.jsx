@@ -17,7 +17,6 @@ const Sidebar = () => {
   const selectedContact = useLayoutStore((state) => state.selectedContact) // used to hide sidebar if user selected any contact
   const theme = useThemeStore((state) => state.theme) // used to control styles only
   const isChatListOpen = useChatStore((state) => state.isChatListOpen)
-  console.log(isChatListOpen)
   const setChatListOpen = useChatStore((state) => state.setChatListOpen)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768) // used to control styles only
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1200)

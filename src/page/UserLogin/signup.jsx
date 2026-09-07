@@ -9,7 +9,8 @@ import axios from "axios"
 import { FaChevronDown } from "react-icons/fa"
 import countries from "../../utils/countries"
 import { toast } from "react-toastify"
-import { sendOtp, verifyOtp } from "../../services/user.service"
+import { deleteUser, sendOtp, verifyOtp } from "../../services/user.service"
+import { useSignupStore } from "../../store/signupStore"
 
 export default function Signup() {
   const navigate = useNavigate()
@@ -37,7 +38,15 @@ export default function Signup() {
   // used in verifyOtpOfEmailAndSms function
   const [userDetails, setUserDetails] = useState(null)
 
+  const setIsOtpVerified = useSignupStore((state) => state.setIsOtpVerified)
+
   const dropdownRef = useRef(null)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsError("")
+    }, 5000)
+  }, [error])
 
   useEffect(() => {
     const timerId = setTimeout(() => setLoadState(true), 10)
@@ -58,6 +67,15 @@ export default function Signup() {
       document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [])
+
+  useEffect(() => {
+    return async () => {
+      const { isOtpVerified } = useSignupStore.getState()
+      userDetails &&
+        !isOtpVerified &&
+        (await deleteUser(userDetails._id, userDetails.password))
+    }
+  }, [userDetails])
 
   const filteredCountries = countries.filter(
     (country) =>
@@ -80,6 +98,7 @@ export default function Signup() {
     onSubmit: async (values, action) => {
       try {
         setLoading(true)
+        setIsOtpVerified(false)
 
         const body = {
           phoneNumber: values.phoneNumber,
@@ -125,7 +144,7 @@ export default function Signup() {
           setIsError && setIsError("User already exists.")
           return
         }
-
+        console.dir(error)
         setIsError(error.message)
       } finally {
         setLoading(false)
@@ -159,12 +178,18 @@ export default function Signup() {
       //   }
       // }
       if (isBothOtpVerified === 1) {
+        setIsOtpVerified(true)
         setSuccess("Signup successful")
         setTimeout(() => {
-          navigate("/user-login")
+          navigate("/user-login", { replace: true })
         }, 1500)
       }
     } catch (error) {
+      if (error.message === "Invalid or expired OTP") {
+        await deleteUser(userDetails._id, userDetails.password)
+        setIsUserDetailsSubmitted(false)
+      }
+      console.dir(error)
       setIsError(error.message)
     }
   }
@@ -181,26 +206,57 @@ export default function Signup() {
 
   return (
     <div className={styles.container}>
-      <div
-        className={`${styles.heroSection} ${
-          loadState ? styles.heroLoaded : styles.heroUnloaded
-        }`}
-      >
-        <Link to="/" className={styles.backButton}>
-          <ArrowLeft className={styles.backIcon} />
-        </Link>
+      {!isUserDetailsSubmitted ? (
+        <div
+          className={`${styles.heroSection} ${
+            loadState ? styles.heroLoaded : styles.heroUnloaded
+          }`}
+        >
+          {loading || isUserDetailsSubmitted ? (
+            <button
+              className={styles.backButton}
+              disabled={loading}
+              style={{ cursor: loading ? "not-allowed" : "pointer" }}
+            >
+              <ArrowLeft className={styles.backIcon} />
+            </button>
+          ) : (
+            <Link to="/home" className={styles.backButton}>
+              <ArrowLeft className={styles.backIcon} />
+            </Link>
+          )}
 
-        <h1 className={styles.heading}>
-          Create your account <br />
-          <p className={styles.gradientText}>
-            Start conversations with Socketly today.
+          <h1 className={styles.heading}>
+            Create your account <br />
+            <p className={styles.gradientText}>
+              Start conversations with Socketly today.
+            </p>
+          </h1>
+
+          <p className={styles.subheading}>
+            Create an account to start conversations with Socketly.
           </p>
-        </h1>
+        </div>
+      ) : (
+        <div
+          className={`${styles.heroSection} ${
+            loadState ? styles.heroLoaded : styles.heroUnloaded
+          }`}
+        >
+          <h1 className={styles.heading}>
+            Verify OTP <br />
+            <p className={styles.gradientText}>Enter the OTP send to email</p>
+            <p
+              className="fs-5"
+              style={{ color: "#9B57FA" }}
+            >{`${userDetails.email}`}</p>
+          </h1>
 
-        <p className={styles.subheading}>
-          Create an account to start conversations with Socketly.
-        </p>
-      </div>
+          <p className={styles.subheading}>
+            Create an account to start conversations with Socketly.
+          </p>
+        </div>
+      )}
 
       <div
         className={`${styles.formWrapper} ${
@@ -441,12 +497,14 @@ export default function Signup() {
             </form>
           )}
 
-          <p className={styles.switchAuthText}>
-            Already have an account?
-            <Link to="/user-login" className={styles.switchAuthLink}>
-              Log In
-            </Link>
-          </p>
+          {!isUserDetailsSubmitted && (
+            <p className={styles.switchAuthText}>
+              Already have an account?
+              <Link to="/user-login" className={styles.switchAuthLink}>
+                Log In
+              </Link>
+            </p>
+          )}
         </div>
       </div>
     </div>

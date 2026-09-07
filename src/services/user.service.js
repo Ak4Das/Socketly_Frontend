@@ -6,7 +6,7 @@ export const sendOtp = async (phoneNumber, phoneSuffix, email, password) => {
       phoneNumber,
       phoneSuffix,
       email,
-      password
+      password,
     })
     return response.data
   } catch (error) {
@@ -33,6 +33,17 @@ export const updateUserProfile = async (updateData) => {
     const response = await axiosInstance.put(
       "/users/update-profile",
       updateData,
+    )
+    return response.data
+  } catch (error) {
+    throw error.response ? error.response.data : error
+  }
+}
+
+export const deleteUser = async (id, password) => {
+  try {
+    const response = await axiosInstance.delete(
+      `/users/delete-user?id=${id}&password=${password}`,
     )
     return response.data
   } catch (error) {
