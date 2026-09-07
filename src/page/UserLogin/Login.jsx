@@ -33,6 +33,8 @@ import { profileValidationSchema } from "../../schemas/profileValidation.js"
 // CSS Modules
 import styles from "../../style/UserLogin_modules/Login.module.css"
 
+import socketly_icon from "../../assets/favicon.svg"
+
 const avatars = [
   "https://ik.imagekit.io/wp5fmlbnf/Socketly_Avatar_1.webp",
   "https://ik.imagekit.io/wp5fmlbnf/Socketly_Avatar_2.webp",
@@ -251,14 +253,18 @@ const Login = () => {
           }}
           className={styles.logoCircle}
         >
-          <FaWhatsapp className={styles.logoIcon} />
+          <img
+            src={socketly_icon}
+            alt="socketly_icon"
+            className={styles.logoIcon}
+          />
         </motion.div>
         <h1
           className={`${styles.title} ${
             theme === "dark" ? styles.titleDark : ""
           }`}
         >
-          WhatsApp Login
+          Socketly Login
         </h1>
 
         <ProgressBar />
@@ -355,6 +361,13 @@ const Login = () => {
                 </p>
               ) : null}
             </div>
+            <p
+              className={`${styles.subtitle} ${
+                theme === "dark" ? styles.subtitleDark : ""
+              } mb-0 text-danger`}
+            >
+              SMS service is currently unavailable try with email
+            </p>
 
             {/* Divider with OR */}
             <div className={styles.divider}>
