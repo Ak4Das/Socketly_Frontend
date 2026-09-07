@@ -104,7 +104,10 @@ const ChatList = ({ contacts }) => {
             return (
               <div
                 key={contact._id}
-                onClick={() => setSelectedContact(contact)}
+                onClick={() => {
+                  setSelectedContact(contact)
+                  isChatListOpen && setChatListOpen(false)
+                }}
                 className={`${styles.contactItem} ${isDark ? styles.dark : ""} ${
                   isSelected ? styles.selected : ""
                 }`}

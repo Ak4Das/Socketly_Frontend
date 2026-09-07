@@ -7,6 +7,7 @@ import { useUserStore } from "../store/userStore"
 import { useThemeStore } from "../store/themeStore"
 import styles from "../style/components_modules/Sidebar.module.css"
 import socketly from "../assets/favicon.svg"
+import { useChatStore } from "../store/chatStore"
 
 const Sidebar = () => {
   const location = useLocation()
@@ -15,11 +16,16 @@ const Sidebar = () => {
   const setActiveTab = useLayoutStore((state) => state.setActiveTab)
   const selectedContact = useLayoutStore((state) => state.selectedContact) // used to hide sidebar if user selected any contact
   const theme = useThemeStore((state) => state.theme) // used to control styles only
+  const isChatListOpen = useChatStore((state) => state.isChatListOpen)
+  console.log(isChatListOpen)
+  const setChatListOpen = useChatStore((state) => state.setChatListOpen)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768) // used to control styles only
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1200)
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768)
+      setIsDesktop(window.innerWidth > 1200)
     }
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
@@ -60,6 +66,7 @@ const Sidebar = () => {
         className={`${styles.navLink} ${
           !isMobile ? styles.navLinkDesktop : ""
         } ${activeTab === "chats" ? styles.activeTab : ""}`}
+        onClick={() => !isDesktop && setChatListOpen(!isChatListOpen)}
       >
         <img
           src={socketly}
@@ -72,6 +79,7 @@ const Sidebar = () => {
         className={`${styles.navLink} ${
           !isMobile ? styles.navLinkDesktop : ""
         } ${activeTab === "status" ? styles.activeTab : ""}`}
+        onClick={() => !isDesktop && setChatListOpen(!isChatListOpen)}
       >
         <svg
           viewBox="0 0 24 24"
@@ -100,6 +108,7 @@ const Sidebar = () => {
         className={`${styles.navLink} ${
           !isMobile ? styles.navLinkDesktop : ""
         } ${activeTab === "user" ? styles.activeTab : ""}`}
+        onClick={() => !isDesktop && setChatListOpen(!isChatListOpen)}
       >
         {user?.profilePicture ? (
           <img src={user.profilePicture} alt="User" className={styles.avatar} />
@@ -112,6 +121,7 @@ const Sidebar = () => {
         className={`${styles.navLink} ${
           !isMobile ? styles.navLinkDesktop : ""
         } ${activeTab === "setting" ? styles.activeTab : ""}`}
+        onClick={() => !isDesktop && setChatListOpen(!isChatListOpen)}
       >
         <FaCog
           className={`${styles.setting_icon} ${getIconClass("setting")}`}
