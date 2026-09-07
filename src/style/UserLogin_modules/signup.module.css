@@ -1,0 +1,363 @@
+.container {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.heroSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 0.25rem;
+  text-align: center;
+  transition:
+    transform 1s ease 0.2s,
+    opacity 1s ease 0.2s;
+}
+
+.heroLoaded {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.heroUnloaded {
+  transform: translateY(2.5rem);
+  opacity: 0;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  transition: all 0.2s ease;
+  margin-bottom: 3rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.backButton:hover {
+  color: #0f172a;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.backIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+.backButton:hover .backIcon {
+  transform: translateX(-0.25rem);
+}
+
+.heading {
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.gradientText {
+  background: linear-gradient(to right, #7d59ff, #a855f7);
+  -webkit-background-clip: text; /* Only show the background where the text exists. */
+  -webkit-text-fill-color: transparent; /* Make the text transparent so the clipped background is visible. */
+}
+
+.subheading {
+  font-size: 1.125rem;
+  color: #64748b;
+  margin-bottom: 2rem;
+  max-width: 28rem;
+  margin-inline: auto;
+  line-height: 1.625;
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 28rem;
+  position: relative;
+  z-index: 10;
+  transition: all 1s ease 0.2s;
+}
+
+.formLoaded {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.formUnloaded {
+  transform: translateX(2.5rem);
+  opacity: 0;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  padding: 2rem;
+  margin: 0 auto;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-left: 0.25rem;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputIcon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding-left: 1rem;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  color: rgba(100, 116, 139, 0.7);
+}
+
+.inputIconSvg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.inputWithIcon {
+  padding-left: 2.75rem;
+}
+
+.input:focus {
+  border-color: #7d59ff;
+  box-shadow: 0 0 0 3px rgba(125, 89, 255, 0.2);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background-color: #7d59ff;
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 15px -3px rgba(125, 89, 255, 0.25);
+  margin-top: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.submitBtn:hover {
+  background-color: #a855f7;
+  transform: translateY(-2px);
+}
+
+.divider {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.dividerLine {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+}
+
+.dividerBorder {
+  width: 100%;
+  border-top: 1px solid #e2e8f0;
+}
+
+.dividerTextWrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dividerText {
+  padding: 0 1rem;
+  background-color: #ffffff;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.googleBtn {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.googleBtn:hover {
+  background-color: #f1f5f9;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.googleIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.switchAuthText {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.switchAuthLink {
+  color: #7d59ff;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.switchAuthLink:hover {
+  color: #a855f7;
+  text-decoration: underline;
+}
+
+.errorMessage {
+  font-size: 12px;
+  line-height: 15px;
+  color: #dc3545;
+  margin: 5px 0 0 0;
+}
+
+.errorAlertBanner {
+  background-color: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.successAlertBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.successIcon {
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .heading {
+    font-size: 2.25rem;
+  }
+  .card {
+    padding: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .heading {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1250px) {
+  .heading {
+    font-size: 3.75rem;
+    max-width: 1000px;
+  }
+  .formWrapper {
+    width: 50%;
+  }
+  .subheading {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .heroSection {
+    width: 50%;
+    padding: 0 5rem;
+    margin-bottom: 0;
+    text-align: left;
+  }
+  .container {
+    flex-direction: row;
+    padding: 3rem;
+  }
+}
+
+@media (max-width: 1249px) {
+  .heroSection {
+    max-width: 900px;
+  }
+}

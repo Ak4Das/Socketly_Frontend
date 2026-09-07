@@ -13,6 +13,7 @@ import Setting from "./page/SettingSection/Settings"
 import { useChatStore } from "./store/chatStore"
 import {useUserStore} from "./store/userStore"
 import { disconnectSocket, initializeSocket } from "./services/chat.service"
+import Signup from "./page/UserLogin/signup"
 
 function App() {
   const setCurrentUser = useChatStore((state) => state.setCurrentUser)
@@ -47,6 +48,7 @@ function App() {
       <Router>
         <Routes>
           <Route element={<PublicRoute />}>
+            <Route path="/user-signup" element={<Signup />} />
             <Route path="/user-login" element={<Login />} />
           </Route>
 
