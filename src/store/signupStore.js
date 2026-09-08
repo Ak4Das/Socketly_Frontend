@@ -6,9 +6,4 @@ const store = (set) => ({
   setIsOtpVerified: (value) => set({ isOtpVerified: value }),
 })
 
-const persistOptions = {
-  name: "signup-storage",
-  getStorage: () => localStorage, // use localstorage
-}
-
-export const useSignupStore = create(persist(store, persistOptions))
+export const useSignupStore = create(store)

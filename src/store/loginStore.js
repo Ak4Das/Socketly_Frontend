@@ -9,9 +9,4 @@ const store = (set) => ({
   resetLoginState: () => set({ step: 1, userPhoneData: null }),
 })
 
-const persistOptions = {
-  name: "login-storage",
-  getStorage: () => localStorage, // use localstorage
-}
-
-export const useLoginStore = create(persist(store, persistOptions))
+export const useLoginStore = create(store)

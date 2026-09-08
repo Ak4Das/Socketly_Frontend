@@ -665,6 +665,9 @@
 }
 
 @media (max-width: 1249px) {
+  .container {
+    flex-direction: column;
+  }
   .heroSection {
     max-width: 900px;
   }

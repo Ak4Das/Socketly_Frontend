@@ -305,14 +305,14 @@ const Login = () => {
           </Link>
 
           <h1 className={styles.heading}>
-            Welcome back <br />
+            Setup Account <br />
             <p className={styles.gradientText}>
-              Let's pick up where you left off.
+              Choose profile picture and username and write about you.
             </p>
           </h1>
 
           <p className={styles.subheading}>
-            Sign in to continue conversations with Socketly.
+            Complete this step to successfully login with Socketly.
           </p>
         </motion.div>
       )}
@@ -490,7 +490,7 @@ const Login = () => {
                   className={`${styles.inputField} ${
                     theme === "dark" ? styles.inputFieldDark : ""
                   }`}
-                  placeholder="Email (optional)"
+                  placeholder="Email"
                 />
               </div>
               {handleLogin.errors.email && handleLogin.touched.email ? (
@@ -588,6 +588,20 @@ const Login = () => {
                     handleOtp.setFieldValue("otp", newOtp)
                     if (selected.target.value && index < 5) {
                       document.getElementById(`otp-${index + 1}`).focus()
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Backspace" && index > 0) {
+                      const newOtp = [...handleOtp.values.otp]
+                      if (index < 5) {
+                        newOtp[index - 1] = ""
+                      } else {
+                        newOtp[index] = ""
+                      }
+                      handleOtp.setFieldValue("otp", newOtp)
+                      if (index <= 5) {
+                        document.getElementById(`otp-${index - 1}`).focus()
+                      }
                     }
                   }}
                   onBlur={() => handleOtp.setFieldTouched("otp", true)}
