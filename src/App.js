@@ -11,9 +11,10 @@ import Login from "./page/UserLogin/Login"
 import { ProtectedRoute, PublicRoute } from "./Protected"
 import Setting from "./page/SettingSection/Settings"
 import { useChatStore } from "./store/chatStore"
-import {useUserStore} from "./store/userStore"
+import { useUserStore } from "./store/userStore"
 import { disconnectSocket, initializeSocket } from "./services/chat.service"
 import Signup from "./page/UserLogin/signup"
+import Home from "./page/Home"
 
 function App() {
   const setCurrentUser = useChatStore((state) => state.setCurrentUser)
@@ -48,10 +49,10 @@ function App() {
       <Router>
         <Routes>
           <Route element={<PublicRoute />}>
+            <Route path="/home" element={<Home />} />
             <Route path="/user-signup" element={<Signup />} />
             <Route path="/user-login" element={<Login />} />
           </Route>
-
           // ProtectedRoute component will re-render on every route change
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<HomeScreen />} />
