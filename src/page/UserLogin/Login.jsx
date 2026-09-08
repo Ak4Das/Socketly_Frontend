@@ -250,7 +250,7 @@ const Login = () => {
           transition={{ delay: 0.5, duration: 0.5 }}
           className={`${styles.heroSection}`}
         >
-          <Link to="/" className={styles.backButton}>
+          <Link to="/home" className={styles.backButton}>
             <ArrowLeft className={styles.backIcon} />
           </Link>
 
@@ -274,7 +274,7 @@ const Login = () => {
           transition={{ delay: 0.5, duration: 0.5 }}
           className={`${styles.heroSection}`}
         >
-          <Link to="/" className={styles.backButton}>
+          <Link to="/home" className={styles.backButton}>
             <ArrowLeft className={styles.backIcon} />
           </Link>
 
@@ -300,7 +300,7 @@ const Login = () => {
           transition={{ delay: 0.5, duration: 0.5 }}
           className={`${styles.heroSection}`}
         >
-          <Link to="/" className={styles.backButton}>
+          <Link to="/home" className={styles.backButton}>
             <ArrowLeft className={styles.backIcon} />
           </Link>
 

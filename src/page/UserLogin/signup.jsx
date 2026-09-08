@@ -181,7 +181,7 @@ export default function Signup() {
         setIsOtpVerified(true)
         setSuccess("Signup successful")
         setTimeout(() => {
-          navigate("/user-login", { replace: true })
+          navigate("/user-login")
         }, 1500)
       }
     } catch (error) {

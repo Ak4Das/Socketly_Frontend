@@ -169,9 +169,13 @@
 }
 
 .errorMessage {
-  color: #ef4444;
-  text-align: center;
-  margin-bottom: 1rem;
+  background-color: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 16px;
 }
 
 .fieldError {

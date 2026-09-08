@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react"
-import { Navigate, Outlet, useLocation } from "react-router-dom"
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom"
 import { useUserStore } from "./store/userStore"
 import { checkUserAuth } from "./services/user.service"
 import Loader from "./utils/Loader"
 
 export const ProtectedRoute = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   const [isChecking, setIsChecking] = useState(true) // Show or hide loader while checking auth status
   const [progress, setProgress] = useState(0)
 
@@ -15,6 +16,11 @@ export const ProtectedRoute = () => {
 
   useEffect(() => {
     const verifyAuth = async () => {
+      if (!localStorage.getItem("auth_token")) {
+        clearUser()
+        navigate("/home")
+        return
+      }
       try {
         // check if the user is authenticated
         const result = await checkUserAuth()
