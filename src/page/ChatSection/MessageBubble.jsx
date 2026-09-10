@@ -72,6 +72,22 @@ const MessageBubble = ({
               <p className={styles.mediaCaption}>{message.content}</p>
             </div>
           )}
+          {message.contentType === "video" && (
+            <div>
+              <video controls width="300">
+                <source src={message.imageOrVideoUrl} />
+              </video>
+              <p className={styles.mediaCaption}>{message.content}</p>
+            </div>
+          )}
+          {message.contentType === "audio" && (
+            <div>
+              <audio controls width="300">
+                <source src={message.imageOrVideoUrl} />
+              </audio>
+              <p className={styles.mediaCaption}>{message.content}</p>
+            </div>
+          )}
         </div>
 
         <div className={styles.metaContainer}>

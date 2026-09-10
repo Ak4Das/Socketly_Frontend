@@ -11,6 +11,7 @@ import {
   FaImage,
   FaFile,
   FaTimes,
+  FaHeadphones,
 } from "react-icons/fa"
 import { PiHandWavingBold } from "react-icons/pi"
 import { IoChatbubbles } from "react-icons/io5"
@@ -26,21 +27,28 @@ import whatsappImage from "../../images/whatsapp_image.png"
 import { Link } from "react-router-dom"
 import styles from "../../style/ChatSection_modules/ChatWindow.module.css"
 import { Menu, Moon, Plus, Sun, Trash2 } from "lucide-react"
+import { MdOutlineSlowMotionVideo } from "react-icons/md"
+import { div } from "framer-motion/client"
 
 export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const [message, setMessage] = useState("")
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const [showFileMenu, setShowFileMenu] = useState(false)
-  const [filePreview, setFilePreview] = useState(null)
+  const [filePreview, setFilePreview] = useState("")
   const [selectedFile, setSelectedFile] = useState(null)
+  const [selectedFileType, setSelectedFileType] = useState("")
   // quick actions menu is open or not
   const [isHeaderMenuOpen, setIsHeaderMenuOpen] = useState(false)
 
   const messagesEndRef = useRef(null) // Scroll to end of the chat
   const emojiPickerRef = useRef(null)
-  const fileInputRef = useRef(null) // file picker input (type="file") ref
+  const ImageFileInputRef = useRef(null) // file picker input (type="file") ref
+  const videoFileInputRef = useRef(null) // file picker input (type="file") ref
+  const audioFileInputRef = useRef(null) // file picker input (type="file") ref
+  const documentFileInputRef = useRef(null) // file picker input (type="file") ref
   const headerMenuRef = useRef(null) // quick actions menu ref
   const headerMenuButtonRef = useRef(null) // quick actions button ref
+  const fileMenuRef = useRef(null)
 
   const theme = useThemeStore((state) => state.theme)
   const setTheme = useThemeStore((state) => state.setTheme)
@@ -122,6 +130,18 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
     }
   }, [message, selectedContact])
 
+  useEffect(() => {
+    function handler(e) {
+      if (!fileMenuRef.current?.contains(e.target)) {
+        showFileMenu && setShowFileMenu(false)
+      }
+    }
+    document.addEventListener("mousedown", handler)
+    return () => {
+      document.removeEventListener("mousedown", handler)
+    }
+  }, [showFileMenu])
+
   useOutsideClick(emojiPickerRef, () => {
     if (showEmojiPicker) setShowEmojiPicker(false)
   })
@@ -145,10 +165,9 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
     const file = e.target.files[0]
     if (file) {
       setSelectedFile(file)
+      setSelectedFileType(file.type)
+      setFilePreview(URL.createObjectURL(file))
       setShowFileMenu(false)
-      if (file.type.startsWith("image/")) {
-        setFilePreview(URL.createObjectURL(file))
-      }
     }
   }
 
@@ -180,7 +199,8 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
       // Clear inputs after sending
       setMessage("")
       setSelectedFile(null)
-      setFilePreview(null)
+      setFilePreview("")
+      setSelectedFileType("")
       setShowFileMenu(false)
     } catch (error) {
       console.error("Failed to send message:", error)
@@ -450,15 +470,74 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
 
       {filePreview && (
         <div className={styles.filePreviewContainer}>
-          <img
-            src={filePreview}
-            alt="File preview"
-            className={styles.filePreviewImage}
-          />
+          {selectedFileType.startsWith("image/") && (
+            <img
+              src={filePreview}
+              alt="File preview"
+              className={styles.filePreviewImage}
+            />
+          )}
+
+          {selectedFileType.startsWith("video/") && (
+            <video controls className={styles.filePreviewVideo}>
+              <source src={filePreview} />
+            </video>
+          )}
+
+          {selectedFileType.startsWith("audio/") && (
+            <audio controls className={styles.filePreviewVideo}>
+              <source src={filePreview} />
+            </audio>
+          )}
+
+          {selectedFileType.startsWith("application/") && (
+            <div
+              className="d-flex flex-column align-items-center justify-content-center gap-1"
+              style={{
+                width: "400px",
+                height: "250px",
+                backgroundColor: "#111B21",
+                borderRadius: "20px",
+              }}
+            >
+              <svg
+                viewBox="0 0 88 110"
+                height="110"
+                width="88"
+                preserveAspectRatio="xMidYMid meet"
+                className=""
+              >
+                <title>preview-generic</title>
+                <path
+                  fill="#FFF"
+                  fillRule="evenodd"
+                  stroke="#000"
+                  strokeOpacity="0.08"
+                  d="M7 2.5h56.93a5.5 5.5 0 0 1 3.89 1.61l15.07 15.07a5.5 5.5 0 0 1 1.61 3.9V104a3.5 3.5 0 0 1-3.5 3.5H7a3.5 3.5 0 0 1-3.5-3.5V6A3.5 3.5 0 0 1 7 2.5z"
+                ></path>
+                <path
+                  fill="#FFF"
+                  stroke="#000"
+                  strokeOpacity="0.12"
+                  d="M65.5 3.5v15a3 3 0 0 0 3 3h15"
+                ></path>
+              </svg>
+              <h4>No preview available</h4>
+              <h6>
+                {(selectedFile.size / 1048576).toFixed(2) > 1
+                  ? `${(selectedFile.size / 1048576).toFixed(2)} MiB`
+                  : `${(selectedFile.size / 1024).toFixed(2)} KiB`}{" "}
+                {" - "}
+                <span>{selectedFile.type.replace("application/", "")}</span>
+              </h6>
+            </div>
+          )}
+
           <button
             onClick={() => {
               setSelectedFile(null)
-              setFilePreview(null)
+              setFilePreview("")
+              setSelectedFileType("")
             }}
             className={styles.removeFileButton}
           >
@@ -500,24 +579,64 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
           </button>
 
           {showFileMenu && (
-            <div className={`${styles.fileMenu} ${isDark ? styles.dark : ""}`}>
+            <div
+              className={`${styles.fileMenu} ${isDark ? styles.dark : ""}`}
+              ref={fileMenuRef}
+            >
               <input
                 type="file"
-                ref={fileInputRef}
+                ref={ImageFileInputRef}
                 onChange={handleFileChange}
                 className={styles.hiddenInput}
-                accept="image/*,video/*,audio/*,application/*"
+                accept="image/*"
+              />
+              <input
+                type="file"
+                ref={videoFileInputRef}
+                onChange={handleFileChange}
+                className={styles.hiddenInput}
+                accept="video/webm,video/mp4"
+              />
+              <input
+                type="file"
+                ref={audioFileInputRef}
+                onChange={handleFileChange}
+                className={styles.hiddenInput}
+                accept="audio/mpeg,audio/wav,audio/ogg"
+              />
+              <input
+                type="file"
+                ref={documentFileInputRef}
+                onChange={handleFileChange}
+                className={styles.hiddenInput}
+                accept="application/*"
               />
               <button
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => ImageFileInputRef.current?.click()}
                 className={`${styles.fileMenuItem} ${
                   isDark ? styles.dark : ""
                 }`}
               >
-                <FaImage className={styles.menuIcon} /> Image/Video
+                <FaImage className={styles.menuIcon} /> Image
               </button>
               <button
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => videoFileInputRef.current?.click()}
+                className={`${styles.fileMenuItem} ${
+                  isDark ? styles.dark : ""
+                }`}
+              >
+                <MdOutlineSlowMotionVideo className={styles.menuIcon} /> Video
+              </button>
+              <button
+                onClick={() => audioFileInputRef.current?.click()}
+                className={`${styles.fileMenuItem} ${
+                  isDark ? styles.dark : ""
+                }`}
+              >
+                <FaHeadphones className={styles.menuIcon} /> Audio
+              </button>
+              <button
+                onClick={() => documentFileInputRef.current?.click()}
                 className={`${styles.fileMenuItem} ${
                   isDark ? styles.dark : ""
                 }`}

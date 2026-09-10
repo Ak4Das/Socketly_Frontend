@@ -219,13 +219,14 @@ const store = (set, get) => ({
       sender: { _id: senderId },
       receiver: { _id: receiverId },
       conversation: conversationId,
-      imageOrVideoUrl:
-        media && typeof media !== "string" ? URL.createObjectURL(media) : null,
+      imageOrVideoUrl: media && URL.createObjectURL(media),
       content: content,
       contentType: media
         ? media.type.startsWith("image")
           ? "image"
-          : "video"
+          : media.type.startsWith("video")
+            ? "video"
+            : "audio"
         : "text",
       createdAt: new Date().toISOString(),
       messageStatus,

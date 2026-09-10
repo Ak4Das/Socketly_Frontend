@@ -216,6 +216,16 @@
   overflow-y: auto;
   padding: 20px 1rem;
   scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.messagesContainer.dark {
+  background-color: #191a1a;
+}
+
+.messagesContainer::-webkit-scrollbar {
+  display: none;
 }
 
 .emptyChatContainer {
@@ -417,18 +427,6 @@
   width: 20px;
 }
 
-.messagesContainer {
-  flex-grow: 1;
-  flex-shrink: 1;
-  padding: 1rem;
-  overflow-y: auto;
-  background-color: #101012;
-}
-
-.messagesContainer.dark {
-  background-color: #191a1a;
-}
-
 .dateSeparatorWrapper {
   display: flex;
   justify-content: center;
@@ -468,6 +466,10 @@
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+.filePreviewVideo {
+  width: 400px;
 }
 
 .removeFileButton {
