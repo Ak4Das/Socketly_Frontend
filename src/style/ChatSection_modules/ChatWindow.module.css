@@ -62,6 +62,7 @@
   color: #f3f4f6;
   font-size: 14px;
   padding-right: 4px;
+  margin: 5px;
 }
 
 .statusIndicator {
@@ -375,8 +376,9 @@
 
 .username {
   font-weight: 600;
+  font-size: 14px;
   text-align: start;
-  margin: 0;
+  margin-bottom: 5px;
 }
 
 .statusText {

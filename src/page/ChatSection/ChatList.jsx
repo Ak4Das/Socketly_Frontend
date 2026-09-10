@@ -181,7 +181,7 @@ const ChatList = ({ contacts }) => {
             )}
           </div>
           <div className={styles.userInfo}>
-            <div className={styles.userName}>{user?.username || "User"}</div>
+            <div className={styles.username}>{user?.username || "User"}</div>
             <div className={styles.userEmail}>
               {user?.email || "user@example.com"}
             </div>
