@@ -45,12 +45,12 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 30px;
   line-height: 2rem;
   font-weight: 700;
 }
 
-.closeChatListBtn {
+.closeProfilePageBtn {
   display: block;
   padding: 0.5rem;
   color: rgba(156, 163, 175, 0.7);
@@ -63,7 +63,7 @@
     background-color 0.2s ease;
 }
 
-.closeChatListBtn:hover {
+.closeProfilePageBtn:hover {
   color: #f3f4f6;
   background-color: #27272a;
 }
