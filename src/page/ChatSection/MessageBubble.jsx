@@ -74,7 +74,7 @@ const MessageBubble = ({
           )}
           {message.contentType === "video" && (
             <div>
-              <video controls width="300">
+              <video controls className={styles.mediaVideo}>
                 <source src={message.imageOrVideoUrl} />
               </video>
               <p className={styles.mediaCaption}>{message.content}</p>
@@ -82,7 +82,7 @@ const MessageBubble = ({
           )}
           {message.contentType === "audio" && (
             <div>
-              <audio controls width="300">
+              <audio controls className={styles.mediaAudio}>
                 <source src={message.imageOrVideoUrl} />
               </audio>
               <p className={styles.mediaCaption}>{message.content}</p>
@@ -197,7 +197,7 @@ const MessageBubble = ({
             {/* Copy Button */}
             <button
               onClick={() => {
-                if (message.contentType === "text") {
+                if (message.content) {
                   navigator.clipboard.writeText(message.content)
                 }
                 setShowOptions(false)

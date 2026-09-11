@@ -1,6 +1,6 @@
 .chat {
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .chatEnd {
@@ -54,11 +54,17 @@
   word-break: break-word;
 }
 
-.mediaImage {
+.mediaImage, .mediaVideo {
   border-radius: 0.5rem;
   max-width: 20rem;
   width: 100%;
   height: auto;
+  display: block;
+}
+
+.mediaAudio {
+  max-width: 320px;
+  width: 57vw;
   display: block;
 }
 
@@ -265,7 +271,7 @@
   position: absolute;
   bottom: -20px;
   border-radius: 50%;
-  padding: 4px 0.5rem;
+  padding: 5px 6px;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -284,10 +290,6 @@
 
 .reactionsBadge.dark {
   background-color: #2a3942;
-}
-
-.reactionEmoji {
-  margin-right: 4px;
 }
 
 .optionsMenu {
@@ -326,6 +328,10 @@
   text-align: left;
 }
 
+.optionItem:hover {
+  background-color: #6870807e;
+}
+
 .optionItem.deleteText {
   color: #dc2626;
 }
@@ -337,5 +343,11 @@
 @media (min-width: 768px) {
   .bubble {
     max-width: 50%;
+  }
+}
+
+@media (max-width: 559px) {
+  .mediaAudio {
+    min-width: 320px;
   }
 }
