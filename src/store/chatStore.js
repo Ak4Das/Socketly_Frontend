@@ -219,15 +219,11 @@ const store = (set, get) => ({
       sender: { _id: senderId },
       receiver: { _id: receiverId },
       conversation: conversationId,
-      imageOrVideoUrl: media && URL.createObjectURL(media),
+      fileName: media ? media.name : "",
+      fileSize: media ? media.size : "",
+      documentViewUrl: media && URL.createObjectURL(media),
       content: content,
-      contentType: media
-        ? media.type.startsWith("image")
-          ? "image"
-          : media.type.startsWith("video")
-            ? "video"
-            : "audio"
-        : "text",
+      contentType: media ? media.type : "text",
       createdAt: new Date().toISOString(),
       messageStatus,
     }

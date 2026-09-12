@@ -1,14 +1,15 @@
 .chat {
   display: flex;
+  flex-direction: column;
   margin-bottom: 2rem;
 }
 
 .chatEnd {
-  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .chatStart {
-  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .bubble {
@@ -54,17 +55,28 @@
   word-break: break-word;
 }
 
-.mediaImage, .mediaVideo {
-  border-radius: 0.5rem;
+.mediaImageContainer,
+.mediaVideoContainer,
+.mediaDocumentContainer {
   max-width: 20rem;
+  width: 100%;
+}
+
+.mediaAudioContainer {
+  max-width: 320px;
+  width: 57vw;
+}
+
+.mediaImage,
+.mediaVideo {
+  border-radius: 0.5rem;
   width: 100%;
   height: auto;
   display: block;
 }
 
 .mediaAudio {
-  max-width: 320px;
-  width: 57vw;
+  width: 100%;
   display: block;
 }
 
@@ -338,6 +350,27 @@
 
 .deleteIcon {
   color: #ef4444;
+}
+
+.viewOrDownloadSection {
+  border-top: 1px solid #575454;
+  padding-top: 5px;
+}
+
+.viewOrDownloadSection .view {
+  border-radius: 5px;
+}
+
+.viewOrDownloadSection .download {
+  border-radius: 5px;
+}
+
+.viewOrDownloadSection .view:hover {
+  background-color: #103829;
+}
+
+.viewOrDownloadSection .download:hover {
+  background-color: #103829;
 }
 
 @media (min-width: 768px) {

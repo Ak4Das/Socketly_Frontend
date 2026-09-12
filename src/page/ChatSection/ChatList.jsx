@@ -140,7 +140,8 @@ const ChatList = ({ contacts }) => {
                         isDark ? styles.dark : ""
                       }`}
                     >
-                      {contact?.conversation?.lastMessage?.content}
+                      {contact?.conversation?.lastMessage?.content ||
+                        contact?.conversation?.lastMessage?.fileName}
                     </p>
                     {contact?.conversation &&
                       contact?.conversation?.unreadCount > 0 &&
