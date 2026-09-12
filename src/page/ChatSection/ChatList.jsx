@@ -48,7 +48,7 @@ const ChatList = ({ contacts }) => {
 
   return (
     <div
-      className={`${styles.chatList} ${isChatListOpen ? styles.chatListOpen : ""}`}
+      className={`${styles.chatList} ${isChatListOpen ? styles.chatListOpen : ""} ${isDark ? styles.dark : ""}`}
     >
       <div className={styles.chatListHeader}>
         <div className={styles.brandGroup}>
@@ -56,7 +56,9 @@ const ChatList = ({ contacts }) => {
             <span>S</span>
           </div>
           <div>
-            <h1 className={styles.brandTitle}>Socketly</h1>
+            <h1 className={`${styles.brandTitle} ${isDark ? styles.dark : ""}`}>
+              Socketly
+            </h1>
           </div>
         </div>
         <button
@@ -96,7 +98,9 @@ const ChatList = ({ contacts }) => {
       </div>
 
       <div className={`${styles.conversationsList} ${styles.customScrollbar}`}>
-        <h3 className={styles.historyTitle}>Chats</h3>
+        <h3 className={`${styles.historyTitle} ${isDark ? styles.dark : ""}`}>
+          Chats
+        </h3>
         {filteredContacts.length > 0 ? (
           filteredContacts?.map((contact) => {
             const isSelected = selectedContact?._id === contact._id
@@ -168,8 +172,10 @@ const ChatList = ({ contacts }) => {
         )}
       </div>
 
-      <div className={styles.userProfileFooter}>
-        <div className={styles.userCard}>
+      <div
+        className={`${styles.userProfileFooter} ${isDark ? styles.dark : ""}`}
+      >
+        <div className={`${styles.userCard} ${isDark ? styles.dark : ""}`}>
           <div className={styles.avatar}>
             {user?.profilePicture ? (
               <img
@@ -182,7 +188,9 @@ const ChatList = ({ contacts }) => {
             )}
           </div>
           <div className={styles.userInfo}>
-            <div className={styles.username}>{user?.username || "User"}</div>
+            <div className={`${styles.username} ${isDark ? styles.dark : ""}`}>
+              {user?.username || "User"}
+            </div>
             <div className={styles.userEmail}>
               {user?.email || "user@example.com"}
             </div>

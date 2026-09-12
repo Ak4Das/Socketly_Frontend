@@ -223,11 +223,15 @@
   padding: 0.5rem;
   border-radius: 4px;
   color: #ef4444;
-  background: transparent;
+  background-color: rgba(251, 248, 244, 0.6);
   border: none;
   cursor: pointer;
   font-size: inherit;
   font-family: inherit;
+}
+
+.logoutButton.dark {
+  background-color: transparent;
 }
 
 .logoutButton:hover {

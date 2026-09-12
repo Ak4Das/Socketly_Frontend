@@ -8,12 +8,17 @@
   width: 100%;
   min-width: 343px;
   max-width: 343px;
-  background-color: #18181b;
-  border-right: 1px solid #27272a;
+  background-color: #ffffff;
+  border-right: 1px solid #ffffff;
   transform: translateX(-120%);
   transition: transform 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
+}
+
+.chatList.dark {
+  background-color: #18181b;
+  border-right: 1px solid #27272a;
 }
 
 .chatListOpen {
@@ -54,8 +59,13 @@
 .brandTitle {
   font-weight: 700;
   font-size: 18px;
-  color: #f3f4f6;
+  color: #18181b;
   padding-right: 4px;
+  margin: 0px;
+}
+
+.brandTitle.dark {
+  color: #f3f4f6;
 }
 
 .statusGroup {
@@ -196,18 +206,22 @@
   padding: 0 12px;
   font-size: 12px;
   font-weight: 700;
-  color: rgba(156, 163, 175, 0.7);
+  color: #18181b;
   text-transform: uppercase;
   margin-bottom: 12px;
   margin-top: 1rem;
+}
+
+.historyTitle.dark {
+  color: #f3f4f6;
 }
 
 .searchInput {
   width: 100%;
   box-sizing: border-box;
   padding: 10px 2rem 10px 2.5rem;
-  background-color: #27272a;
-  border: 1px solid #3f3f46;
+  background-color: #f8f4ef;
+  border: 1px solid #f8f4ef;
   border-radius: 0.5rem;
   font-size: 14px;
   color: #f3f4f6;
@@ -292,7 +306,7 @@
 .username {
   font-weight: 500;
   font-size: 14px;
-  color: #f3f4f6;
+  color: #18181b;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -351,8 +365,13 @@
 
 .userProfileFooter {
   padding: 1rem;
-  border-top: 1px solid #27272a;
-  background-color: rgba(39, 39, 42, 0.6);
+  border-top: 1px solid #f8f4ef;
+  background-color: #f8f4ef;
+}
+
+.userProfileFooter.dark {
+  background-color: #27272a99;
+  border-top: 1px solid #27272a99;
 }
 
 .userCard {
@@ -368,6 +387,11 @@
 }
 
 .userCard:hover {
+  background-color: #FFFFFF;
+  border-color: #FFFFFF;
+}
+
+.userCard.dark:hover {
   background-color: #18181b;
   border-color: #27272a;
 }
