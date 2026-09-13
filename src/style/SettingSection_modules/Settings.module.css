@@ -198,11 +198,10 @@
 
 .themeContent {
   display: flex;
-  flex-direction: column;
   text-align: start;
   border-bottom: 1px solid #e5e7eb;
   width: 100%;
-  padding: 0.5rem;
+  padding: 1rem;
 }
 
 .themeContent.dark {

@@ -35,13 +35,15 @@ function App() {
         initSocketListeners()
       }
     }
+  }, [user])
 
+  useEffect(() => {
     // Cleanup on unmount
     return () => {
       cleanup()
       disconnectSocket()
     }
-  }, [user])
+  }, [])
 
   return (
     <>
