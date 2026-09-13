@@ -436,9 +436,71 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
           <button className={styles.iconButton}>
             <FaVideo className={styles.headerIcon} />
           </button>
-          <button className={styles.iconButton}>
+          <button
+            className={`${styles.iconButton} ${styles.quickMenuButton} ${isDark ? styles.dark : ""} p-2`}
+            ref={headerMenuButtonRef}
+            onClick={() => setIsHeaderMenuOpen((prev) => !prev)}
+          >
             <FaEllipsisV className={styles.headerIcon} />
           </button>
+          {isHeaderMenuOpen && (
+            <div
+              className={`${styles.chat_menu} ${isDark ? styles.dark : ""}`}
+              ref={headerMenuRef}
+              role="menu"
+            >
+              <div className={`${styles.chat_menu_content}`}>
+                {/* New conversation */}
+                <button
+                  className={`${styles.chat_menu_item} ${isDark ? styles.dark : ""}`}
+                  onClick={() => {
+                    setIsHeaderMenuOpen(false)
+                  }}
+                >
+                  <div
+                    className={`${styles.chat_menu_icon} ${styles.new_chat_icon}`}
+                  >
+                    <Plus size={14} />
+                  </div>
+
+                  <span>Add New Friend</span>
+                </button>
+
+                {/* Light mode */}
+                <button
+                  className={`${styles.chat_menu_item} ${isDark ? styles.dark : ""}`}
+                  onClick={() => {
+                    setTheme(theme === "dark" ? "light" : "dark")
+                    setIsHeaderMenuOpen(false)
+                  }}
+                >
+                  <div
+                    className={`${styles.chat_menu_icon} ${styles.light_mode_icon}`}
+                  >
+                    {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+                  </div>
+
+                  <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+                </button>
+
+                <div className={`${styles.chat_menu_divider}`}></div>
+
+                {/* Clear chat */}
+                <button
+                  className={`${styles.chat_menu_item} ${styles.clear_chat_item} ${isDark ? styles.dark : ""}`}
+                  role="menuitem"
+                >
+                  <div
+                    className={`${styles.chat_menu_icon} ${styles.clear_chat_icon}`}
+                  >
+                    <Trash2 size={14} />
+                  </div>
+
+                  <span className="text-danger">Clear chat</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
