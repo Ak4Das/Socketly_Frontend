@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import { ArrowLeft, CheckCircle2, CheckCircle2Icon, User } from "lucide-react"
+import { ArrowLeft, CheckCircle2, User } from "lucide-react"
 import { FcGoogle } from "react-icons/fc"
 import styles from "../../style/UserLogin_modules/signup.module.css"
 import { useFormik } from "formik"

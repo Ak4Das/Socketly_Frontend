@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import { FaWhatsapp, FaUser, FaCog, FaUserCircle } from "react-icons/fa"
-import { MdRadioButtonChecked } from "react-icons/md"
+import { FaCog, FaUserCircle } from "react-icons/fa"
 import { useLayoutStore } from "../store/layoutStore"
 import { useUserStore } from "../store/userStore"
 import { useThemeStore } from "../store/themeStore"
 import styles from "../style/components_modules/Sidebar.module.css"
-import socketly from "../assets/favicon.svg"
+import socketly from "../assets/images/favicon.svg"
 import { useChatStore } from "../store/chatStore"
 
 const Sidebar = () => {

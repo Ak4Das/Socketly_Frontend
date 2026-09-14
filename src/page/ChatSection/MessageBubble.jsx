@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import { useState, useRef } from "react"
 import { FaPlus, FaSmile } from "react-icons/fa"
 import { format } from "date-fns"
 import EmojiPicker from "emoji-picker-react"

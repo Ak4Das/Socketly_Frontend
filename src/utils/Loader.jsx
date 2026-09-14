@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
-import Socketly_icon from "../assets/favicon.svg"
+import Socketly_icon from "../assets/images/favicon.svg"
 import styles from "../style/utils_modules/Loader.module.css"
 
 export default function Loader({ progress = 0 }) {

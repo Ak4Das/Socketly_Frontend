@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import Sidebar from "./Sidebar"
 import ChatWindow from "../page/ChatSection/ChatWindow"
 import { useLayoutStore } from "../store/layoutStore"

@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import {
-  FaWhatsapp,
   FaUser,
-  FaCheck,
   FaPlus,
   FaArrowLeft,
   FaChevronDown,
@@ -33,7 +31,7 @@ import { profileValidationSchema } from "../../schemas/profileValidation.js"
 // CSS Modules
 import styles from "../../style/UserLogin_modules/Login.module.css"
 
-import socketly_icon from "../../assets/favicon.svg"
+import socketly_icon from "../../assets/images/favicon.svg"
 import { ArrowLeft } from "lucide-react"
 
 const avatars = [

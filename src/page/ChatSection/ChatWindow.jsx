@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef } from "react"
 import { format, isToday, isYesterday } from "date-fns"
 import {
   FaVideo,
@@ -6,7 +6,6 @@ import {
   FaEllipsisV,
   FaPaperclip,
   FaPaperPlane,
-  FaLock,
   FaSmile,
   FaImage,
   FaFile,
@@ -23,12 +22,9 @@ import { useThemeStore } from "../../store/themeStore"
 import { useUserStore } from "../../store/userStore"
 import useOutsideClick from "../../hooks/useOutsideClick"
 import { useChatStore } from "../../store/chatStore"
-import whatsappImage from "../../images/whatsapp_image.png"
-import { Link } from "react-router-dom"
 import styles from "../../style/ChatSection_modules/ChatWindow.module.css"
 import { Menu, Moon, Plus, Sun, Trash2 } from "lucide-react"
 import { MdOutlineSlowMotionVideo } from "react-icons/md"
-import { div } from "framer-motion/client"
 
 export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const [message, setMessage] = useState("")

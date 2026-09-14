@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react"
-import { FaPlus, FaSearch } from "react-icons/fa"
+import { useEffect, useState } from "react"
 import { MessageCircle, Plus, X, Search, LogOut } from "lucide-react"
 import { useLayoutStore } from "../../store/layoutStore"
 import { useThemeStore } from "../../store/themeStore"

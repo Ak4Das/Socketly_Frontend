@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { FaCamera, FaPencilAlt, FaCheck, FaSmile } from "react-icons/fa"
 import { MdCancel } from "react-icons/md"
 import Layout from "./Layout"
