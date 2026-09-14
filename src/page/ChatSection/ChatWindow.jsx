@@ -265,7 +265,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   if (!selectedContact) {
     return (
       <div className={styles.mainChatArea}>
-        <div className={styles.chatHeader}>
+        <div className={`${styles.chatHeader} ${isDark ? styles.dark : ""}`}>
           <div className={styles.headerLeft}>
             <button
               className={styles.menuToggleBtn}
@@ -285,7 +285,11 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
               )}
             </div>
             <div>
-              <h2 className={styles.headerTitle}>{user?.username || "User"}</h2>
+              <h2
+                className={`${styles.headerTitle} ${isDark ? styles.dark : ""}`}
+              >
+                {user?.username || "User"}
+              </h2>
               <div className={styles.statusGroup}>
                 <span
                   className={
@@ -306,7 +310,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
             <button
               ref={headerMenuButtonRef}
               onClick={() => setIsHeaderMenuOpen((prev) => !prev)}
-              className={`${styles.moreMenuBtn} ${isHeaderMenuOpen ? styles.moreMenuBtnActive : ""}`}
+              className={`${styles.moreMenuBtn} ${isHeaderMenuOpen ? styles.moreMenuBtnActive : ""} ${isDark ? styles.dark : ""}`}
               title="More"
             >
               <div className={styles.moreIconWrapper}>
@@ -315,12 +319,15 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
             </button>
 
             {isHeaderMenuOpen && (
-              <div ref={headerMenuRef} className={styles.headerMenu}>
+              <div
+                ref={headerMenuRef}
+                className={`${styles.headerMenu} ${isDark ? styles.dark : ""}`}
+              >
                 <button
                   onClick={() => {
                     setIsHeaderMenuOpen(false)
                   }}
-                  className={styles.menuItem}
+                  className={`${styles.menuItem} ${isDark ? styles.dark : ""}`}
                 >
                   <div className={styles.menuIconContainer}>
                     <Plus size={14} />
@@ -333,9 +340,11 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
                     setTheme(theme === "dark" ? "light" : "dark")
                     setIsHeaderMenuOpen(false)
                   }}
-                  className={styles.menuItem}
+                  className={`${styles.menuItem} ${isDark ? styles.dark : ""}`}
                 >
-                  <div className={styles.menuIconContainerSecondary}>
+                  <div
+                    className={`${styles.menuIconContainerSecondary} ${isDark ? styles.dark : ""}`}
+                  >
                     {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
                   </div>
                   {theme === "dark" ? "Light mode" : "Dark mode"}
@@ -345,10 +354,14 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
           </div>
         </div>
         <div
-          className={`${styles.messagesContainer} ${styles.customScrollbar}`}
+          className={`${styles.messagesContainer} ${styles.customScrollbar} ${isDark ? styles.dark : ""}`}
         >
           <div className={styles.emptyChatContainer}>
-            <h2 className={styles.emptyHeading}>Start a Conversation</h2>
+            <h2
+              className={`${styles.emptyHeading} ${isDark ? styles.dark : ""}`}
+            >
+              Start a Conversation
+            </h2>
             <p className={styles.emptySubtitle}>
               Send your first message and start chatting in real time.
             </p>
@@ -380,12 +393,17 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
                   colorClass: styles.colorBrand2,
                 },
               ].map((action, i) => (
-                <button key={i} className={styles.actionCard}>
+                <button
+                  key={i}
+                  className={`${styles.actionCard} ${isDark ? styles.dark : ""}`}
+                >
                   <div className={styles.actionCardTop}>
                     <div className={styles.actionIconBox}>
                       <action.icon size={20} className={action.colorClass} />
                     </div>
-                    <span className={styles.actionCardTitle}>
+                    <span
+                      className={`${styles.actionCardTitle} ${isDark ? styles.dark : ""}`}
+                    >
                       {action.label}
                     </span>
                   </div>

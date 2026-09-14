@@ -10,9 +10,9 @@
 
 .chatHeader {
   height: 4rem;
-  background-color: rgba(24, 24, 27, 0.7);
+  background-color: #fdfcfa;
   backdrop-filter: blur(24px);
-  border-bottom: 1px solid rgba(63, 63, 70, 0.7);
+  border-bottom: 1px solid #fdfcfa;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -20,6 +20,11 @@
   flex-shrink: 0;
   position: relative;
   z-index: 1;
+}
+
+.chatHeader.dark {
+  background-color: #18181bb3;
+  border-bottom: 1px solid #3f3f46b3;
 }
 
 .headerLeft {
@@ -59,10 +64,14 @@
 
 .headerTitle {
   font-weight: 700;
-  color: #f3f4f6;
+  color: #18181b;
   font-size: 14px;
   padding-right: 4px;
   margin: 5px;
+}
+
+.headerTitle.dark {
+  color: #f3f4f6;
 }
 
 .statusIndicator {
@@ -95,16 +104,15 @@
 }
 
 .quickActionsLabel {
-  display: none;
   font-size: 12px;
   font-weight: 700;
-  color: #9ca3af;
+  color: #909294;
   text-transform: uppercase;
 }
 
 .moreMenuBtn {
   padding: 0.5rem;
-  color: rgba(156, 163, 175, 0.7);
+  color: #9ca3afb3;
   background: transparent;
   border: none;
   border-radius: 0.5rem;
@@ -116,6 +124,12 @@
 
 .moreMenuBtn:hover,
 .moreMenuBtnActive {
+  background-color: #f5e5d2;
+  color: #5e615e;
+}
+
+.moreMenuBtn.dark:hover,
+.moreMenuBtnActive.dark {
   background-color: #27272a;
   color: #f3f4f6;
 }
@@ -139,10 +153,10 @@
   top: 100%;
   margin-top: 0.5rem;
   width: 14rem;
-  background-color: #18181bf2;
+  background-color: #fffffff2;
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid #3f3f46cc;
+  border: 1px solid #f8f4ef;
   border-radius: 1rem;
   box-shadow: 0 20px 25px -5px #7d59ff1a;
   z-index: 4;
@@ -153,6 +167,14 @@
   gap: 2px;
 }
 
+.headerMenu.dark {
+  background-color: #18181bf2;
+  border: 1px solid #303430;
+  box-shadow:
+    0 20px 25px -5px #7d59ff1a,
+    0 8px 10px -6px #7d59ff1a;
+}
+
 .menuItem {
   width: 100%;
   display: flex;
@@ -161,7 +183,7 @@
   padding: 10px 12px;
   font-size: 14px;
   font-weight: 500;
-  color: #f3f4f6;
+  color: #18181b;
   border-radius: 12px;
   transition: background-color 0.2s ease;
   background: transparent;
@@ -170,13 +192,21 @@
   text-align: left;
 }
 
+.menuItem.dark {
+  color: #f3f4f6;
+}
+
 .menuItem:hover {
+  background-color: #d4d4d4;
+}
+
+.menuItem.dark:hover {
   background-color: #27272a;
 }
 
 .menuIconContainer {
   padding: 6px;
-  background-color: rgba(125, 89, 255, 0.1);
+  background-color: #7d59ff1a;
   border-radius: 0.5rem;
   color: #7d59ff;
   display: flex;
@@ -191,7 +221,7 @@
 
 .menuIconContainerSecondary {
   padding: 6px;
-  background-color: #27272a;
+  background-color: #f3f4f6;
   border-radius: 0.5rem;
   color: #9ca3af;
   display: flex;
@@ -200,7 +230,12 @@
 }
 
 .menuItem:hover .menuIconContainerSecondary {
-  background-color: #f3f4f6;
+  background-color: #27272a;
+  color: rgb(113, 113, 122);
+}
+
+.menuItem:hover .menuIconContainerSecondary.dark {
+  background-color: #fdf0de;
   color: #0f0f11;
 }
 
@@ -216,13 +251,14 @@
   min-height: 0;
   overflow-y: auto;
   padding: 20px 1rem;
+  background-color: #f8f4ef;
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
 .messagesContainer.dark {
-  background-color: #191a1a;
+  background-color: #131316;
 }
 
 .messagesContainer::-webkit-scrollbar {
@@ -244,9 +280,13 @@
 .emptyHeading {
   font-size: 1.5rem;
   font-weight: 800;
-  color: #f3f4f6;
+  color: #1f1b1a;
   margin-bottom: 12px;
   padding: 0 0.5rem;
+}
+
+.emptyHeading.dark {
+  color: #f3f4f6;
 }
 
 .emptySubtitle {
@@ -278,8 +318,8 @@
 
 .actionCard {
   padding: 1rem;
-  background-color: #18181b;
-  border: 1px solid rgba(63, 63, 70, 0.8);
+  background-color: #ffffff;
+  border: 1px solid #e6ded6cc;
   border-radius: 1rem;
   text-align: left;
   transition:
@@ -289,6 +329,11 @@
   cursor: pointer;
   width: 100%;
   box-sizing: border-box;
+}
+
+.actionCard.dark {
+  background-color: #18181b;
+  border: 1px solid #3f3f46cc;
 }
 
 .actionCard:hover {
@@ -307,7 +352,7 @@
 .actionIconBox {
   padding: 10px;
   border-radius: 12px;
-  background-color: rgba(125, 89, 255, 0.1);
+  background-color: #7d59ff1a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -315,6 +360,10 @@
 
 .actionCardTitle {
   font-weight: 700;
+  color: #1f1b1a;
+}
+
+.actionCardTitle.dark {
   color: #f3f4f6;
 }
 
@@ -456,10 +505,10 @@
   top: 100%;
   margin-top: 8px;
   width: 224px;
-  background: rgba(255, 255, 255, 0.95);
+  background-color: #fffffff2;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid #F8F4EF;
+  border: 1px solid #f8f4ef;
   border-radius: 16px;
   box-shadow:
     0 20px 25px -5px #0000001a,
