@@ -9,7 +9,7 @@ import {
   FaComment,
 } from "react-icons/fa"
 import { useThemeStore } from "../../store/themeStore"
-import Layout from "../../components/Layout"
+import Layout from "../../components/Layout.jsx"
 import { Link } from "react-router-dom"
 import { useUserStore } from "../../store/userStore"
 import { toast } from "react-toastify"
