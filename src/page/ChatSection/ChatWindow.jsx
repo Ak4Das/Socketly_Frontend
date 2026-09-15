@@ -319,7 +319,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
                 ref={headerMenuRef}
                 className={`${styles.headerMenu} ${isDark ? styles.dark : ""}`}
               >
-                <button
+                {/* <button
                   onClick={() => {
                     setIsHeaderMenuOpen(false)
                   }}
@@ -329,7 +329,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
                     <Plus size={14} />
                   </div>
                   Add New Friend
-                </button>
+                </button> */}
 
                 <button
                   onClick={() => {
@@ -465,7 +465,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
             >
               <div className={`${styles.chat_menu_content}`}>
                 {/* New conversation */}
-                <button
+                {/* <button
                   className={`${styles.chat_menu_item} ${isDark ? styles.dark : ""}`}
                   onClick={() => {
                     setIsHeaderMenuOpen(false)
@@ -478,7 +478,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
                   </div>
 
                   <span>Add New Friend</span>
-                </button>
+                </button> */}
 
                 {/* Light mode */}
                 <button

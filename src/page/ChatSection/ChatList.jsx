@@ -68,14 +68,14 @@ const ChatList = ({ contacts }) => {
         </button>
       </div>
 
-      <div className={styles.newChatWrapper}>
+      {/* <div className={styles.newChatWrapper}>
         <button className={styles.newChatBtn}>
           <Plus size={20} />
           <span>Add New Friend</span>
         </button>
-      </div>
+      </div> */}
 
-      <div className={styles.searchSection}>
+      <div className={`${styles.searchSection} mt-4`}>
         <div className={styles.searchInputWrapper}>
           <Search size={16} className={styles.searchIcon} />
           <input
