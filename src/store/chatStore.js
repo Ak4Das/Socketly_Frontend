@@ -366,6 +366,21 @@ const store = (set, get) => ({
     }
   },
 
+  // Delete messages by conversationId
+  deleteAllMessages: async (currentConversationId, userId, receiverId) => {
+    try {
+      // Make API call to delete the message
+      const response = await axiosInstance.delete(
+        `/chats/conversations/${currentConversationId}/user/${userId}/receiver/${receiverId}/messages`,
+      )
+
+      return response.data
+    } catch (error) {
+      console.error("Error deleting message:", error)
+      return { status: "error", message: error.message }
+    }
+  },
+
   // Add / Change / Delete Reaction
   addReaction: async (messageId, emoji) => {
     const socket = getSocket()

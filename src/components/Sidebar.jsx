@@ -72,7 +72,8 @@ const Sidebar = () => {
           className={styles.socketly_icon}
         />
       </Link>
-      <Link
+      {/* STATUS BUTTON */}
+      {/* <Link
         to="/status"
         className={`${styles.navLink} ${
           !isMobile ? styles.navLinkDesktop : ""
@@ -99,7 +100,7 @@ const Sidebar = () => {
             clipRule="evenodd"
           ></path>
         </svg>
-      </Link>
+      </Link> */}
       {!isMobile && <div className={styles.spacer} />}
       <Link
         to="/user-details"

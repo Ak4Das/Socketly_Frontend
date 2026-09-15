@@ -25,6 +25,7 @@ import { useChatStore } from "../../store/chatStore"
 import styles from "../../style/ChatSection_modules/ChatWindow.module.css"
 import { Menu, Moon, Plus, Sun, Trash2 } from "lucide-react"
 import { MdOutlineSlowMotionVideo } from "react-icons/md"
+import { toast } from "react-toastify"
 
 export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const [message, setMessage] = useState("")
@@ -61,6 +62,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const conversations = useChatStore((state) => state.conversations)
   const addReaction = useChatStore((state) => state.addReaction)
   const deleteMessage = useChatStore((state) => state.deleteMessage)
+  const deleteAllMessages = useChatStore((state) => state.deleteAllMessages)
   const typingUsers = useChatStore((state) => state.typingUsers)
   const currentConversation = useChatStore((state) => state.currentConversation)
   const onlineUsers = useChatStore((state) => state.onlineUsers)
@@ -200,6 +202,28 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
       setShowFileMenu(false)
     } catch (error) {
       console.error("Failed to send message:", error)
+    }
+  }
+
+  const handleClearChat = async (currentConversationId, userId, receiverId) => {
+    if (!currentConversationId) return
+
+    try {
+      const response = await deleteAllMessages(
+        currentConversationId,
+        userId,
+        receiverId,
+      )
+
+      if (response.status === "success") {
+        fetchMessages(currentConversationId)
+      } else {
+        console.error("Error clearing chat:", response.message)
+        toast.error("Server error while clearing chat")
+      }
+    } catch (error) {
+      console.error("Error clearing chat:", error.message)
+      toast.error("Failed to clear chat")
     }
   }
 
@@ -502,6 +526,15 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
                 {/* Clear chat */}
                 <button
                   className={`${styles.chat_menu_item} ${styles.clear_chat_item} ${isDark ? styles.dark : ""}`}
+                  onClick={() =>
+                    handleClearChat(
+                      selectedContact.conversation._id,
+                      user._id,
+                      selectedContact.conversation.participants.find(
+                        (id) => id !== user._id,
+                      ),
+                    )
+                  }
                   role="menuitem"
                 >
                   <div

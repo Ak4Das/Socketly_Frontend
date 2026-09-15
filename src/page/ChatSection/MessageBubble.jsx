@@ -16,6 +16,9 @@ const MessageBubble = ({
   currentUser,
   deleteMessage,
 }) => {
+  if(message.deleteMessage?.find((id)=>id === currentUser._id)) {
+    return <></>
+  }
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const [showReactions, setShowReactions] = useState(false) // To show quick reactions bar
   const [showOptions, setShowOptions] = useState(false) // To show message copy and delete options
