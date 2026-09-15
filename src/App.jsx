@@ -6,7 +6,6 @@ import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import HomeScreen from "./components/HomePage.jsx"
 import UserDetails from "./components/UserDetails.jsx"
-import StatusPage from "./page/StatusSection/StatusPage.jsx"
 import Login from "./page/UserLogin/Login.jsx"
 import { ProtectedRoute, PublicRoute } from "./Protected.jsx"
 import Setting from "./page/SettingSection/Settings.jsx"
@@ -59,7 +58,6 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<HomeScreen />} />
             <Route path="/user-details" element={<UserDetails />} />
-            <Route path="/status" element={<StatusPage />} />
             <Route path="/setting" element={<Setting />} />
           </Route>
         </Routes>

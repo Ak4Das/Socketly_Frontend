@@ -11,7 +11,7 @@ export const initializeSocket = () => {
 
   if (!user?._id) return null
 
-  const BACKEND_URL = process.env.REACT_APP_API_URL
+  const BACKEND_URL = import.meta.env.VITE_API_URL
 
   // This creates the Socket.IO client.
   socket = io(BACKEND_URL, {
