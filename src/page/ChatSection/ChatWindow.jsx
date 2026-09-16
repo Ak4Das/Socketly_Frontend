@@ -471,9 +471,9 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
         </div>
 
         <div className={styles.headerActions}>
-          <button className={styles.iconButton}>
+          {/* <button className={styles.iconButton}>
             <FaVideo className={styles.headerIcon} />
-          </button>
+          </button> */}
           <button
             className={`${styles.iconButton} ${styles.quickMenuButton} ${isDark ? styles.dark : ""} p-2`}
             ref={headerMenuButtonRef}

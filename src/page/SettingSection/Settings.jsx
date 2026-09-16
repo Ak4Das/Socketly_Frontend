@@ -93,7 +93,7 @@ export default function Setting() {
                 {[
                   { icon: FaUser, label: "Account", href: "/user-details" },
                   { icon: FaComment, label: "Chats", href: "/" },
-                  { icon: FaQuestionCircle, label: "Help" },
+                  // { icon: FaQuestionCircle, label: "Help" },
                 ].map((item) => (
                   <Link
                     to={item.href}
