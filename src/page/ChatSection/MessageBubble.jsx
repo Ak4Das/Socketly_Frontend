@@ -284,7 +284,7 @@ const MessageBubble = ({
         )}
         {!message.contentType.startsWith("text") && (
           <div
-            className={`d-flex gap-2 mt-2 align-items-center w-100 ${styles.viewOrDownloadSection}`}
+            className={`d-flex gap-2 mt-2 align-items-center w-100 ${styles.viewOrDownloadSection} ${isDark ? styles.dark : ""}`}
           >
             <span
               className={`flex-grow-1 d-flex align-items-center justify-content-center py-2 ${styles.view}`}

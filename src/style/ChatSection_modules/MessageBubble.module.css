@@ -14,7 +14,7 @@
 
 .bubble {
   position: relative;
-  min-width: 130px;
+  min-width: 150px;
   padding: 12px;
   border-radius: 12px;
   background-color: #ffffff;
@@ -99,7 +99,7 @@
 }
 
 .readCheck {
-  color: #1e3a8a;
+  color: #0042f8;
 }
 
 .optionsButtonWrapper {
@@ -353,7 +353,7 @@
 }
 
 .viewOrDownloadSection {
-  border-top: 1px solid #575454;
+  border-top: 1px solid #cdcdcd;
   padding-top: 5px;
 }
 
@@ -365,11 +365,11 @@
   border-radius: 5px;
 }
 
-.viewOrDownloadSection .view:hover {
+.viewOrDownloadSection.dark .view:hover {
   background-color: #103829;
 }
 
-.viewOrDownloadSection .download:hover {
+.viewOrDownloadSection.dark .download:hover {
   background-color: #103829;
 }
 

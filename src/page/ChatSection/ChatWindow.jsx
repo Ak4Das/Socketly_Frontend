@@ -578,7 +578,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
       </div>
 
       {filePreview && (
-        <div className={styles.filePreviewContainer}>
+        <div className={`${styles.filePreviewContainer} ${isDark ? styles.dark : ""}`}>
           {selectedFileType.startsWith("image/") && (
             <img
               src={filePreview}
@@ -601,13 +601,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
 
           {selectedFileType.startsWith("application/") && (
             <div
-              className="d-flex flex-column align-items-center justify-content-center gap-1"
-              style={{
-                width: "400px",
-                height: "250px",
-                backgroundColor: "#111B21",
-                borderRadius: "20px",
-              }}
+              className={`d-flex flex-column align-items-center justify-content-center gap-1 ${styles.documentPreview} ${isDark ? styles.dark : ""}`}
             >
               <svg
                 viewBox="0 0 88 110"
