@@ -108,7 +108,7 @@ export default function Signup() {
           password: values.confirmPassword,
         }
 
-        const url = "http://localhost:8080/api/users/register"
+        const url = `${import.meta.env.VITE_API_URL}/api/users/register`
 
         const response = await axios.post(url, body)
         setUserDetails(response.data.data)
