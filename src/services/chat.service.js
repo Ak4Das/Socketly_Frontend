@@ -13,11 +13,11 @@ export const initializeSocket = () => {
 
   const BACKEND_URL = import.meta.env.VITE_API_URL
 
-  // This creates the Socket.IO client.
+  // This creates the Socket.IO client, immediately returns a socket object.
   socket = io(BACKEND_URL, {
     auth: { token },
     transports: ["websocket", "polling"], // Socket.IO supports multiple transport methods WebSocket is The preferred option where one connection stays open If WebSocket isn't available, Socket.IO can fall back to HTTP polling Instead of keeping one connection open, the client repeatedly asks the server for new messages
-    reconnection: true, // Suppose the internet disconnects Without reconnection The socket remains disconnected until you manually reconnect or refresh the page but with reconnection: true Socket.IO automatically tries to reconnect.
+    reconnection: true, // Suppose the internet disconnects Without reconnection: true property The socket remains disconnected until you manually reconnect or refresh the page but with reconnection: true Socket.IO automatically tries to reconnect.
     reconnectionAttempts: 10, // Maximum number of reconnection attempts
     reconnectionDelay: 1000, // Time btw reconnection attempts
   })
