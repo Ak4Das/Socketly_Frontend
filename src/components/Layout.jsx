@@ -5,6 +5,8 @@ import { useLayoutStore } from "../store/layoutStore"
 import { useThemeStore } from "../store/themeStore"
 import { useLocation } from "react-router-dom"
 import styles from "../style/components_modules/Layout.module.css"
+import { useErrorStore } from "../store/errorStore"
+import { toast } from "react-toastify"
 
 export default function Layout({
   children, // Which component i want to render inside layout's children section
@@ -19,8 +21,14 @@ export default function Layout({
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768) // Used to control layout in different screen sizes
   const theme = useThemeStore((state) => state.theme) // Used to control styles only
   const setTheme = useThemeStore((state) => state.setTheme) // Used to toggle theme (dark or light)
+  const error = useErrorStore((state) => state.error)
+  const setError = useErrorStore((state) => state.setError)
 
-  const isUserDetailsPage = location.pathname === "/user-details"
+  useEffect(() => {
+    error && toast.error(error)
+    setError("")
+  }, [error])
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768)

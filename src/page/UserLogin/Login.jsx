@@ -33,6 +33,7 @@ import styles from "../../style/UserLogin_modules/Login.module.css"
 
 import socketly_icon from "../../assets/images/favicon.svg"
 import { ArrowLeft } from "lucide-react"
+import { useErrorStore } from "../../store/errorStore.js"
 
 const avatars = [
   "https://ik.imagekit.io/wp5fmlbnf/Socketly_Avatar_1.webp",
@@ -49,6 +50,8 @@ const Login = () => {
   const userPhoneData = useLoginStore((state) => state.userPhoneData)
   const setUserPhoneData = useLoginStore((state) => state.setUserPhoneData)
   const resetLoginState = useLoginStore((state) => state.resetLoginState)
+  const error = useErrorStore((state) => state.error)
+  const setError = useErrorStore((state) => state.setError)
 
   const setUser = useUserStore((state) => state.setUser)
   const theme = useUserStore((state) => state.theme)
@@ -61,7 +64,6 @@ const Login = () => {
   const [selectedAvatar, setSelectedAvatar] = useState(avatars[0])
   const [profilePictureFile, setProfilePictureFile] = useState(null)
   const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState("")
   const dropdownRef = useRef(null)
   const navigate = useNavigate()
 
@@ -101,9 +103,14 @@ const Login = () => {
         }
       } catch (error) {
         if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-          console.log(error)
+          console.error(error.response?.data?.message || error.message)
+          console.dir(error)
         }
-        setError(error.message || "Failed to send OTP")
+        setError(
+          error.response?.data?.message ||
+            error.message ||
+            "Failed to send OTP",
+        )
       } finally {
         action.setSubmitting(false)
         action.resetForm()
@@ -153,7 +160,15 @@ const Login = () => {
           }
         }
       } catch (error) {
-        setError(error.message || "Failed to verify OTP")
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error.response?.data?.message || error.message)
+          console.dir(error)
+        }
+        setError(
+          error.response?.data?.message ||
+            error.message ||
+            "Failed to verify OTP",
+        )
       } finally {
         action.setSubmitting(false)
         action.resetForm()
@@ -184,10 +199,17 @@ const Login = () => {
         resetLoginState()
       } catch (error) {
         if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-          console.error("Error updating user profile", error.message)
+          console.error(
+            "Error updating user profile",
+            error.response?.data?.message || error.message,
+          )
           console.dir(error)
         }
-        toast.error("Failed to update profile")
+        setError(
+          error.response?.data?.message ||
+            error.message ||
+            "Failed to update profile",
+        )
       } finally {
         action.setSubmitting(false)
         action.resetForm()

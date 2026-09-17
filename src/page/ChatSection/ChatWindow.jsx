@@ -26,6 +26,7 @@ import styles from "../../style/ChatSection_modules/ChatWindow.module.css"
 import { Menu, Moon, Plus, Sun, Trash2 } from "lucide-react"
 import { MdOutlineSlowMotionVideo } from "react-icons/md"
 import { toast } from "react-toastify"
+import { useErrorStore } from "../../store/errorStore"
 
 export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const [message, setMessage] = useState("")
@@ -67,7 +68,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const currentConversation = useChatStore((state) => state.currentConversation)
   const onlineUsers = useChatStore((state) => state.onlineUsers)
   const isChatListOpen = useChatStore((state) => state.isChatListOpen)
-  const setChatListOpen = useChatStore((state) => state.setChatListOpen)
+  const setError = useErrorStore((state) => state.setError)
 
   const isDark = theme === "dark"
 
@@ -202,9 +203,13 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
       setShowFileMenu(false)
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-        console.error("Failed to send message:", error.message)
+        console.error(
+          "Failed to send message:",
+          error.response?.data?.message || error.message,
+        )
         console.dir(error)
       }
+      setError(error.response?.data?.message || error.message)
     }
   }
 
@@ -228,10 +233,17 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
       }
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-        console.error("Error clearing chat:", error.message)
+        console.error(
+          "Error clearing chat:",
+          error.response?.data?.message || error.message,
+        )
         console.dir(error)
       }
-      toast.error("Failed to clear chat")
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to clear chat",
+      )
     }
   }
 

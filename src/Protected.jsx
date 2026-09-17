@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom"
 import { useUserStore } from "./store/userStore"
 import { checkUserAuth } from "./services/user.service"
 import Loader from "./utils/Loader"
+import { useErrorStore } from "./store/errorStore"
 
 export const ProtectedRoute = () => {
   const location = useLocation()
@@ -13,6 +14,7 @@ export const ProtectedRoute = () => {
   const isAuthenticated = useUserStore((state) => state.isAuthenticated)
   const setUser = useUserStore((state) => state.setUser)
   const clearUser = useUserStore((state) => state.clearUser)
+  const setError = useErrorStore((state) => state.setError)
 
   useEffect(() => {
     const verifyAuth = async () => {
@@ -32,9 +34,13 @@ export const ProtectedRoute = () => {
         }
       } catch (error) {
         if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-          console.error("Error checking authentication:", error.message)
+          console.error(
+            "Error checking authentication:",
+            error.response?.data?.message || error.message,
+          )
           console.dir(error)
         }
+        setError(error.response?.data?.message || error.message)
         clearUser() // On error, assume unauthenticated
       } finally {
         setProgress(100)

@@ -11,6 +11,7 @@ import countries from "../../utils/countries"
 import { toast } from "react-toastify"
 import { deleteUser, sendOtp, verifyOtp } from "../../services/user.service"
 import { useSignupStore } from "../../store/signupStore"
+import { useErrorStore } from "../../store/errorStore"
 
 export default function Signup() {
   const navigate = useNavigate()
@@ -19,8 +20,6 @@ export default function Signup() {
   const [loading, setLoading] = useState(false)
   // Animation state
   const [loadState, setLoadState] = useState(false)
-  // Error State
-  const [error, setIsError] = useState("")
   // Operation success state
   const [success, setSuccess] = useState("")
   // Open or close countries dropdown
@@ -39,12 +38,14 @@ export default function Signup() {
   const [userDetails, setUserDetails] = useState(null)
 
   const setIsOtpVerified = useSignupStore((state) => state.setIsOtpVerified)
+  const setError = useErrorStore((state) => state.setError)
+  const error = useErrorStore((state) => state.error)
 
   const dropdownRef = useRef(null)
 
   useEffect(() => {
     setTimeout(() => {
-      setIsError("")
+      setError("")
     }, 5000)
   }, [error])
 
@@ -141,13 +142,14 @@ export default function Signup() {
         // }
       } catch (error) {
         if (error.message === "User already exists.") {
-          setIsError && setIsError("User already exists.")
+          setError && setError("User already exists.")
           return
         }
-        if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error.response?.data?.message || error.message)
           console.dir(error)
         }
-        setIsError(error.message)
+        setError(error.response?.data?.message || error.message)
       } finally {
         setLoading(false)
       }
@@ -191,10 +193,11 @@ export default function Signup() {
         await deleteUser(userDetails._id, userDetails.password)
         setIsUserDetailsSubmitted(false)
       }
-      if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error.response?.data?.message || error.message)
         console.dir(error)
       }
-      setIsError(error.message)
+      setError(error.response?.data?.message || error.message)
     }
   }
 

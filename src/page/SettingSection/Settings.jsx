@@ -16,6 +16,7 @@ import { toast } from "react-toastify"
 import styles from "../../style/SettingSection_modules/Settings.module.css"
 import { useChatStore } from "../../store/chatStore"
 import { X } from "lucide-react"
+import { useErrorStore } from "../../store/errorStore.js"
 
 export default function Setting() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -24,6 +25,7 @@ export default function Setting() {
   const { user, clearUser } = useUserStore()
   const isChatListOpen = useChatStore((state) => state.isChatListOpen)
   const setChatListOpen = useChatStore((state) => state.setChatListOpen)
+  const setError = useErrorStore((state) => state.setError)
 
   const isDark = theme === "dark"
 
@@ -38,9 +40,13 @@ export default function Setting() {
       toast.success("user logged out")
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-        console.error("failed to log out", error.message)
+        console.error(
+          "failed to log out",
+          error.response?.data?.message || error.message,
+        )
         console.dir(error)
       }
+      setError(error.response?.data?.message || error.message)
     }
   }
 

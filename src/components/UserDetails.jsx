@@ -10,6 +10,7 @@ import { toast } from "react-toastify"
 import styles from "../style/components_modules/UserDetails.module.css"
 import { X } from "lucide-react"
 import { useChatStore } from "../store/chatStore"
+import { useErrorStore } from "../store/errorStore"
 
 export default function UserDetails() {
   const [name, setName] = useState("")
@@ -28,6 +29,7 @@ export default function UserDetails() {
 
   const isChatListOpen = useChatStore((state) => state.isChatListOpen)
   const setChatListOpen = useChatStore((state) => state.setChatListOpen)
+  const setError = useErrorStore((state) => state.setError)
 
   useEffect(() => {
     if (user) {
@@ -65,8 +67,14 @@ export default function UserDetails() {
       setProfileImage(null)
       setPreview(null)
       toast.success("Profile updated")
-    } catch (err) {
-      toast.error(err.message || "Failed to update")
+    } catch (error) {
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error.response?.data?.message || error.message)
+        console.dir(error)
+      }
+      setError(
+        error.response?.data?.message || error.message || "Failed to update",
+      )
     }
   }
 

@@ -1,6 +1,9 @@
 import { create } from "zustand"
 import axiosInstance from "../services/url.service"
 import { getSocket } from "../services/chat.service"
+// We can access, update, delete Zustand states outside a component
+import { useErrorStore } from "./errorStore"
+const { setError } = useErrorStore.getState()
 
 const store = (set, get) => ({
   currentUser: null, // Current user is me
@@ -8,7 +11,6 @@ const store = (set, get) => ({
   currentConversation: null, // Currently selected conversation ID
   messages: [], // Messages of the current conversation
   loading: false, // Loader for API calls
-  error: null, // Error holder
   onlineUsers: new Map(), // userId -> { isOnline, lastSeen }
   typingUsers: new Map(), // conversationId -> Set of userIds who are typing
   isChatListOpen: false, // controls the chatList open and close
@@ -62,7 +64,7 @@ const store = (set, get) => ({
 
     // Remove a message from local state when deleted by sender (real-time sync)
     socket.on("message_deleted", (deletedMessageId) => {
-      if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
         console.log("Message deleted:", deletedMessageId)
       }
       set((state) => ({
@@ -141,7 +143,7 @@ const store = (set, get) => ({
 
   // Fetch Conversations from API
   fetchConversations: async () => {
-    set({ loading: true, error: null })
+    set({ loading: true })
     try {
       const { data } = await axiosInstance.get("/chats/conversations")
       set({ conversations: data, loading: false })
@@ -150,11 +152,14 @@ const store = (set, get) => ({
       get().initSocketListeners()
       return data
     } catch (error) {
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error.response?.data?.message || error.message)
+        console.dir(error)
+      }
       set({
-        error: error.response?.data?.message || error.message,
         loading: false,
       })
-      return null
+      setError(error.response?.data?.message || error.message)
     }
   },
 
@@ -162,7 +167,7 @@ const store = (set, get) => ({
   fetchMessages: async (conversationId) => {
     if (!conversationId) return
 
-    set({ loading: true, error: null })
+    set({ loading: true })
     try {
       const { data } = await axiosInstance.get(
         `/chats/conversations/${conversationId}/messages`,
@@ -184,14 +189,16 @@ const store = (set, get) => ({
       return messageArray
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-        console.error("Error fetching messages:", error.message)
+        console.error(
+          "Error fetching messages:",
+          error.response?.data?.message || error.message,
+        )
         console.dir(error)
       }
       set({
-        error: error.response?.data?.message || error.message,
         loading: false,
       })
-      return []
+      setError(error.response?.data?.message || error.message)
     }
   },
 
@@ -262,11 +269,12 @@ const store = (set, get) => ({
       if (socket) {
         socket.emit("send_message", messageData)
       }
-
-      return messageData
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-        console.error("Error sending message:", error.message)
+        console.error(
+          "Error sending message:",
+          error.response?.data?.message || error.message,
+        )
         console.dir(error)
       }
       // Mark message as failed if API fails
@@ -274,8 +282,8 @@ const store = (set, get) => ({
         messages: state.messages.map((msg) =>
           msg._id === tempId ? { ...msg, messageStatus: "failed" } : msg,
         ),
-        error: error.response?.data?.message || error.message,
       }))
+      setError(error.response?.data?.message || error.message)
       throw error
     }
   },
@@ -346,7 +354,7 @@ const store = (set, get) => ({
       const { data } = await axiosInstance.put("/chats/messages/read", {
         messageIds: unreadIds,
       })
-      if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
         console.log("Marked as read", data)
       }
 
@@ -357,9 +365,13 @@ const store = (set, get) => ({
       }))
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-        console.error("Failed to mark messages as read:", error.message)
+        console.error(
+          "Failed to mark messages as read:",
+          error.response?.data?.message || error.message,
+        )
         console.dir(error)
       }
+      setError(error.response?.data?.message || error.message)
     }
   },
 
@@ -377,11 +389,13 @@ const store = (set, get) => ({
       return true
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-        console.error("Error deleting message:", error.message)
+        console.error(
+          "Error deleting message:",
+          error.response?.data?.message || error.message,
+        )
         console.dir(error)
       }
-      set({ error: error.response?.data?.message || error.message })
-      return false
+      setError(error.response?.data?.message || error.message)
     }
   },
 
@@ -396,9 +410,13 @@ const store = (set, get) => ({
       return response.data
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-        console.error("Error deleting message:", error.message)
+        console.error(
+          "Error deleting message:",
+          error.response?.data?.message || error.message,
+        )
         console.dir(error)
       }
+      setError(error.response?.data?.message || error.message)
       return { status: "error", message: error.message }
     }
   },
@@ -423,7 +441,7 @@ const store = (set, get) => ({
     const socket = getSocket()
 
     if (socket && currentConversation && receiverId) {
-      if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
         console.log("Emitting typing start:", currentConversation, receiverId)
       }
       socket.emit("typing_start", {

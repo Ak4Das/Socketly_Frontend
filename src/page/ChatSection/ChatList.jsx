@@ -7,6 +7,7 @@ import { useUserStore } from "../../store/userStore"
 import styles from "../../style/ChatSection_modules/ChatList.module.css"
 import { toast } from "react-toastify"
 import { useChatStore } from "../../store/chatStore"
+import { useErrorStore } from "../../store/errorStore"
 
 const ChatList = ({ contacts }) => {
   const setSelectedContact = useLayoutStore((state) => state.setSelectedContact) // if user select any contact then setSelectedContact will call
@@ -17,6 +18,7 @@ const ChatList = ({ contacts }) => {
   const [searchTerm, setSearchTerm] = useState("") // Filter the contacts
   const isChatListOpen = useChatStore((state) => state.isChatListOpen)
   const setChatListOpen = useChatStore((state) => state.setChatListOpen)
+  const setError = useErrorStore((state) => state.setError)
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,9 +37,13 @@ const ChatList = ({ contacts }) => {
       toast.success("user logged out")
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-        console.error("failed to log out", error.message)
+        console.error(
+          "failed to log out",
+          error.response?.data?.message || error.message,
+        )
         console.dir(error)
       }
+      setError(error.response?.data?.message || error.message)
     }
   }
 
