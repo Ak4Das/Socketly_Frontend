@@ -62,7 +62,9 @@ const store = (set, get) => ({
 
     // Remove a message from local state when deleted by sender (real-time sync)
     socket.on("message_deleted", (deletedMessageId) => {
-      console.log("Message deleted:", deletedMessageId)
+      if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+        console.log("Message deleted:", deletedMessageId)
+      }
       set((state) => ({
         messages: state.messages.filter((msg) => msg._id !== deletedMessageId),
       }))
@@ -70,7 +72,10 @@ const store = (set, get) => ({
 
     // Handle any message sending error
     socket.on("message_error", (error) => {
-      console.error("Message error:", error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error("Message error:", error.message)
+        console.dir(error)
+      }
     })
 
     // Listen for typing indicators
@@ -178,7 +183,10 @@ const store = (set, get) => ({
 
       return messageArray
     } catch (error) {
-      console.error("Error fetching messages:", error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error("Error fetching messages:", error.message)
+        console.dir(error)
+      }
       set({
         error: error.response?.data?.message || error.message,
         loading: false,
@@ -257,7 +265,10 @@ const store = (set, get) => ({
 
       return messageData
     } catch (error) {
-      console.error("Error sending message:", error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error("Error sending message:", error.message)
+        console.dir(error)
+      }
       // Mark message as failed if API fails
       set((state) => ({
         messages: state.messages.map((msg) =>
@@ -335,7 +346,9 @@ const store = (set, get) => ({
       const { data } = await axiosInstance.put("/chats/messages/read", {
         messageIds: unreadIds,
       })
-      console.log("Marked as read", data)
+      if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+        console.log("Marked as read", data)
+      }
 
       set((state) => ({
         messages: state.messages.map((msg) =>
@@ -343,7 +356,10 @@ const store = (set, get) => ({
         ),
       }))
     } catch (error) {
-      console.error("Failed to mark messages as read:", error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error("Failed to mark messages as read:", error.message)
+        console.dir(error)
+      }
     }
   },
 
@@ -360,7 +376,10 @@ const store = (set, get) => ({
 
       return true
     } catch (error) {
-      console.error("Error deleting message:", error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error("Error deleting message:", error.message)
+        console.dir(error)
+      }
       set({ error: error.response?.data?.message || error.message })
       return false
     }
@@ -376,7 +395,10 @@ const store = (set, get) => ({
 
       return response.data
     } catch (error) {
-      console.error("Error deleting message:", error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error("Error deleting message:", error.message)
+        console.dir(error)
+      }
       return { status: "error", message: error.message }
     }
   },
@@ -401,7 +423,9 @@ const store = (set, get) => ({
     const socket = getSocket()
 
     if (socket && currentConversation && receiverId) {
-      console.log("Emitting typing start:", currentConversation, receiverId)
+      if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+        console.log("Emitting typing start:", currentConversation, receiverId)
+      }
       socket.emit("typing_start", {
         conversationId: currentConversation,
         receiverId,

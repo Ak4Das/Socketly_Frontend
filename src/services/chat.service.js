@@ -26,19 +26,25 @@ export const initializeSocket = () => {
   // When client successfully connect to server then Socket.IO automatically fire connect event
   socket.on("connect", () => {
     setIsIOnline(true)
-    console.log("Socket connected:", socket.id)
+    if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+      console.log("Socket connected:", socket.id)
+    }
     socket.emit("user_connected", user._id)
   })
 
   // If there is some problem to establish connection then Socket.IO automatically fire connect_error event
   socket.on("connect_error", (error) => {
-    console.error("Socket connection error:", error)
+    if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+      console.error("Socket connection error:", error)
+    }
   })
 
   // If connection break then Socket.IO automatically fire disconnect event
   socket.on("disconnect", (reason) => {
     setIsIOnline(false)
-    console.log("Socket disconnected:", reason)
+    if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+      console.log("Socket disconnected:", reason)
+    }
   })
 
   return socket

@@ -37,7 +37,10 @@ export default function Setting() {
       clearUser()
       toast.success("user logged out")
     } catch (error) {
-      console.error(error, "failed to log out")
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error("failed to log out", error.message)
+        console.dir(error)
+      }
     }
   }
 

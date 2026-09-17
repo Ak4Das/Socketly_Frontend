@@ -31,7 +31,10 @@ export const ProtectedRoute = () => {
           clearUser() // clear user state
         }
       } catch (error) {
-        console.error("Error checking authentication:", error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error("Error checking authentication:", error.message)
+          console.dir(error)
+        }
         clearUser() // On error, assume unauthenticated
       } finally {
         setProgress(100)

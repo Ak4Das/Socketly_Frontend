@@ -201,7 +201,10 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
       setSelectedFileType("")
       setShowFileMenu(false)
     } catch (error) {
-      console.error("Failed to send message:", error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error("Failed to send message:", error.message)
+        console.dir(error)
+      }
     }
   }
 
@@ -218,11 +221,16 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
       if (response.status === "success") {
         fetchMessages(currentConversationId)
       } else {
-        console.error("Error clearing chat:", response.message)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error("Error clearing chat:", response.message)
+        }
         toast.error("Server error while clearing chat")
       }
     } catch (error) {
-      console.error("Error clearing chat:", error.message)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error("Error clearing chat:", error.message)
+        console.dir(error)
+      }
       toast.error("Failed to clear chat")
     }
   }
@@ -233,7 +241,9 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
 
   const renderDateSeparator = (date) => {
     if (!isValidDate(date)) {
-      console.error("Invalid date:", date)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error("Invalid date:", date)
+      }
       return null
     }
 
@@ -272,7 +282,9 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
           }
           acc[dateString].push(message)
         } else {
-          console.error("Invalid date for message:", message)
+          if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+            console.error("Invalid date for message:", message)
+          }
         }
         return acc
       }, {})
@@ -578,7 +590,9 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
       </div>
 
       {filePreview && (
-        <div className={`${styles.filePreviewContainer} ${isDark ? styles.dark : ""}`}>
+        <div
+          className={`${styles.filePreviewContainer} ${isDark ? styles.dark : ""}`}
+        >
           {selectedFileType.startsWith("image/") && (
             <img
               src={filePreview}

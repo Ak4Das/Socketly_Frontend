@@ -144,7 +144,9 @@ export default function Signup() {
           setIsError && setIsError("User already exists.")
           return
         }
-        console.dir(error)
+        if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+          console.dir(error)
+        }
         setIsError(error.message)
       } finally {
         setLoading(false)
@@ -189,7 +191,9 @@ export default function Signup() {
         await deleteUser(userDetails._id, userDetails.password)
         setIsUserDetailsSubmitted(false)
       }
-      console.dir(error)
+      if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+        console.dir(error)
+      }
       setIsError(error.message)
     }
   }

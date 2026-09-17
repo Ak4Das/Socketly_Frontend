@@ -87,7 +87,9 @@ const Login = () => {
           }
         } else {
           const response = await sendOtp(phoneNumber, selectedCountry.dialCode)
-          console.log("OTP send:", response)
+          if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+            console.log("OTP send:", response)
+          }
           if (response.status === "success") {
             toast.info("OTP send to phone successfully")
             setUserPhoneData({
@@ -98,7 +100,9 @@ const Login = () => {
           }
         }
       } catch (error) {
-        console.log(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.log(error)
+        }
         setError(error.message || "Failed to send OTP")
       } finally {
         action.setSubmitting(false)
@@ -114,7 +118,9 @@ const Login = () => {
     onSubmit: async (values, action) => {
       const { otp } = values
       try {
-        console.log("OTP send:", userPhoneData)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.log("OTP send:", userPhoneData)
+        }
         if (!userPhoneData) {
           throw new Error("Phone data is missing")
         }
@@ -130,7 +136,9 @@ const Login = () => {
           )
         }
         if (response.status === "success") {
-          console.log("OTP verified:", response)
+          if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+            console.log("OTP verified:", response)
+          }
           toast.success("OTP verified successfully")
           const token = response?.data?.token
           localStorage.setItem("auth_token", token)
@@ -175,7 +183,10 @@ const Login = () => {
         navigate("/")
         resetLoginState()
       } catch (error) {
-        console.error("Error updating user profile", error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error("Error updating user profile", error.message)
+          console.dir(error)
+        }
         toast.error("Failed to update profile")
       } finally {
         action.setSubmitting(false)
