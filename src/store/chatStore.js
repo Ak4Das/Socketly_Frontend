@@ -417,7 +417,7 @@ const store = (set, get) => ({
         console.dir(error)
       }
       setError(error.response?.data?.message || error.message)
-      return { status: "error", message: error.message }
+      throw error
     }
   },
 

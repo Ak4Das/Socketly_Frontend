@@ -225,11 +225,6 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
 
       if (response.status === "success") {
         fetchMessages(currentConversationId)
-      } else {
-        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
-          console.error("Error clearing chat:", response.message)
-        }
-        toast.error("Server error while clearing chat")
       }
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {

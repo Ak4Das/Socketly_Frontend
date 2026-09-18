@@ -140,9 +140,13 @@ const ChatList = ({ contacts }) => {
                     </h2>
                     {contact?.conversation && (
                       <span className={styles.timestamp}>
-                        {formatTimestamp(
-                          contact?.conversation?.lastMessage?.createdAt,
-                        )}
+                        {!contact?.conversation?.lastMessage?.deleteMessage?.includes(
+                          user._id,
+                        )
+                          ? formatTimestamp(
+                              contact?.conversation?.lastMessage?.createdAt,
+                            )
+                          : ""}
                       </span>
                     )}
                   </div>
@@ -152,8 +156,12 @@ const ChatList = ({ contacts }) => {
                         isDark ? styles.dark : ""
                       }`}
                     >
-                      {contact?.conversation?.lastMessage?.content ||
-                        contact?.conversation?.lastMessage?.fileName}
+                      {!contact?.conversation?.lastMessage?.deleteMessage?.includes(
+                        user._id,
+                      )
+                        ? contact?.conversation?.lastMessage?.content ||
+                          contact?.conversation?.lastMessage?.fileName
+                        : ""}
                     </p>
                     {contact?.conversation &&
                       contact?.conversation?.unreadCount > 0 &&
