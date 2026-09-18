@@ -101,7 +101,20 @@ const store = (set, get) => ({
     })
 
     // Track user's online/offline status
-    socket.on("user_status", ({ userId, isOnline, lastSeen }) => {
+    socket.on("user_status", async ({ userId, isOnline, lastSeen }) => {
+      const { currentConversation } = get()
+      if (currentConversation) {
+        const { data } = await axiosInstance.get(
+          `/chats/conversations/${currentConversation}/messages`,
+        )
+
+        const messageArray = data.data || []
+
+        set({
+          messages: messageArray,
+          loading: false,
+        })
+      }
       set((state) => {
         // Create a new Map
         const newOnlineUsers = new Map(state.onlineUsers)

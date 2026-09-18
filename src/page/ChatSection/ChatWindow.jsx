@@ -68,6 +68,7 @@ export default function ChatWindow({ selectedContact, setSelectedContact }) {
   const currentConversation = useChatStore((state) => state.currentConversation)
   const onlineUsers = useChatStore((state) => state.onlineUsers)
   const isChatListOpen = useChatStore((state) => state.isChatListOpen)
+  const setChatListOpen = useChatStore((state) => state.setChatListOpen)
   const setError = useErrorStore((state) => state.setError)
 
   const isDark = theme === "dark"
