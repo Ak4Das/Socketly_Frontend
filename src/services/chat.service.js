@@ -2,11 +2,10 @@ import { io } from "socket.io-client"
 import { useUserStore } from "../store/userStore"
 
 let socket = null
-const token = localStorage.getItem("auth_token")
 
 export const initializeSocket = () => {
   if (socket) return socket
-
+  const token = localStorage.getItem("auth_token")
   const { user, setIsIOnline } = useUserStore.getState() // Here we subscribing to neither user and setIsIOnline nor the entire store here we simply reading the current state once
 
   if (!user?._id) return null
@@ -26,7 +25,7 @@ export const initializeSocket = () => {
   // When client successfully connect to server then Socket.IO automatically fire connect event
   socket.on("connect", () => {
     setIsIOnline(true)
-    if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+    if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
       console.log("Socket connected:", socket.id)
     }
     socket.emit("user_connected", user._id)
@@ -34,7 +33,7 @@ export const initializeSocket = () => {
 
   // If there is some problem to establish connection then Socket.IO automatically fire connect_error event
   socket.on("connect_error", (error) => {
-    if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+    if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
       console.error("Socket connection error:", error)
     }
   })
@@ -42,7 +41,7 @@ export const initializeSocket = () => {
   // If connection break then Socket.IO automatically fire disconnect event
   socket.on("disconnect", (reason) => {
     setIsIOnline(false)
-    if(import.meta.env.VITE_MODE === "DEVELOPMENT"){
+    if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
       console.log("Socket disconnected:", reason)
     }
   })
