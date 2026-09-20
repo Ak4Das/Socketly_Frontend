@@ -48,7 +48,9 @@
 4. once api send response, deleteMessage function in frontend side set the updated messages in messages state
 5. message_deleted event handler set updated messages in the receiver side and since messages state is update and ChatWindow component subscribed messages state so ChatWindow component will re-render and show the updated messages on chat window
 
-## Full flow in to out
+## Auth flow
 
-1. When user successfully login user will arrive to home page with sidebar and chatList when user select any contact from chatList then setSelectedContact action will call and it update state inside layoutStore and whatever component subscribe selectedContact state will re-render so layout component will rerender and chatWindow will open for the selected contact after that conversation will fetch which is associated with that particular contact and all messages are fetch which are associated with that particular conversation
-2.
+1. when new user fill the signup form and submit the form then user data stored in the database and send otp to the email of the user now verify otp component will render and user enter the otp if otp valid then user will navigate to login page otherwise delete the user from the database and signup form will appear again. also if user didn't enter the otp and try to navigate on other routes then also delete the user from the database
+2. in the login page user enter email and password to generate auth token after submitting the login form otp will send to user's email and verify otp component will open where user enter his otp and submit if otp verified auth token generated and store in local storage
+3. after successfully completing login profile update component will open where user select profile picture, set user name and about
+4. after successfully completing all the steps user will arrive to home page with sidebar and chatList when user select any contact from chatList then setSelectedContact action will call and it update state inside layoutStore and whatever component subscribe selectedContact state will re-render so layout component will rerender and chatWindow will open for the selected contact after that conversation will fetch which is associated with that particular contact and all messages are fetch which are associated with that particular conversation
