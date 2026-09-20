@@ -24,12 +24,13 @@ function App() {
   useEffect(() => {
     // Initialize socket when user is logged in
     if (user?._id) {
+      // Set current user in chat store
+      setCurrentUser(user)
+
+      // Initialize socket for new user
       const socket = initializeSocket()
 
       if (socket) {
-        // Set current user in chat store
-        setCurrentUser(user)
-
         // Initialize socket listeners
         initSocketListeners()
       }

@@ -10,6 +10,7 @@ export default function HomeScreen() {
   const messages = useChatStore((state) => state.messages) // if messages state will change then refetch all the users
   const [allUsers, setAllUsers] = useState([]) // Passed to ChatList component
   const setError = useErrorStore((state) => state.setError)
+  const conversations = useChatStore((state) => state.conversations)
 
   const getUsers = async () => {
     try {
@@ -28,7 +29,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     getUsers()
-  }, [messages])
+  }, [messages, conversations])
 
   return (
     <Layout>

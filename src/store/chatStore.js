@@ -22,7 +22,6 @@ const store = (set, get) => ({
 
     // Remove existing listeners to prevent duplicate handlers
     socket.off("receive_message")
-    socket.off("message_send")
     socket.off("message_read")
     socket.off("reaction_update")
     socket.off("message_deleted")
@@ -32,16 +31,8 @@ const store = (set, get) => ({
 
     // Listen for incoming messages
     socket.on("receive_message", (message) => {
+      // console.log("receive_message", message)
       get().receiveMessage(message)
-    })
-
-    // Confirm message delivery
-    socket.on("message_send", (message) => {
-      set((state) => ({
-        messages: state.messages.map((msg) =>
-          msg._id === message._id ? { ...msg } : msg,
-        ),
-      }))
     })
 
     // Mark message as read
@@ -275,13 +266,6 @@ const store = (set, get) => ({
           msg._id === tempId ? messageData : msg,
         ),
       }))
-
-      const socket = getSocket()
-
-      // Notify other user via socket
-      if (socket) {
-        socket.emit("send_message", messageData)
-      }
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
         console.error(
@@ -330,7 +314,8 @@ const store = (set, get) => ({
               ...conversation,
               lastMessage: message,
               unreadCount:
-                message.receiver?._id === currentUser?._id
+                message.receiver?._id === currentUser?._id &&
+                message.conversation !== currentConversation
                   ? (conversation.unreadCount || 0) + 1
                   : conversation.unreadCount || 0,
             }
@@ -350,7 +335,7 @@ const store = (set, get) => ({
 
   // Mark Unread Messages as Read
   markMessagesAsRead: async () => {
-    const { messages, currentUser } = get()
+    const { messages, currentUser, currentConversation } = get()
     if (!messages?.length || !currentUser) return
 
     const unreadIds = messages
@@ -366,6 +351,7 @@ const store = (set, get) => ({
     try {
       const { data } = await axiosInstance.put("/chats/messages/read", {
         messageIds: unreadIds,
+        conversationId: currentConversation,
       })
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
         console.log("Marked as read", data)
