@@ -31,7 +31,6 @@ const store = (set, get) => ({
 
     // Listen for incoming messages
     socket.on("receive_message", (message) => {
-      // console.log("receive_message", message)
       get().receiveMessage(message)
     })
 
