@@ -443,16 +443,16 @@ export default function Signup() {
                 Submit
               </button>
 
-              <div className={styles.divider}>
+              {/* <div className={styles.divider}>
                 <div className={styles.dividerLine}>
                   <div className={styles.dividerBorder}></div>
                 </div>
                 <div className={styles.dividerTextWrapper}>
                   <span className={styles.dividerText}>Or continue with</span>
                 </div>
-              </div>
+              </div> */}
 
-              <button
+              {/* <button
                 type="button"
                 onClick={() =>
                   (window.location.href = import.meta.env.PROD
@@ -463,7 +463,7 @@ export default function Signup() {
               >
                 <FcGoogle className={styles.googleIcon} />
                 Continue with Google
-              </button>
+              </button> */}
             </form>
           ) : (
             <form onSubmit={verifyOtpOfEmailAndSms}>

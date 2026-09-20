@@ -175,6 +175,10 @@
 }
 
 .clearSearchBtn:hover {
+  color: black;
+}
+
+.clearSearchBtn.dark:hover {
   color: #f3f4f6;
 }
 
@@ -224,7 +228,7 @@
   border: 1px solid #f8f4ef;
   border-radius: 0.5rem;
   font-size: 14px;
-  color: #f3f4f6;
+  color: black;
   outline: none;
   transition:
     border-color 0.2s ease,
@@ -400,6 +404,8 @@
   flex-grow: 1;
   flex-shrink: 1;
   min-width: 0;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .userEmail {

@@ -8,6 +8,7 @@ import styles from "../../style/ChatSection_modules/ChatList.module.css"
 import { toast } from "react-toastify"
 import { useChatStore } from "../../store/chatStore"
 import { useErrorStore } from "../../store/errorStore"
+import { Link } from "react-router-dom"
 
 const ChatList = ({ contacts }) => {
   const setSelectedContact = useLayoutStore((state) => state.setSelectedContact) // if user select any contact then setSelectedContact will call
@@ -97,7 +98,7 @@ const ChatList = ({ contacts }) => {
           {searchTerm && (
             <button
               onClick={() => setSearchTerm("")}
-              className={styles.clearSearchBtn}
+              className={`${styles.clearSearchBtn} ${isDark ? styles.dark : ""}`}
             >
               <X size={14} />
             </button>
@@ -203,14 +204,14 @@ const ChatList = ({ contacts }) => {
               user?.username?.[0]?.toUpperCase() || "U"
             )}
           </div>
-          <div className={styles.userInfo}>
+          <Link to="/user-details" className={styles.userInfo}>
             <div className={`${styles.username} ${isDark ? styles.dark : ""}`}>
               {user?.username || "User"}
             </div>
             <div className={styles.userEmail}>
               {user?.email || "user@example.com"}
             </div>
-          </div>
+          </Link>
           <button
             onClick={handleLogout}
             className={styles.logoutBtn}
