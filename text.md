@@ -1,3 +1,17 @@
+## User Status
+
+1. When user connect or disconnect server side socket connection of the user fire user_connected or disconnect event this are inbuilt events which are fire by socket itself inside the handler of the event user_status event emit for all users connected to the server
+2. client side socket catch the user_status event and add or remove the user in the onlineUsers state
+3. since onlineUsers state is subscribed in the ChatWindow page so the component re-rendered and update the UI with current user status
+
+## User Typing
+
+1. sender typing message on input, onChange event listener on input update message state on ChatWindow page and call startTyping inside useEffect from ChatWindow page
+2. startTyping function emit typing_start event
+3. server side user socket will catch typing_start event and run the handler where typingUsers map will updated and user_typing event will emit to notify receiver and implement Auto-stop typing after 3 seconds using setTimeOut
+4. receiver catch the user_typing event and call the handler to update typingUsers map inside chatStore
+5. since i was subscribe typingUsers state in ChatWindow page so page will re-render and we will see typing...
+
 ## Send Message
 
 1. Input message and type send btn
@@ -33,20 +47,6 @@
 3. Backend side deleteMessage handler delete the message only if sender delete his/her own message if message is image/video/audio/document then first delete the message from cloudinary or drive then delete message from db and emit message_deleted event to notify the receiver
 4. once api send response, deleteMessage function in frontend side set the updated messages in messages state
 5. message_deleted event handler set updated messages in the receiver side and since messages state is update and ChatWindow component subscribed messages state so ChatWindow component will re-render and show the updated messages on chat window
-
-## User Typing
-
-1. sender typing message on input, onChange event listener on input update message state on ChatWindow page and call startTyping inside useEffect from ChatWindow page
-2. startTyping function emit typing_start event
-3. server side user socket will catch typing_start event and run the handler where typingUsers map will updated and user_typing event will emit to notify receiver and implement Auto-stop typing after 3 seconds using setTimeOut
-4. receiver catch the user_typing event and call the handler to update typingUsers map inside chatStore
-5. since i was subscribe typingUsers state in ChatWindow page so page will re-render and we will see typing...
-
-## User Status
-
-1. When user connect or disconnect server side socket connection of the user fire user_connected or disconnect event this are inbuilt events which are fire by socket himself inside the handler of the event user_status event emit for all users connected to the server
-2. client side socket catch the user_status event and add the user in the onlineUsers state
-3. since onlineUsers state is subscribed in the ChatWindow page so the component re-rendered and update the UI with current user status
 
 ## Full flow in to out
 
