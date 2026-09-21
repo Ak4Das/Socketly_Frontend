@@ -14,7 +14,7 @@ import { useErrorStore } from "../store/errorStore"
 
 export default function UserDetails() {
   const [name, setName] = useState("")
-  const [about, setAbout] = useState("Hey there! I am using WhatsApp.")
+  const [about, setAbout] = useState("Hey there! I am using Socketly.")
   const [profileImage, setProfileImage] = useState(null)
   const [preview, setPreview] = useState(null)
 

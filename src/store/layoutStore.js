@@ -11,7 +11,7 @@ const store = (set) => ({
 })
 
 const persistUserOptions = {
-  name: "whatsapp-storage",
+  name: "socketly-storage",
   getStorage: () => localStorage, // use localstorage
 }
 

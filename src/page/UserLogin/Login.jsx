@@ -152,7 +152,7 @@ const Login = () => {
           const user = response.data?.user
           if (user?.username && user?.profilePicture) {
             setUser(user)
-            toast.success("Welcome back on WhatsApp")
+            toast.success("Welcome back on Socketly")
             navigate("/")
             resetLoginState()
           } else {
@@ -194,7 +194,7 @@ const Login = () => {
           formData.append("profilePicture", selectedAvatar)
         }
         await updateUserProfile(formData)
-        toast.success("welcome back on whatsapp")
+        toast.success("welcome back on socketly")
         navigate("/")
         resetLoginState()
       } catch (error) {
